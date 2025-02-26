@@ -85,7 +85,7 @@ export default function Header() {
                 href="#"
                 className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
               >
-                Services
+                Register
               </a>
 
               <a
@@ -93,6 +93,13 @@ export default function Header() {
                 className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
               >
                 Contact
+              </a>
+
+              <a
+                href="#"
+                className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+              >
+                FAQ
               </a>
             </div>
           </div>
@@ -190,15 +197,25 @@ export default function Header() {
                   href="#"
                   className="block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                 >
-                  Services
+                  Register
                 </a>
               </li>
+
               <li>
                 <a
                   href="#"
                   className="block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                 >
                   Contact
+                </a>
+              </li>
+
+              <li>
+                <a
+                  href="#"
+                  className="block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+                >
+                  FAQ
                 </a>
               </li>
 

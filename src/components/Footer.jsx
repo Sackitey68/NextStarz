@@ -1,21 +1,61 @@
+import { useState, useEffect } from "react";
 import {
   FaFacebook,
   FaTwitter,
   FaInstagram,
   FaYoutube,
   FaTiktok,
+  FaArrowUp,
 } from "react-icons/fa";
 
 export default function Footer() {
+  // State to manage scroll-to-top button visibility
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
+  // Function to scroll to the top
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // Add scroll event listener to show/hide the button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <footer className="bg-neutral-800 text-white py-16">
+    <footer className="bg-neutral-800 text-white py-16 relative">
+      {/* Scroll-to-Top Button */}
+      {showScrollButton && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 p-2 bg-primary-color text-white rounded-full shadow-lg hover:bg-pink-600 transition-all duration-200"
+          aria-label="Scroll to top"
+        >
+          <FaArrowUp className="size-4" />
+        </button>
+      )}
+
       <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
         {/* Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 text-lg">
               <div>
                 <ul className="space-y-2">
                   <li>
@@ -26,6 +66,7 @@ export default function Footer() {
                       Home
                     </a>
                   </li>
+
                   <li>
                     <a
                       href="#"
@@ -34,6 +75,7 @@ export default function Footer() {
                       About
                     </a>
                   </li>
+
                   <li>
                     <a
                       href="#"
@@ -42,6 +84,7 @@ export default function Footer() {
                       Register
                     </a>
                   </li>
+
                   <li>
                     <a
                       href="#"
@@ -50,6 +93,7 @@ export default function Footer() {
                       Auditions
                     </a>
                   </li>
+
                   <li>
                     <a
                       href="#"
@@ -58,6 +102,7 @@ export default function Footer() {
                       Judges
                     </a>
                   </li>
+
                   <li>
                     <a
                       href="#"
@@ -66,6 +111,7 @@ export default function Footer() {
                       Prizes
                     </a>
                   </li>
+
                   <li>
                     <a
                       href="#"
@@ -74,6 +120,7 @@ export default function Footer() {
                       FAQ
                     </a>
                   </li>
+
                   <li>
                     <a
                       href="#"
@@ -95,6 +142,7 @@ export default function Footer() {
                       Terms & Conditions
                     </a>
                   </li>
+
                   <li>
                     <a
                       href="#"
@@ -103,6 +151,7 @@ export default function Footer() {
                       Privacy Policy
                     </a>
                   </li>
+
                   <li>
                     <a
                       href="#"
@@ -129,6 +178,7 @@ export default function Footer() {
               >
                 <FaTiktok className="w-6 h-6" />
               </a>
+
               <a
                 href="https://instagram.com"
                 target="_blank"
@@ -138,6 +188,7 @@ export default function Footer() {
               >
                 <FaInstagram className="w-6 h-6" />
               </a>
+
               <a
                 href="https://twitter.com"
                 target="_blank"
@@ -147,6 +198,7 @@ export default function Footer() {
               >
                 <FaTwitter className="w-6 h-6" />
               </a>
+
               <a
                 href="https://youtube.com"
                 target="_blank"
@@ -156,6 +208,7 @@ export default function Footer() {
               >
                 <FaYoutube className="w-6 h-6" />
               </a>
+
               <a
                 href="https://facebook.com"
                 target="_blank"
@@ -177,12 +230,14 @@ export default function Footer() {
                 placeholder="Enter your email"
                 className="w-full p-2 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
               />
+
               <div className="flex items-center">
                 <input type="checkbox" id="promo-opt-in" className="mr-2" />
                 <label htmlFor="promo-opt-in" className="text-sm text-gray-400">
                   Yes, I want to receive updates and offers from NextStarz
                 </label>
               </div>
+
               <button
                 type="submit"
                 className="w-full bg-pink-500 text-white py-2 rounded-md hover:bg-pink-600 transition-all duration-300"
