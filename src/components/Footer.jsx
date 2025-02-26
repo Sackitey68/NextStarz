@@ -168,7 +168,7 @@ export default function Footer() {
           {/* Social Media Icons */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
-            <div className="flex space-x-6 md:flex-col sm:justify-center md:space-x-0 md:space-y-5 md:ml-5 lg:flex-row lg:space-x-6 lg:items-center lg:justify-center lg:space-y-0 lg:mr-20">
+            <div className="flex space-x-6 md:flex-col md:items-center md:justify-center md:space-x-0 md:space-y-5 md:ml-5 lg:flex-row lg:space-x-6 lg:items-center lg:justify-center lg:space-y-0 lg:mr-20">
               <a
                 href="https://tiktok.com"
                 target="_blank"

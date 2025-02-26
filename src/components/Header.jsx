@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom"; // Import Link and NavLink
 import Logo from "../assets/Logo.png";
 
 export default function Header() {
@@ -62,46 +62,76 @@ export default function Header() {
           {/* Logo and Nav Links Container */}
           <div className="flex items-center space-x-8">
             {/* Logo */}
-            <a href="#" className="flex items-center">
+            <Link to="/" className="flex items-center">
               <img src={Logo} className="size-14" alt="NextStarz Logo" />
-            </a>
+            </Link>
 
             {/* Nav Links */}
             <div className="hidden md:flex items-center space-x-8 text-base text-gray-300">
-              <Link
-                to="/about"
-                className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
+                    isActive
+                      ? "text-hover-color font-semibold underline underline-offset-8"
+                      : ""
+                  }`
+                }
               >
                 Home
-              </Link>
+              </NavLink>
 
-              <a
-                href="#"
-                className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  `transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
+                    isActive
+                      ? "text-hover-color font-semibold underline underline-offset-8"
+                      : ""
+                  }`
+                }
               >
                 About
-              </a>
+              </NavLink>
 
-              <a
-                href="#"
-                className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+              <NavLink
+                to="/register"
+                className={({ isActive }) =>
+                  `transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
+                    isActive
+                      ? "text-hover-color font-semibold underline underline-offset-8"
+                      : ""
+                  }`
+                }
               >
                 Register
-              </a>
+              </NavLink>
 
-              <a
-                href="#"
-                className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  `transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
+                    isActive
+                      ? "text-hover-color font-semibold underline underline-offset-8"
+                      : ""
+                  }`
+                }
               >
                 Contact
-              </a>
+              </NavLink>
 
-              <a
-                href="#"
-                className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+              <NavLink
+                to="/faq"
+                className={({ isActive }) =>
+                  `transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
+                    isActive
+                      ? "text-hover-color font-semibold underline underline-offset-8"
+                      : ""
+                  }`
+                }
               >
                 FAQ
-              </a>
+              </NavLink>
             </div>
           </div>
 
@@ -178,46 +208,74 @@ export default function Header() {
           <div className="flex flex-col items-center justify-center h-full">
             <ul className="flex flex-col space-y-6 text-center text-xl">
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    `block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
+                      isActive
+                        ? "text-hover-color font-semibold underline underline-offset-8"
+                        : ""
+                    }`
+                  }
                 >
                   Home
-                </a>
+                </NavLink>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+                <NavLink
+                  to="/about"
+                  className={({ isActive }) =>
+                    `block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
+                      isActive
+                        ? "text-hover-color font-semibold underline underline-offset-8"
+                        : ""
+                    }`
+                  }
                 >
                   About
-                </a>
+                </NavLink>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+                <NavLink
+                  to="/register"
+                  className={({ isActive }) =>
+                    `block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
+                      isActive
+                        ? "text-hover-color font-semibold underline underline-offset-8"
+                        : ""
+                    }`
+                  }
                 >
                   Register
-                </a>
+                </NavLink>
               </li>
-
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+                <NavLink
+                  to="/contact"
+                  className={({ isActive }) =>
+                    `block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
+                      isActive
+                        ? "text-hover-color font-semibold underline underline-offset-8"
+                        : ""
+                    }`
+                  }
                 >
                   Contact
-                </a>
+                </NavLink>
               </li>
-
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
+                <NavLink
+                  to="/faq"
+                  className={({ isActive }) =>
+                    `block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
+                      isActive
+                        ? "text-hover-color font-semibold underline underline-offset-8"
+                        : ""
+                    }`
+                  }
                 >
                   FAQ
-                </a>
+                </NavLink>
               </li>
 
               {/* Sign Up Button in Mobile Menu */}
