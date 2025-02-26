@@ -1,5 +1,12 @@
 import "./index.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export default function App() {
-  return <div className="text-4xl">Hello World</div>;
+  return (
+    <>
+      <Header />
+      <Footer />
+    </>
+  );
 }
