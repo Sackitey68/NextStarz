@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { NavLink, Link } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 
 export default function Header() {
@@ -67,12 +68,12 @@ export default function Header() {
 
             {/* Nav Links */}
             <div className="hidden md:flex items-center space-x-8 text-base text-gray-300">
-              <a
-                href="#"
+              <Link
+                to="/about"
                 className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
               >
                 Home
-              </a>
+              </Link>
 
               <a
                 href="#"
