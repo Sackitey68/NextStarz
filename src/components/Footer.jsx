@@ -42,7 +42,7 @@ export default function Footer() {
       {showScrollButton && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 p-2 bg-primary-color text-white rounded-full shadow-lg hover:bg-pink-600 transition-all duration-200"
+          className="fixed bottom-5 right-6 p-2 bg-primary-color text-white rounded-full shadow-lg hover:bg-pink-600 transition-all duration-200"
           aria-label="Scroll to top"
         >
           <FaArrowUp className="size-4" />
