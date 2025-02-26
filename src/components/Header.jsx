@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; // Import useState and useEffect
+import { useState, useEffect } from "react";
 import Logo from "../assets/Logo.png";
 
 export default function Header() {
@@ -13,19 +13,28 @@ export default function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Disable scrolling when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+  }, [isMenuOpen]);
+
   // Add scroll event listener
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
-        setIsScrolled(true); // User has scrolled past the navigation
+        setIsScrolled(true);
       } else {
-        setIsScrolled(false); // User is at the top
+        setIsScrolled(false);
       }
     };
 
-    window.addEventListener("scroll", handleScroll); // Add scroll listener
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll); // Cleanup
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -33,14 +42,21 @@ export default function Header() {
     <header className="mb-60">
       {/* Reddish Background with Text */}
       <div
-        className={`fixed inset-x-0 top-0 h-16 bg-red-600 bg-opacity-90 flex items-center justify-center z-30 transform transition-all duration-500 ease-in-out ${
+        className={`fixed inset-x-0 top-0 h-[4.45rem] flex items-center p-5 z-30 transform transition-all duration-500 ease-in-out ${
           isScrolled ? "translate-y-0" : "-translate-y-full"
         }`}
+        style={{
+          background:
+            "linear-gradient(to right, rgba(252, 0, 144, 0.9), rgba(0, 0, 0, 1))",
+        }}
       >
-        <p className="text-white text-lg font-semibold">Here I Come</p>
+        <p className="text-white text-lg font-semibold">
+          <span className="block -m-[1.5px]">NextStarz</span>
+          <span>Saturdays: 9:00pm</span>
+        </p>
       </div>
 
-      <nav className="fixed w-full z-20 top-0 start-0 border-b border-b-slate-50">
+      <nav className="fixed w-full z-20 top-0 start-0">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
           {/* Logo and Nav Links Container */}
           <div className="flex items-center space-x-8">
@@ -51,7 +67,6 @@ export default function Header() {
 
             {/* Nav Links */}
             <div className="hidden md:flex items-center space-x-8 text-lg text-gray-300">
-              {/* Home Link */}
               <a
                 href="#"
                 className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
@@ -59,7 +74,6 @@ export default function Header() {
                 Home
               </a>
 
-              {/* About Link */}
               <a
                 href="#"
                 className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
@@ -67,7 +81,6 @@ export default function Header() {
                 About
               </a>
 
-              {/* Services Link */}
               <a
                 href="#"
                 className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
@@ -75,7 +88,6 @@ export default function Header() {
                 Services
               </a>
 
-              {/* Contact Link */}
               <a
                 href="#"
                 className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
@@ -102,7 +114,7 @@ export default function Header() {
               type="button"
               className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-hover-color"
               aria-expanded={isMenuOpen}
-              onClick={toggleMenu} // Toggle menu on click
+              onClick={toggleMenu}
             >
               <span className="sr-only">Open main menu</span>
               <svg
@@ -156,7 +168,7 @@ export default function Header() {
 
           {/* Centered Nav Links */}
           <div className="flex flex-col items-center justify-center h-full">
-            <ul className="flex flex-col space-y-6 text-center">
+            <ul className="flex flex-col space-y-6 text-center text-xl">
               <li>
                 <a
                   href="#"
@@ -189,6 +201,7 @@ export default function Header() {
                   Contact
                 </a>
               </li>
+
               {/* Sign Up Button in Mobile Menu */}
               <li>
                 <button className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-white rounded-xl group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-gray-300 focus:ring-2 focus:outline-none focus:ring-hover-color">
