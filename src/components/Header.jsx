@@ -39,7 +39,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="mb-60">
+    <header className="mb-[120rem]">
       {/* Reddish Background with Text */}
       <div
         className={`fixed inset-x-0 top-0 h-[4.45rem] flex items-center p-5 z-30 transform transition-all duration-500 ease-in-out ${
@@ -50,8 +50,8 @@ export default function Header() {
             "linear-gradient(to right, rgba(252, 0, 144, 0.9), rgba(0, 0, 0, 1))",
         }}
       >
-        <p className="text-white text-lg font-semibold">
-          <span className="block -m-[1.5px]">NextStarz</span>
+        <p className="text-gray-300 text-lg flex flex-col font-semibold sm:pl-2">
+          <span>NextStarz</span>
           <span>Saturdays: 9:00pm</span>
         </p>
       </div>
@@ -66,7 +66,7 @@ export default function Header() {
             </a>
 
             {/* Nav Links */}
-            <div className="hidden md:flex items-center space-x-8 text-lg text-gray-300">
+            <div className="hidden md:flex items-center space-x-8 text-base text-gray-300">
               <a
                 href="#"
                 className="transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
