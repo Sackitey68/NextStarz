@@ -16,8 +16,8 @@ export default function Main() {
     {
       type: "video",
       src: Video,
-      text: "Welcome to the ultimate Talent Show!",
-      buttonText: "Join the Show",
+      text: "Welcome to the ultimate Talent Hunt!",
+      buttonText: "Join Now!",
     },
     {
       type: "image",
