@@ -269,7 +269,7 @@ export default function Footer() {
                   +233 534 886 377
                 </a>
               </li>
-              <li>Address: 123 Talent Avenue, Accra, Ghana</li>
+              <li>Address: 15 Sapele Cl, GC-136-5844</li>
               <li>Business Hours: Mon - Fri, 9:00 AM - 5:00 PM</li>
             </ul>
           </div>

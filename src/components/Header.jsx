@@ -40,7 +40,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="mb-[120rem]">
+    <header>
       {/* Reddish Background with Text */}
       <div
         className={`fixed inset-x-0 top-0 h-[4.45rem] flex items-center p-5 z-30 transform transition-all duration-500 ease-in-out ${
@@ -63,7 +63,7 @@ export default function Header() {
           <div className="flex items-center space-x-8">
             {/* Logo */}
             <Link to="/" className="flex items-center">
-              <img src={Logo} className="size-14" alt="NextStarz Logo" />
+              <img src={Logo} className="size-9" alt="NextStarz Logo" />
             </Link>
 
             {/* Nav Links */}
