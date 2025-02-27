@@ -7,7 +7,6 @@ import "swiper/css/navigation";
 
 import Video from "../assets/Banner.mp4";
 
-
 export default function Main() {
   const [isPlaying, setIsPlaying] = useState(true);
   const swiperRef = useRef(null);
@@ -16,27 +15,37 @@ export default function Main() {
     {
       type: "video",
       src: Video,
+      text: "Welcome to our website!",
+      buttonText: "Learn More",
     },
     {
       type: "image",
       src: "banner",
+      text: "Discover our products",
+      buttonText: "Shop Now",
     },
     {
       type: "image",
       src: "/docs/images/carousel/carousel-3.svg",
+      text: "Explore our services",
+      buttonText: "View Services",
     },
     {
       type: "image",
       src: "/docs/images/carousel/carousel-4.svg",
+      text: "Join our community",
+      buttonText: "Join Us",
     },
     {
       type: "image",
       src: "/docs/images/carousel/carousel-5.svg",
+      text: "Contact us today",
+      buttonText: "Contact Us",
     },
   ];
 
   return (
-    <main className="group relative">
+    <main className="group relative ">
       <Swiper
         modules={[Pagination, Autoplay, Navigation]}
         spaceBetween={50}
@@ -57,7 +66,7 @@ export default function Main() {
         onAutoplayStart={() => setIsPlaying(true)}
         onAutoplayStop={() => setIsPlaying(false)}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
-        className="relative w-full h-56 md:h-96 rounded-lg"
+        className="relative w-full h-96 object-cover md:h-[45rem] rounded-lg"
       >
         {carouselItems.map((item, index) => (
           <SwiperSlide key={index}>
@@ -79,6 +88,13 @@ export default function Main() {
                 className="w-full h-full object-cover"
               />
             )}
+            {/* Overlay Text and Button */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white">
+              <h2 className="text-2xl md:text-4xl font-bold mb-4">{item.text}</h2>
+              <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                {item.buttonText}
+              </button>
+            </div>
           </SwiperSlide>
         ))}
 
