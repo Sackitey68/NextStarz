@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
@@ -9,14 +9,15 @@ import Video from "../assets/Banner.mp4";
 
 export default function Main() {
   const [isPlaying, setIsPlaying] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0); // Track active slide index
   const swiperRef = useRef(null);
 
   const carouselItems = [
     {
       type: "video",
       src: Video,
-      text: "Welcome to our website!",
-      buttonText: "Learn More",
+      text: "Welcome to the ultimate Talent Show!",
+      buttonText: "Join the Show",
     },
     {
       type: "image",
@@ -44,8 +45,17 @@ export default function Main() {
     },
   ];
 
+  // Update activeIndex when the slide changes
+  useEffect(() => {
+    if (swiperRef.current) {
+      swiperRef.current.on("slideChange", () => {
+        setActiveIndex(swiperRef.current.realIndex);
+      });
+    }
+  }, []);
+
   return (
-    <main className="group relative ">
+    <main className="group relative">
       <Swiper
         modules={[Pagination, Autoplay, Navigation]}
         spaceBetween={50}
@@ -65,7 +75,10 @@ export default function Main() {
         loop
         onAutoplayStart={() => setIsPlaying(true)}
         onAutoplayStop={() => setIsPlaying(false)}
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+          setActiveIndex(swiper.realIndex); // Set initial active index
+        }}
         className="relative w-full h-96 object-cover md:h-[45rem] rounded-lg"
       >
         {carouselItems.map((item, index) => (
@@ -90,8 +103,18 @@ export default function Main() {
             )}
             {/* Overlay Text and Button */}
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white">
-              <h2 className="text-2xl md:text-4xl font-bold mb-4">{item.text}</h2>
-              <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+              <h2
+                className={`text-2xl md:text-4xl font-bold mb-8 ${
+                  activeIndex === index ? "animate-slide-in" : "animate-slide-out"
+                }`}
+              >
+                {item.text}
+              </h2>
+              <button
+                className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 ${
+                  activeIndex === index ? "animate-fade-in" : "animate-fade-out"
+                }`}
+              >
                 {item.buttonText}
               </button>
             </div>
