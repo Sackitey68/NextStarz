@@ -6,6 +6,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import Video from "../assets/Banner.mp4";
+import Picture from "../assets/banner.jpg";
 
 export default function Main() {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -21,27 +22,9 @@ export default function Main() {
     },
     {
       type: "image",
-      src: "banner",
+      src: Picture,
       text: "Discover our products",
       buttonText: "Shop Now",
-    },
-    {
-      type: "image",
-      src: "/docs/images/carousel/carousel-3.svg",
-      text: "Explore our services",
-      buttonText: "View Services",
-    },
-    {
-      type: "image",
-      src: "/docs/images/carousel/carousel-4.svg",
-      text: "Join our community",
-      buttonText: "Join Us",
-    },
-    {
-      type: "image",
-      src: "/docs/images/carousel/carousel-5.svg",
-      text: "Contact us today",
-      buttonText: "Contact Us",
     },
   ];
 
@@ -55,7 +38,7 @@ export default function Main() {
   }, []);
 
   return (
-    <main className="group relative">
+    <section className="group relative">
       <Swiper
         modules={[Pagination, Autoplay, Navigation]}
         spaceBetween={50}
@@ -101,17 +84,20 @@ export default function Main() {
                 className="w-full h-full object-cover"
               />
             )}
+
             {/* Overlay Text and Button */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white">
+            <div className="absolute inset-0 flex flex-col items-center text-center justify-center bg-black bg-opacity-50 text-white p-5 md:p-6 lg:p-7">
               <h2
                 className={`text-2xl md:text-4xl font-bold mb-8 ${
-                  activeIndex === index ? "animate-slide-in" : "animate-slide-out"
+                  activeIndex === index
+                    ? "animate-slide-in"
+                    : "animate-slide-out"
                 }`}
               >
                 {item.text}
               </h2>
               <button
-                className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 ${
+                className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors hover:font-bold duration-200 ${
                   activeIndex === index ? "animate-fade-in" : "animate-fade-out"
                 }`}
               >
@@ -182,6 +168,8 @@ export default function Main() {
         <div className="swiper-button-prev !h-full !top-0 !left-0 !mt-0 !w-[50px] md:!w-[100px] opacity-0 group-hover:opacity-100 !transition-opacity !duration-300"></div>
         <div className="swiper-button-next !h-full !top-0 !right-0 !mt-0 !w-[50px] md:!w-[100px] opacity-0 group-hover:opacity-100 !transition-opacity !duration-300"></div>
       </Swiper>
-    </main>
+    </section>
   );
 }
+
+
