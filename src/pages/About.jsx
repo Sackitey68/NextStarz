@@ -25,7 +25,7 @@ const fadeIn = {
 
 export default function About() {
   return (
-    <div className="bg-bg-color py-16 px-4 sm:px-6 lg:px-8">
+    <section className="bg-bg-color py-10 px-4 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <motion.div
         initial="hidden"
@@ -38,10 +38,7 @@ export default function About() {
           About Us
         </h1>
         <p className="text-lg sm:text-xl text-gray-300">
-          We are a passionate team dedicated to creating innovative solutions
-          that make a difference. Our mission is to empower individuals and
-          businesses to achieve their goals through creativity, collaboration,
-          and technology.
+          Suede Entertainment is a dynamic and multifaceted entertainment company that has established itself as a powerhouse in the music and entertainment industry. Specializing in record label operations, artist management, music and film production, and event organization, Suede Entertainment is dedicated to discovering, nurturing, and promoting talented artists across a wide range of genres. With a passion for creativity and innovation, the company provides the resources, guidance, and platforms necessary for artists to build successful and enduring careers in the competitive world of entertainment
         </p>
       </motion.div>
 
@@ -216,6 +213,6 @@ export default function About() {
           </motion.div>
         </motion.div>
       </motion.div>
-    </div>
+    </section>
   );
 }

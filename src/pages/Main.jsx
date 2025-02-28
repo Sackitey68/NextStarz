@@ -86,7 +86,7 @@ export default function Main() {
             )}
 
             {/* Overlay Text and Button */}
-            <div className="absolute inset-0 flex flex-col items-center text-center justify-center bg-black bg-opacity-50 text-white p-5 md:p-6 lg:p-7">
+            <div className="absolute inset-0 flex flex-col items-center text-center justify-center bg-black bg-opacity-50 text-white md:object-cover">
               <h2
                 className={`text-2xl md:text-4xl font-bold mb-8 ${
                   activeIndex === index
