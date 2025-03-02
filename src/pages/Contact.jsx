@@ -2,12 +2,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
 import {
-  FaMapMarkerAlt,
   FaPhone,
   FaEnvelope,
-  FaLinkedin,
+  FaFacebook,
   FaTwitter,
   FaInstagram,
+  FaYoutube,
+  FaTiktok,
 } from "react-icons/fa";
 
 // Animation variants
@@ -29,6 +30,11 @@ const staggerContainer = {
 const fadeIn = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.6 } },
+};
+
+const scaleUp = {
+  hidden: { scale: 0.9, opacity: 0 },
+  visible: { scale: 1, opacity: 1, transition: { duration: 0.6 } },
 };
 
 export default function ContactPage() {
@@ -57,7 +63,7 @@ export default function ContactPage() {
   };
 
   return (
-    <section className="bg-bg-color py-16 px-4 sm:px-6 lg:px-8">
+    <section className="py-16 px-4 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <motion.div
         initial="hidden"
@@ -85,50 +91,50 @@ export default function ContactPage() {
         {/* Contact Form */}
         <motion.div
           variants={fadeInUp}
-          className="bg-white/70 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-white/20"
+          className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-white/10 hover:border-white/20 transition-all duration-300"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <h2 className="text-2xl font-bold text-gray-400 mb-6">
             Send Us a Message
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-300">
                 Name
               </label>
               <input
                 type="text"
                 name="name"
                 placeholder="Enter your name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                className="w-full px-4 py-3 bg-white/5 text-white rounded-lg focus:ring-2 focus:outline-none focus:ring-primary-color focus:border-yellow-300 transition-all duration-300 placeholder-gray-400"
                 required
               />
             </div>
 
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-300">
                 Email
               </label>
               <input
                 type="email"
                 name="email"
                 placeholder="Enter your email"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                className="w-full px-4 py-3 bg-white/5 text-white rounded-lg focus:ring-2 focus:ring-primary-color focus:border-yellow-500 focus:outline-none transition-all duration-300 placeholder-gray-400"
                 required
               />
             </div>
 
             {/* Message Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-300">
                 Message
               </label>
               <textarea
                 rows="5"
                 name="message"
                 placeholder="Enter your message"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                className="w-full px-4 py-3 bg-white/5 text-white rounded-lg focus:ring-2 focus:ring-primary-color focus:outline-none focus:border-yellow-300 transition-all duration-300 placeholder-gray-400"
                 required
               />
             </div>
@@ -145,93 +151,111 @@ export default function ContactPage() {
 
             {/* Success/Error Message */}
             {isSubmitted && (
-              <div className="mt-4 p-4 bg-green-100 text-green-700 rounded-lg">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={scaleUp}
+                className="mt-4 p-4 bg-green-100 text-green-700 rounded-lg"
+              >
                 Your message has been sent successfully!
-              </div>
+              </motion.div>
             )}
             {isError && (
-              <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-lg">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={scaleUp}
+                className="mt-4 p-4 bg-red-100 text-red-700 rounded-lg"
+              >
                 Failed to send message. Please try again.
-              </div>
+              </motion.div>
             )}
           </form>
         </motion.div>
 
-        {/* Contact Info and Map */}
+        {/* Contact Info and Social Media */}
         <motion.div variants={fadeIn} className="space-y-8">
-          {/* Contact Info Cards */}
-          <div className="bg-white/70 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-white/20">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          {/* Contact Info Card */}
+          <motion.div
+            variants={fadeInUp}
+            className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-white/10 hover:border-white/20 transition-all duration-300"
+          >
+            <h2 className="text-2xl font-bold text-white mb-6">
               Contact Information
             </h2>
             <div className="space-y-6">
               {/* Email */}
               <div className="flex items-center space-x-4">
-                <FaEnvelope className="w-6 h-6 text-blue-600" />
-                <p className="text-gray-700">support@nextstarz.com</p>
+                <FaEnvelope className="w-6 h-6 text-blue-500" />
+                <p className="text-gray-300">support@nextstarz.com</p>
               </div>
 
               {/* Phone */}
               <div className="flex items-center space-x-4">
-                <FaPhone className="w-6 h-6 text-blue-600" />
-                <p className="text-gray-700">+233 123 456 789</p>
-              </div>
-
-              {/* Address */}
-              <div className="flex items-center space-x-4">
-                <FaMapMarkerAlt className="w-6 h-6 text-blue-600" />
-                <p className="text-gray-700">123 Main Street, Accra, Ghana</p>
+                <FaPhone className="w-6 h-6 text-blue-500" />
+                <p className="text-gray-300">+233 123 456 789</p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Social Media Links */}
-          <div className="bg-white/70 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-white/20">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Follow Us</h2>
+          <motion.div
+            variants={fadeInUp}
+            className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-white/10 hover:border-white/20 transition-all duration-300"
+          >
+            <h2 className="text-2xl font-bold text-white mb-6">Follow Us</h2>
             <div className="flex space-x-6">
+              {/* Facebook */}
               <a
-                href="https://linkedin.com"
+                href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-700 hover:text-blue-600 transition-colors duration-300"
+                className="text-gray-300 hover:text-blue-600 transition-colors duration-300"
               >
-                <FaLinkedin className="w-6 h-6" />
+                <FaFacebook className="w-6 h-6" />
               </a>
+
+              {/* Twitter */}
               <a
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-700 hover:text-blue-600 transition-colors duration-300"
+                className="text-gray-300 hover:text-blue-400 transition-colors duration-300"
               >
                 <FaTwitter className="w-6 h-6" />
               </a>
+
+              {/* Instagram */}
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-700 hover:text-blue-600 transition-colors duration-300"
+                className="text-gray-300 hover:text-pink-600 transition-colors duration-300"
               >
                 <FaInstagram className="w-6 h-6" />
               </a>
-            </div>
-          </div>
 
-          {/* Google Map */}
-          <div className="bg-white/70 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-white/20">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Our Location
-            </h2>
-            <div className="overflow-hidden rounded-lg">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.755238724263!2d-0.2016386847618001!3d5.603822995932325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9084b2b7a773%3A0x6f6a668a7f5d2d1e!2sAccra%2C%20Ghana!5e0!3m2!1sen!2sus!4v1633021234567!5m2!1sen!2sus"
-                width="100%"
-                height="300"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-              ></iframe>
+              {/* YouTube */}
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-red-600 transition-colors duration-300"
+              >
+                <FaYoutube className="w-6 h-6" />
+              </a>
+
+              {/* TikTok */}
+              <a
+                href="https://tiktok.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-black transition-colors duration-300"
+              >
+                <FaTiktok className="w-6 h-6" />
+              </a>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </motion.div>
     </section>

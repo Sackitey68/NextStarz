@@ -6,10 +6,10 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import Suede from "../assets/Suede.jpg";
-import Ishmael from "../assets/Team/ishmael.jpg"
-import Frank from "../assets/Team/Frank.jpg"
-import Mark from "../assets/Team/Mark.jpg"
-import Isaac from "../assets/Team/Isaac.jpg"
+import Ishmael from "../assets/Team/ishmael.jpg";
+import Frank from "../assets/Team/Frank.jpg";
+import Mark from "../assets/Team/Mark.jpg";
+import Isaac from "../assets/Team/Isaac.jpg";
 
 // Animation variants
 const fadeInUp = {
@@ -92,7 +92,7 @@ export default function About() {
             alt="Team working together"
             className="rounded-lg shadow-lg"
           />
-          <div className="absolute -inset-4 bg-blue-600 opacity-20 rounded-lg blur-lg"></div>
+          <div className="absolute -inset-4 bg-yellow-100 opacity-20 rounded-lg blur-lg"></div>
         </motion.div>
       </motion.div>
 
@@ -125,7 +125,11 @@ export default function About() {
               Record Label Operations
             </h3>
             <p className="text-gray-900">
-            As a record label, we produce, distribute, and promote high-quality music, partnering with artistes to create impactful projects that reach diverse audiences. From studio recordings to digital releases, we provide full support to help artistes achieve their musical ambitions.
+              As a record label, we produce, distribute, and promote
+              high-quality music, partnering with artistes to create impactful
+              projects that reach diverse audiences. From studio recordings to
+              digital releases, we provide full support to help artistes achieve
+              their musical ambitions.
             </p>
           </motion.div>
 
@@ -140,7 +144,10 @@ export default function About() {
               Artist Management
             </h3>
             <p className="text-gray-900">
-            Our artist management division offers career development, branding, marketing, bookings, and contract negotiations. With personalized support and strategic planning, we empower artistes to maximize their potential and build successful, lasting careers.
+              Our artist management division offers career development,
+              branding, marketing, bookings, and contract negotiations. With
+              personalized support and strategic planning, we empower artistes
+              to maximize their potential and build successful, lasting careers.
             </p>
           </motion.div>
 
@@ -155,10 +162,12 @@ export default function About() {
               Music and Film Production
             </h3>
             <p className="text-gray-900">
-            In music and film production, we create high-quality content, collaborating with industry professionals on studio recordings, music videos, and films — delivering captivating projects that resonate with audiences.
+              In music and film production, we create high-quality content,
+              collaborating with industry professionals on studio recordings,
+              music videos, and films — delivering captivating projects that
+              resonate with audiences.
             </p>
           </motion.div>
-          
         </motion.div>
       </motion.div>
 
@@ -191,10 +200,15 @@ export default function About() {
               alt="Team Member 1"
               className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Ishmael Opoku-Acheampong </h3>
-            <p className="text-gray-800">Known as Diojo — is the CEO of Suede Entertainment, a Creative Director, musician, life coach, and entrepreneur. He leads with passion, turning dreams into reality and</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              Ishmael Opoku-Acheampong{" "}
+            </h3>
+            <p className="text-gray-800">
+              Known as Diojo — is the CEO of Suede Entertainment, a Creative
+              Director, musician, life coach, and entrepreneur. He leads with
+              passion, turning dreams into reality and
+            </p>
           </motion.div>
-
 
           {/* Panelist 2 */}
           <motion.div
@@ -207,8 +221,15 @@ export default function About() {
               alt="Team Member 2"
               className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Frank K. Harrison</h3>
-            <p className="text-gray-800">An innovative entrepreneur in music, business, and real estate, co-founder of Trust Music Entertainment, and West Africa lead for Paradise Worldwide, driving global partnerships and luxury investments.</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              Frank K. Harrison
+            </h3>
+            <p className="text-gray-800">
+              An innovative entrepreneur in music, business, and real estate,
+              co-founder of Trust Music Entertainment, and West Africa lead for
+              Paradise Worldwide, driving global partnerships and luxury
+              investments.
+            </p>
           </motion.div>
 
           {/* Panelist 3 */}
@@ -223,9 +244,13 @@ export default function About() {
               className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
             <h3 className="text-xl font-bold text-gray-900 mb-2">
-            Gyau Oppong Mark 
+              Gyau Oppong Mark
             </h3>
-            <p className="text-gray-800">Known as Mac Hamlet — is a keyboardist, music producer, and CEO of PL Studio Ltd. Signed to Lynx Entertainment, he’s performed on major stages like VGMA, 3Music Awards, and AfroNation.</p>
+            <p className="text-gray-800">
+              Known as Mac Hamlet — is a keyboardist, music producer, and CEO of
+              PL Studio Ltd. Signed to Lynx Entertainment, he’s performed on
+              major stages like VGMA, 3Music Awards, and AfroNation.
+            </p>
           </motion.div>
 
           {/* Team Member 4 */}
@@ -240,9 +265,13 @@ export default function About() {
               className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
             <h3 className="text-xl font-bold text-gray-900 mb-2">
-         Isaac Sackey Sackitey
+              Isaac Sackey Sackitey
             </h3>
-            <p className="text-gray-800">Known as Bolest — is a software engineer, creative thinker, and tech innovator. He builds impactful digital solutions, blending technology with creativity to inspire and drive innovation</p>
+            <p className="text-gray-800">
+              Known as Bolest — is a software engineer, creative thinker, and
+              tech innovator. He builds impactful digital solutions, blending
+              technology with creativity to inspire and drive innovation
+            </p>
           </motion.div>
         </motion.div>
       </motion.div>
