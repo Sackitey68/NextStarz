@@ -4,6 +4,8 @@ import emailjs from "emailjs-com";
 import {
   FaPhone,
   FaEnvelope,
+  FaMapMarkerAlt,
+  FaClock,
   FaFacebook,
   FaTwitter,
   FaInstagram,
@@ -194,6 +196,17 @@ export default function ContactPage() {
               <div className="flex items-center space-x-4">
                 <FaPhone className="w-6 h-6 text-blue-500" />
                 <p className="text-gray-300">+233 123 456 789</p>
+              </div>
+
+             <div className="flex items-center space-x-4">
+                <FaMapMarkerAlt className="w-6 h-6 text-blue-500" />
+                <p className="text-gray-300">123 Main Street, Accra, Ghana</p>
+              </div>
+
+              {/* Working Hours */}
+              <div className="flex items-center space-x-4">
+                <FaClock className="w-6 h-6 text-blue-500" />
+                <p className="text-gray-300">Mon - Fri: 9:00 AM - 5:00 PM</p>
               </div>
             </div>
           </motion.div>
