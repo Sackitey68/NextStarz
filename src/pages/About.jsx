@@ -1,6 +1,15 @@
 import { motion } from "framer-motion";
-import { FaLightbulb, FaHandsHelping, FaUsers } from "react-icons/fa";
+import {
+  FaMusic,
+  FaRecordVinyl,
+  FaHandsHelping,
+  FaUsers,
+} from "react-icons/fa";
 import Suede from "../assets/Suede.jpg";
+import Ishmael from "../assets/Team/ishmael.jpg"
+import Frank from "../assets/Team/Frank.jpg"
+import Mark from "../assets/Team/Mark.jpg"
+import Isaac from "../assets/Team/Isaac.jpg"
 
 // Animation variants
 const fadeInUp = {
@@ -32,13 +41,22 @@ export default function About() {
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeInUp}
-        className="max-w-7xl mx-auto text-center mb-16"
+        className="max-w-7xl mx-auto text-center sm:text-justify mb-16"
       >
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-400 mb-6">
-          About Us
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center text-gray-400 mb-6">
+          About Suede Entertainment
         </h1>
-        <p className="text-lg sm:text-xl text-gray-300">
-          Suede Entertainment is a dynamic and multifaceted entertainment company that has established itself as a powerhouse in the music and entertainment industry. Specializing in record label operations, artist management, music and film production, and event organization, Suede Entertainment is dedicated to discovering, nurturing, and promoting talented artists across a wide range of genres. With a passion for creativity and innovation, the company provides the resources, guidance, and platforms necessary for artists to build successful and enduring careers in the competitive world of entertainment
+        <p className="text-lg sm:text-xl text-gray-300 shadow-lg shadow-primary-color p-3 md:p-5 lg:p-7 ">
+          Suede Entertainment is a dynamic and multifaceted entertainment
+          company that has established itself as a powerhouse in the music and
+          entertainment industry. Specializing in record label operations,
+          artist management, music and film production, and event organization,
+          Suede Entertainment is dedicated to discovering, nurturing, and
+          promoting talented artists across a wide range of genres. With a
+          passion for creativity and innovation, the company provides the
+          resources, guidance, and platforms necessary for artists to build
+          successful and enduring careers in the competitive world of
+          entertainment
         </p>
       </motion.div>
 
@@ -51,15 +69,20 @@ export default function About() {
         className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16"
       >
         <motion.div variants={fadeInUp} className="space-y-6">
-          <h2 className="text-3xl sm:text-4xl  font-bold text-gray-400">
+          <h2 className="text-3xl sm:text-4xl  font-bold text-gray-400 text-center md:text-justify">
             Our Mission
           </h2>
-          <p className="text-lg  text-gray-300">
-            Our mission is to deliver exceptional value to our clients by
-            providing innovative, reliable, and scalable solutions. We strive to
-            create a positive impact in the world through our work.
+          <p className="text-xl text-gray-300 shadow-lg  shadow-primary-color p-2 md:p-4 lg:p-6">
+            Suede Entertainment's mission is to empower artists and creators by
+            providing them with the tools, opportunities, and support they need
+            to thrive in the global entertainment industry. The company is
+            committed to producing high-quality music and film content,
+            fostering artistic growth, and delivering exceptional entertainment
+            experiences that resonate with audiences worldwide. By combining
+            creativity, professionalism, and innovation, Suede Entertainment
+            aims to elevate its artists and projects to new heights of success.
           </p>
-          <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300">
+          <button className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300">
             Learn More
           </button>
         </motion.div>
@@ -85,56 +108,61 @@ export default function About() {
           variants={fadeInUp}
           className="text-3xl sm:text-4xl font-bold text-gray-400 mb-12"
         >
-          Our Core Values
+          Core Services
         </motion.h2>
         <motion.div
           variants={staggerContainer}
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
-          {/* Innovation Card */}
+          {/* Record Label Card */}
           <motion.div
             variants={fadeInUp}
-            className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            whileHover={{ scale: 1.05 }}
+            className="bg-gray-300 p-8 rounded-lg hover:shadow-primary-color hover:shadow-xl transition duration-300"
           >
-            <FaLightbulb className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Innovation</h3>
-            <p className="text-gray-600">
-              We embrace creativity and continuously seek new ways to solve
-              problems and improve our solutions.
-            </p>
-          </motion.div>
-
-          {/* Collaboration Card */}
-          <motion.div
-            variants={fadeInUp}
-            className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-          >
-            <FaHandsHelping className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+            <FaRecordVinyl className="w-12 h-12 text-gray-700 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-900 mb-4">
-              Collaboration
+              Record Label Operations
             </h3>
-            <p className="text-gray-600">
-              We believe in the power of teamwork and work closely with our
-              clients to achieve shared success.
+            <p className="text-gray-900">
+            As a record label, we produce, distribute, and promote high-quality music, partnering with artistes to create impactful projects that reach diverse audiences. From studio recordings to digital releases, we provide full support to help artistes achieve their musical ambitions.
             </p>
           </motion.div>
 
-          {/* Integrity Card */}
+          {/* Music and Film Card */}
           <motion.div
             variants={fadeInUp}
-            className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            whileHover={{ scale: 1.05 }}
+            className="bg-gray-300 p-8 rounded-lg shadow-lg hover:shadow-xl hover:shadow-primary-color transition duration-300"
           >
-            <FaUsers className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Integrity</h3>
-            <p className="text-gray-600">
-              We are committed to honesty, transparency, and ethical practices
-              in everything we do.
+            <FaHandsHelping className="w-12 h-12 text-gray-700 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
+              Artist Management
+            </h3>
+            <p className="text-gray-900">
+            Our artist management division offers career development, branding, marketing, bookings, and contract negotiations. With personalized support and strategic planning, we empower artistes to maximize their potential and build successful, lasting careers.
             </p>
           </motion.div>
+
+          {/* Music and film Card */}
+          <motion.div
+            variants={fadeInUp}
+            whileHover={{ scale: 1.05 }}
+            className="bg-gray-300 p-8 rounded-lg shadow-lg hover:shadow-xl transition hover:shadow-primary-color duration-300"
+          >
+            <FaMusic className="w-12 h-12 text-gray-700 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
+              Music and Film Production
+            </h3>
+            <p className="text-gray-900">
+            In music and film production, we create high-quality content, collaborating with industry professionals on studio recordings, music videos, and films — delivering captivating projects that resonate with audiences.
+            </p>
+          </motion.div>
+          
         </motion.div>
       </motion.div>
 
-      {/* Team Section */}
+      {/* Panelist Section */}
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -146,70 +174,75 @@ export default function About() {
           variants={fadeInUp}
           className="text-3xl sm:text-4xl font-bold text-gray-400 mb-12"
         >
-          Meet Our Team
+          Meet Our Panelists
         </motion.h2>
         <motion.div
           variants={staggerContainer}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
         >
-          {/* Team Member 1 */}
+          {/* Panelist 1 */}
           <motion.div
             variants={fadeInUp}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            whileHover={{ scale: 1.05 }}
+            className="bg-gray-300 p-6 rounded-lg shadow-lg hover:shadow-primary-color hover:shadow-xl transition duration-300"
           >
             <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              src={Ishmael}
               alt="Team Member 1"
-              className="w-32 h-32 rounded-full mx-auto mb-4"
+              className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Dr Kwame</h3>
-            <p className="text-gray-600">CEO & Founder</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Ishmael Opoku-Acheampong </h3>
+            <p className="text-gray-800">Known as Diojo — is the CEO of Suede Entertainment, a Creative Director, musician, life coach, and entrepreneur. He leads with passion, turning dreams into reality and</p>
           </motion.div>
 
-          {/* Team Member 2 */}
+
+          {/* Panelist 2 */}
           <motion.div
             variants={fadeInUp}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            whileHover={{ scale: 1.05 }}
+            className="bg-gray-300 p-6 rounded-lg shadow-lg  hover:shadow-primary-color hover:shadow-xl transition-shadow duration-300"
           >
             <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              src={Frank}
               alt="Team Member 2"
-              className="w-32 h-32 rounded-full mx-auto mb-4"
+              className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">John Smith</h3>
-            <p className="text-gray-600">CTO</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Frank K. Harrison</h3>
+            <p className="text-gray-800">An innovative entrepreneur in music, business, and real estate, co-founder of Trust Music Entertainment, and West Africa lead for Paradise Worldwide, driving global partnerships and luxury investments.</p>
           </motion.div>
 
-          {/* Team Member 3 */}
+          {/* Panelist 3 */}
           <motion.div
             variants={fadeInUp}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            whileHover={{ scale: 1.05 }}
+            className="bg-gray-300 p-6 rounded-lg shadow-lg hover:shadow-xl hover:shadow-primary-color transition-shadow duration-300"
           >
             <img
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              src={Mark}
               alt="Team Member 3"
-              className="w-32 h-32 rounded-full mx-auto mb-4"
+              className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
             <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Emily Clark
+            Gyau Oppong Mark 
             </h3>
-            <p className="text-gray-600">Marketing Director</p>
+            <p className="text-gray-800">Known as Mac Hamlet — is a keyboardist, music producer, and CEO of PL Studio Ltd. Signed to Lynx Entertainment, he’s performed on major stages like VGMA, 3Music Awards, and AfroNation.</p>
           </motion.div>
 
           {/* Team Member 4 */}
           <motion.div
             variants={fadeInUp}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            whileHover={{ scale: 1.05 }}
+            className="bg-gray-300 p-6 rounded-lg shadow-lg  hover:shadow-primary-color hover:shadow-xl transition-shadow duration-300"
           >
             <img
-              src="https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              src={Isaac}
               alt="Team Member 4"
-              className="w-32 h-32 rounded-full mx-auto mb-4"
+              className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
             <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Michael Brown
+         Isaac Sackey Sackitey
             </h3>
-            <p className="text-gray-600">Lead Developer</p>
+            <p className="text-gray-800">Known as Bolest — is a software engineer, creative thinker, and tech innovator. He builds impactful digital solutions, blending technology with creativity to inspire and drive innovation</p>
           </motion.div>
         </motion.div>
       </motion.div>
