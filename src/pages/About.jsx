@@ -9,7 +9,7 @@ import Suede from "../assets/Suede.jpg";
 import Ishmael from "../assets/Team/ishmael.jpg";
 import Frank from "../assets/Team/Frank.jpg";
 import Mark from "../assets/Team/Mark.jpg";
-import Isaac from "../assets/Team/Isaac.jpg";
+import Dorcas from "../assets/Team/Dorcas.jpg";
 
 // Animation variants
 const fadeInUp = {
@@ -90,7 +90,7 @@ export default function About() {
           <img
             src={Suede}
             alt="Team working together"
-            className="rounded-lg shadow-lg"
+            className="rounded-lg shadow-lg "
           />
           <div className="absolute -inset-4 bg-yellow-100 opacity-20 rounded-lg blur-lg"></div>
         </motion.div>
@@ -260,17 +260,15 @@ export default function About() {
             className="bg-gray-300 p-6 rounded-lg shadow-lg  hover:shadow-primary-color hover:shadow-xl transition-shadow duration-300"
           >
             <img
-              src={Isaac}
+              src={Dorcas}
               alt="Team Member 4"
               className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
             <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Isaac Sackey Sackitey
+              Dorcas Agyeiwaa
             </h3>
             <p className="text-gray-800">
-              Known as Bolest — is a software engineer, creative thinker, and
-              tech innovator. He builds impactful digital solutions, blending
-              technology with creativity to inspire and drive innovation
+            Known as AJ Truth, she is a vocalist, songwriter, entrepreneur, and media personality. A NextStarz panelist and former TV host, she mentors rising talents and redefines artistry and excellence.
             </p>
           </motion.div>
         </motion.div>

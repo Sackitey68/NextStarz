@@ -42,7 +42,7 @@ export default function Footer() {
       {showScrollButton && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-5 right-6 p-2 bg-primary-color text-white rounded-full shadow-lg hover:bg-pink-600 transition-all duration-200"
+          className="fixed bottom-5 right-6 p-2 bg-purple-600 text-white rounded-full shadow-lg hover:bg-pink-600 transition-all duration-200"
           aria-label="Scroll to top"
         >
           <FaArrowUp className="size-4" />
@@ -228,7 +228,7 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full p-2 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                className="w-full p-2 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-primary-color"
               />
 
               <div className="flex items-center">
@@ -240,7 +240,7 @@ export default function Footer() {
 
               <button
                 type="submit"
-                className="w-full bg-pink-500 text-white py-2 rounded-md hover:bg-pink-600 transition-all duration-300"
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-2 rounded-md  transition-all duration-300"
               >
                 Subscribe
               </button>

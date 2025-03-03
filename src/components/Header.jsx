@@ -48,7 +48,7 @@ export default function Header() {
         }`}
         style={{
           background:
-            "linear-gradient(to right, rgba(252, 0, 144, 0.9), rgba(0, 0, 0, 1))",
+            "linear-gradient(to right, rgb(160, 32, 240), rgba(0, 0, 0, 1))",
         }}
       >
         <p className="text-gray-300 text-lg flex flex-col font-semibold sm:pl-2">

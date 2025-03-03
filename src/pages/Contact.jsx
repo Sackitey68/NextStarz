@@ -65,7 +65,7 @@ export default function ContactPage() {
   };
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8">
+    <section className="py-10 px-4 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <motion.div
         initial="hidden"
@@ -188,24 +188,24 @@ export default function ContactPage() {
             <div className="space-y-6">
               {/* Email */}
               <div className="flex items-center space-x-4">
-                <FaEnvelope className="w-6 h-6 text-blue-500" />
+                <FaEnvelope className="w-6 h-6 text-primary-color" />
                 <p className="text-gray-300">support@nextstarz.com</p>
               </div>
 
               {/* Phone */}
               <div className="flex items-center space-x-4">
-                <FaPhone className="w-6 h-6 text-blue-500" />
+                <FaPhone className="w-6 h-6 text-primary-color" />
                 <p className="text-gray-300">+233 123 456 789</p>
               </div>
 
              <div className="flex items-center space-x-4">
-                <FaMapMarkerAlt className="w-6 h-6 text-blue-500" />
+                <FaMapMarkerAlt className="w-6 h-6 text-primary-color" />
                 <p className="text-gray-300">123 Main Street, Accra, Ghana</p>
               </div>
 
               {/* Working Hours */}
               <div className="flex items-center space-x-4">
-                <FaClock className="w-6 h-6 text-blue-500" />
+                <FaClock className="w-6 h-6 text-primary-color" />
                 <p className="text-gray-300">Mon - Fri: 9:00 AM - 5:00 PM</p>
               </div>
             </div>
@@ -218,12 +218,13 @@ export default function ContactPage() {
           >
             <h2 className="text-2xl font-bold text-white mb-6">Follow Us</h2>
             <div className="flex space-x-6">
+
               {/* Facebook */}
               <a
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-blue-600 transition-colors duration-300"
+                className="text-primary-color hover:text-blue-600 transition-colors duration-300"
               >
                 <FaFacebook className="w-6 h-6" />
               </a>
@@ -233,7 +234,7 @@ export default function ContactPage() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-blue-400 transition-colors duration-300"
+                className="text-primary-color hover:text-blue-600 transition-colors duration-300"
               >
                 <FaTwitter className="w-6 h-6" />
               </a>
@@ -243,7 +244,7 @@ export default function ContactPage() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-pink-600 transition-colors duration-300"
+                className="text-primary-color hover:text-blue-600 transition-colors duration-300"
               >
                 <FaInstagram className="w-6 h-6" />
               </a>
@@ -253,7 +254,7 @@ export default function ContactPage() {
                 href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-red-600 transition-colors duration-300"
+                className="text-primary-color hover:text-blue-600 transition-colors duration-300"
               >
                 <FaYoutube className="w-6 h-6" />
               </a>
@@ -263,7 +264,7 @@ export default function ContactPage() {
                 href="https://tiktok.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-black transition-colors duration-300"
+                className="text-primary-color hover:text-blue-600 transition-colors duration-300"
               >
                 <FaTiktok className="w-6 h-6" />
               </a>
