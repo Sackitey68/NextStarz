@@ -1,19 +1,18 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css"; // Swiper styles
-import "swiper/css/pagination"; // Pagination styles
+import "swiper/css";
+import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
+
 import {
   GoogleAuthProvider,
-  FacebookAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-// import { auth } from "../firebase"; // Ensure Firebase is initialized
+import { auth } from "../firebase/firebase"; // Ensure Firebase is initialized
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
 
 // Import your images for the slider
 import Image1 from "../assets/slider1.jpg";
@@ -43,7 +42,7 @@ const fadeIn = {
 };
 
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(true); // Toggle between Login and Sign Up
+  const [isLogin, setIsLogin] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -90,19 +89,6 @@ export default function Login() {
   // Handle Google login
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      setIsSubmitted(true);
-      setIsError(false);
-    } catch (error) {
-      setIsError(true);
-      setErrorMessage(error.message);
-    }
-  };
-
-  // Handle Facebook login
-  const handleFacebookLogin = async () => {
-    const provider = new FacebookAuthProvider();
     try {
       await signInWithPopup(auth, provider);
       setIsSubmitted(true);
@@ -267,24 +253,17 @@ export default function Login() {
             <div className="flex-1 h-px bg-gray-300"></div>
           </motion.div>
 
-          {/* Google and Facebook Buttons */}
+          {/* Google Button */}
           <motion.div
             variants={fadeInUp}
             className="flex justify-center space-x-4"
           >
             <button
               onClick={handleGoogleLogin}
-              className="p-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-300 flex items-center space-x-2"
+              className="py-3 px-[20%] bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-300 flex items-center space-x-2"
             >
               <FcGoogle className="w-6 h-6" />
               <span className="text-sm text-gray-700">Google</span>
-            </button>
-            <button
-              onClick={handleFacebookLogin}
-              className="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 flex items-center space-x-2"
-            >
-              <FaFacebook className="w-6 h-6" />
-              <span className="text-sm">Facebook</span>
             </button>
           </motion.div>
 
