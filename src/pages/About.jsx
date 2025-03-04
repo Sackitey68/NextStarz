@@ -82,7 +82,7 @@ export default function About() {
             creativity, professionalism, and innovation, Suede Entertainment
             aims to elevate its artists and projects to new heights of success.
           </p>
-          <button className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300">
+          <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg  transition-colors duration-300">
             Learn More
           </button>
         </motion.div>
@@ -118,7 +118,7 @@ export default function About() {
           <motion.div
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
-            className="bg-gray-300 p-8 rounded-lg hover:shadow-primary-color hover:shadow-xl transition duration-300"
+            className="bg-gray-300 p-8 rounded-lg hover:shadow-primary-color hover:shadow-lg transition duration-300"
           >
             <FaRecordVinyl className="w-12 h-12 text-gray-700 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-900 mb-4">
@@ -137,7 +137,7 @@ export default function About() {
           <motion.div
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
-            className="bg-gray-300 p-8 rounded-lg shadow-lg hover:shadow-xl hover:shadow-primary-color transition duration-300"
+            className="bg-gray-300 p-8 rounded-lg shadow-lg hover:shadow-lg hover:shadow-primary-color transition duration-300"
           >
             <FaHandsHelping className="w-12 h-12 text-gray-700 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-900 mb-4">
@@ -155,7 +155,7 @@ export default function About() {
           <motion.div
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
-            className="bg-gray-300 p-8 rounded-lg shadow-lg hover:shadow-xl transition hover:shadow-primary-color duration-300"
+            className="bg-gray-300 p-8 rounded-lg shadow-lg hover:shadow-lg transition hover:shadow-primary-color duration-300"
           >
             <FaMusic className="w-12 h-12 text-gray-700 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-900 mb-4">

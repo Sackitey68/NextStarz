@@ -217,7 +217,7 @@ export default function Header() {
                         : ""
                     }`
                   }
-                  onClick={toggleMenu} 
+                  onClick={toggleMenu}
                 >
                   Home
                 </NavLink>
@@ -247,7 +247,7 @@ export default function Header() {
                         : ""
                     }`
                   }
-                  onClick={toggleMenu} 
+                  onClick={toggleMenu}
                 >
                   Register
                 </NavLink>
@@ -277,7 +277,7 @@ export default function Header() {
                         : ""
                     }`
                   }
-                  onClick={toggleMenu} 
+                  onClick={toggleMenu}
                 >
                   FAQ
                 </NavLink>
