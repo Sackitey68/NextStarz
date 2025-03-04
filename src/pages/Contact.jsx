@@ -65,7 +65,7 @@ export default function ContactPage() {
   };
 
   return (
-    <section className="py-10 px-4 sm:px-6 lg:px-8">
+    <section className="py-5 px-4 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <motion.div
         initial="hidden"
@@ -198,7 +198,7 @@ export default function ContactPage() {
                 <p className="text-gray-300">+233 123 456 789</p>
               </div>
 
-             <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4">
                 <FaMapMarkerAlt className="w-6 h-6 text-primary-color" />
                 <p className="text-gray-300">123 Main Street, Accra, Ghana</p>
               </div>
@@ -218,7 +218,6 @@ export default function ContactPage() {
           >
             <h2 className="text-2xl font-bold text-white mb-6">Follow Us</h2>
             <div className="flex space-x-6">
-
               {/* Facebook */}
               <a
                 href="https://facebook.com"

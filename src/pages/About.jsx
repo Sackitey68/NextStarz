@@ -34,7 +34,7 @@ const fadeIn = {
 
 export default function About() {
   return (
-    <section className="bg-bg-color py-10 px-4 sm:px-6 lg:px-8">
+    <section className="bg-bg-color py-5 px-4 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <motion.div
         initial="hidden"
@@ -72,7 +72,7 @@ export default function About() {
           <h2 className="text-3xl sm:text-4xl  font-bold text-gray-400 text-center md:text-justify">
             Our Mission
           </h2>
-          <p className="text-xl text-gray-300 shadow-lg  shadow-primary-color p-2 md:p-4 lg:p-6">
+          <p className="text-xl text-gray-300 shadow-lg shadow-primary-color p-2 md:p-4 lg:p-6">
             Suede Entertainment's mission is to empower artists and creators by
             providing them with the tools, opportunities, and support they need
             to thrive in the global entertainment industry. The company is
@@ -193,7 +193,7 @@ export default function About() {
           <motion.div
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
-            className="bg-gray-300 p-6 rounded-lg shadow-lg hover:shadow-primary-color hover:shadow-xl transition duration-300"
+            className="bg-gray-300 p-6 rounded-lg hover:shadow-primary-color hover:shadow-lg transition duration-300"
           >
             <img
               src={Ishmael}
@@ -214,7 +214,7 @@ export default function About() {
           <motion.div
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
-            className="bg-gray-300 p-6 rounded-lg shadow-lg  hover:shadow-primary-color hover:shadow-xl transition-shadow duration-300"
+            className="bg-gray-300 p-6 rounded-lg shadow-lg  hover:shadow-primary-color hover:shadow-lg transition duration-300"
           >
             <img
               src={Frank}
@@ -236,7 +236,7 @@ export default function About() {
           <motion.div
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
-            className="bg-gray-300 p-6 rounded-lg shadow-lg hover:shadow-xl hover:shadow-primary-color transition-shadow duration-300"
+            className="bg-gray-300 p-6 rounded-lg hover:shadow-lg hover:shadow-primary-color transition duration-300"
           >
             <img
               src={Mark}
@@ -257,7 +257,7 @@ export default function About() {
           <motion.div
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
-            className="bg-gray-300 p-6 rounded-lg shadow-lg  hover:shadow-primary-color hover:shadow-xl transition-shadow duration-300"
+            className="bg-gray-300 p-6 rounded-lg  hover:shadow-primary-color hover:shadow-lg transition duration-300"
           >
             <img
               src={Dorcas}
@@ -268,7 +268,9 @@ export default function About() {
               Dorcas Agyeiwaa
             </h3>
             <p className="text-gray-800">
-            Known as AJ Truth, she is a vocalist, songwriter, entrepreneur, and media personality. A NextStarz panelist and former TV host, she mentors rising talents and redefines artistry and excellence.
+              Known as AJ Truth, she is a vocalist, songwriter, entrepreneur,
+              and media personality. A NextStarz panelist and former TV host,
+              she mentors rising talents and redefines artistry and excellence.
             </p>
           </motion.div>
         </motion.div>
