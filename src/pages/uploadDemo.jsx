@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from "../firebase"; // Ensure Firebase is initialized
+// import { storage } from "../firebase"; // Ensure Firebase is initialized
 import {
   FaUpload,
   FaCheckCircle,
@@ -135,7 +135,7 @@ export default function UploadDemo() {
       initial="hidden"
       animate="visible"
       variants={staggerContainer}
-      className="min-h-screen bg-gradient-to-r from-purple-500 to-indigo-600 py-12 px-4 sm:px-6 lg:px-8"
+      className="min-h-screen py-12 px-4 sm:px-6 lg:px-8"
     >
       <motion.div
         variants={fadeInUp}
@@ -231,7 +231,7 @@ export default function UploadDemo() {
                 handleFlutterwavePayment({
                   callback: (response) => {
                     onPaymentSuccess();
-                    closePaymentModal(); 
+                    closePaymentModal();
                   },
                   onClose: () => {
                     alert("Payment was not completed. Please try again.");

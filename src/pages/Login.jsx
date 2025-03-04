@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 import {
   GoogleAuthProvider,
@@ -46,6 +47,7 @@ export default function Login() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate(); // Initialize useNavigate
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -71,15 +73,14 @@ export default function Login() {
         // Save additional user details (e.g., username) to Firestore or another database
         const user = userCredential.user;
         console.log("User registered:", user);
-        // Example: Save to Firestore
-        // await addDoc(collection(db, "users"), {
-        //   uid: user.uid,
-        //   username,
-        //   email,
-        // });
       }
       setIsSubmitted(true);
       setIsError(false);
+
+      // Wait for 1 second before redirecting
+      setTimeout(() => {
+        navigate("/uploaddemo"); // Use navigate to redirect
+      }, 1000); // 1000 milliseconds = 1 second
     } catch (error) {
       setIsError(true);
       setErrorMessage(error.message);
@@ -93,6 +94,11 @@ export default function Login() {
       await signInWithPopup(auth, provider);
       setIsSubmitted(true);
       setIsError(false);
+
+      // Wait for 2 second before redirecting
+      setTimeout(() => {
+        navigate("/uploaddemo"); // Use navigate to redirect
+      }, 2000); // 1000 milliseconds = 1 second
     } catch (error) {
       setIsError(true);
       setErrorMessage(error.message);
@@ -118,7 +124,7 @@ export default function Login() {
   };
 
   return (
-    <div className="bg-bg-color to-purple-50 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-bg-color to-purple-50 min-h-screen flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-6xl">
         {/* Login/Register Form */}
         <motion.div
