@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-// import { storage } from "../firebase"; // Ensure Firebase is initialized
+import { collection, addDoc } from "firebase/firestore";
+import { storage, db } from "../firebase/firebase.js";
 import {
   FaUpload,
   FaCheckCircle,
   FaSpinner,
   FaTimesCircle,
 } from "react-icons/fa";
-import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
+// import { usePaystackPayment } from "react-paystack"; // Commented out for testing
 
 // Animation variants
 const fadeInUp = {
@@ -38,34 +39,28 @@ export default function UploadDemo() {
   const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
   const [downloadURL, setDownloadURL] = useState("");
   const [error, setError] = useState("");
-  const [category, setCategory] = useState(""); // State for selected category
+  const [category, setCategory] = useState("");
 
-  // Flutterwave configuration
+  // Paystack configuration (commented out for testing)
+  /*
   const config = {
-    public_key: "YOUR_FLUTTERWAVE_PUBLIC_KEY", // Replace with your Flutterwave public key
-    tx_ref: Date.now().toString(), // Unique transaction reference
-    amount: 100, // Amount in Ghc
+    reference: new Date().getTime().toString(), // Unique reference
+    email: "user@example.com", // Replace with user's email
+    amount: 10000, // Amount in kobo (10000 kobo = 100 GHS)
+    publicKey: "YOUR_PAYSTACK_PUBLIC_KEY", // Replace with your Paystack public key
     currency: "GHS", // Currency (Ghanaian Cedi)
-    payment_options: "card, mobilemoneyghana", // Payment methods
-    customer: {
-      email: "user@example.com", // Replace with user's email
-      phone_number: "0541234567", // Replace with user's phone number
-      name: "John Doe", // Replace with user's name
-    },
-    customizations: {
-      title: "Demo Submission",
-      description: "Payment for uploading a demo video",
-      logo: "https://your-logo-url.com/logo.png", // Your logo URL
-    },
   };
 
-  const handleFlutterwavePayment = useFlutterwave(config);
+  const initializePayment = usePaystackPayment(config);
+  */
 
-  // Handle Flutterwave payment success
+  // Handle Paystack payment success (commented out for testing)
+  /*
   const onPaymentSuccess = () => {
     setIsPaymentSuccessful(true);
     handleUpload(); // Start upload after payment
   };
+  */
 
   // Handle file input change
   const handleFileChange = (e) => {
@@ -93,7 +88,7 @@ export default function UploadDemo() {
   };
 
   // Handle video upload to Firebase
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (!videoFile) {
       setError("Please select a video file first.");
       return;
@@ -105,7 +100,11 @@ export default function UploadDemo() {
     }
 
     setIsUploading(true);
+
+    // Create a reference to the storage location
     const storageRef = ref(storage, `demos/${category}/${videoFile.name}`);
+
+    // Upload the file
     const uploadTask = uploadBytesResumable(storageRef, videoFile);
 
     uploadTask.on(
@@ -120,12 +119,27 @@ export default function UploadDemo() {
         setError("Upload failed. Please try again.");
         setIsUploading(false);
       },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setDownloadURL(url);
+      async () => {
+        // Upload completed successfully
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+        // Save metadata to Firestore
+        try {
+          await addDoc(collection(db, "demos"), {
+            fileName: videoFile.name,
+            category: category,
+            downloadURL: downloadURL,
+            timestamp: new Date(), // Optional: Add a timestamp
+          });
+
+          setDownloadURL(downloadURL);
           setIsUploading(false);
           alert("Upload successful! Thank you for submitting your demo.");
-        });
+        } catch (error) {
+          console.error("Error saving to Firestore:", error);
+          setError("Failed to save video details. Please try again.");
+          setIsUploading(false);
+        }
       }
     );
   };
@@ -145,8 +159,8 @@ export default function UploadDemo() {
           Upload Your Demo
         </h1>
         <p className="text-lg text-gray-600 text-center mb-8">
-          Show us your talent! Upload a video of your performance and pay Ghc
-          100 to submit your demo.
+          Show us your talent! Upload a 2 minutes video of your performance and
+          pay Ghc 100 to submit your demo.
         </p>
 
         {/* Category Selection */}
@@ -163,10 +177,13 @@ export default function UploadDemo() {
             <option value="" disabled>
               Choose a category
             </option>
-            <option value="singing">Singing</option>
-            <option value="comedy">Comedy</option>
-            <option value="dancing">Dancing</option>
-            <option value="songwriting">Songwriting</option>
+            <option value="singer">Singer</option>
+            <option value="songwriter">Songwriter</option>
+            <option value="dancer">Dancer</option>
+            <option value="comedian">Comedian</option>
+            <option value="instrumentPlayer">Instrument player</option>
+            <option value="beatMaker">Beat-Maker</option>
+            <option value="DJ">DJ</option>
           </select>
         </motion.div>
 
@@ -222,24 +239,14 @@ export default function UploadDemo() {
           </motion.div>
         )}
 
-        {/* Payment Button */}
+        {/* Payment Button (commented out for testing) */}
         {!isPaymentSuccessful && videoFile && !error && category && (
           <motion.div variants={fadeInUp} className="mt-8 text-center">
             <button
               className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300"
-              onClick={() =>
-                handleFlutterwavePayment({
-                  callback: (response) => {
-                    onPaymentSuccess();
-                    closePaymentModal();
-                  },
-                  onClose: () => {
-                    alert("Payment was not completed. Please try again.");
-                  },
-                })
-              }
+              onClick={handleUpload} // Directly call handleUpload for testing
             >
-              Pay Ghc 100 to Submit
+              Submit Demo
             </button>
           </motion.div>
         )}
