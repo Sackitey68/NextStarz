@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore"; // Import Firestore functions
 import { storage, db } from "../firebase/firebase.js";
 import {
   FaUpload,
@@ -9,7 +9,7 @@ import {
   FaSpinner,
   FaTimesCircle,
 } from "react-icons/fa";
-// import { usePaystackPayment } from "react-paystack"; // Commented out for testing
+import { useNavigate } from "react-router-dom";
 
 // Animation variants
 const fadeInUp = {
@@ -40,50 +40,32 @@ export default function UploadDemo() {
   const [downloadURL, setDownloadURL] = useState("");
   const [error, setError] = useState("");
   const [category, setCategory] = useState("");
+  const [isUploadComplete, setIsUploadComplete] = useState(false);
+  const [generatedId, setGeneratedId] = useState(""); // State to store the generated ID
+  const navigate = useNavigate();
 
-  // Paystack configuration (commented out for testing)
-  /*
-  const config = {
-    reference: new Date().getTime().toString(), // Unique reference
-    email: "user@example.com", // Replace with user's email
-    amount: 10000, // Amount in kobo (10000 kobo = 100 GHS)
-    publicKey: "YOUR_PAYSTACK_PUBLIC_KEY", // Replace with your Paystack public key
-    currency: "GHS", // Currency (Ghanaian Cedi)
-  };
+  // Function to generate a unique ID
+  const generateUniqueId = async () => {
+    try {
+      // Reference to the counter document
+      const counterRef = doc(db, "counters", "demoUploads");
 
-  const initializePayment = usePaystackPayment(config);
-  */
+      // Fetch the current counter value
+      const counterDoc = await getDoc(counterRef);
+      let count = counterDoc.exists() ? counterDoc.data().count : 0;
 
-  // Handle Paystack payment success (commented out for testing)
-  /*
-  const onPaymentSuccess = () => {
-    setIsPaymentSuccessful(true);
-    handleUpload(); // Start upload after payment
-  };
-  */
+      // Increment the counter
+      count += 1;
 
-  // Handle file input change
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // Check file type
-      if (!file.type.startsWith("video/")) {
-        setError("Please upload a valid video file.");
-        setVideoFile(null);
-        return;
-      }
+      // Update the counter in Firestore
+      await updateDoc(counterRef, { count });
 
-      // Check file size (20MB limit)
-      const fileSizeInMB = file.size / (1024 * 1024); // Convert bytes to MB
-      if (fileSizeInMB > 20) {
-        setError("File size must not exceed 20MB.");
-        setVideoFile(null);
-        return;
-      }
-
-      // If valid, set the file and clear any previous errors
-      setVideoFile(file);
-      setError("");
+      // Format the ID as NXTS/25-XXXXX
+      const paddedCount = String(count).padStart(5, "0");
+      return `NXTS/25-${paddedCount}`;
+    } catch (error) {
+      console.error("Error generating unique ID:", error);
+      throw error;
     }
   };
 
@@ -101,47 +83,58 @@ export default function UploadDemo() {
 
     setIsUploading(true);
 
-    // Create a reference to the storage location
-    const storageRef = ref(storage, `demos/${category}/${videoFile.name}`);
+    try {
+      // Generate a unique ID
+      const uniqueId = await generateUniqueId();
+      setGeneratedId(uniqueId); // Store the generated ID in state
 
-    // Upload the file
-    const uploadTask = uploadBytesResumable(storageRef, videoFile);
+      // Create a reference to the storage location
+      const storageRef = ref(storage, `demos/${category}/${videoFile.name}`);
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setUploadProgress(progress);
-      },
-      (error) => {
-        console.error("Upload failed:", error);
-        setError("Upload failed. Please try again.");
-        setIsUploading(false);
-      },
-      async () => {
-        // Upload completed successfully
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+      // Upload the file
+      const uploadTask = uploadBytesResumable(storageRef, videoFile);
 
-        // Save metadata to Firestore
-        try {
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadProgress(progress);
+        },
+        (error) => {
+          console.error("Upload failed:", error);
+          setError("Upload failed. Please try again.");
+          setIsUploading(false);
+        },
+        async () => {
+          // Upload completed successfully
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+          // Save metadata to Firestore
           await addDoc(collection(db, "demos"), {
+            id: uniqueId, // Save the generated ID
             fileName: videoFile.name,
             category: category,
             downloadURL: downloadURL,
-            timestamp: new Date(), // Optional: Add a timestamp
+            timestamp: new Date(),
           });
 
           setDownloadURL(downloadURL);
           setIsUploading(false);
+          setIsUploadComplete(true);
           alert("Upload successful! Thank you for submitting your demo.");
-        } catch (error) {
-          console.error("Error saving to Firestore:", error);
-          setError("Failed to save video details. Please try again.");
-          setIsUploading(false);
         }
-      }
-    );
+      );
+    } catch (error) {
+      console.error("Error during upload:", error);
+      setError("An error occurred. Please try again.");
+      setIsUploading(false);
+    }
+  };
+
+  // Function to navigate to the home page
+  const goToHomePage = () => {
+    navigate("/"); // Replace "/" with your home page route
   };
 
   return (
@@ -239,12 +232,12 @@ export default function UploadDemo() {
           </motion.div>
         )}
 
-        {/* Payment Button (commented out for testing) */}
+        {/* Payment Button */}
         {!isPaymentSuccessful && videoFile && !error && category && (
           <motion.div variants={fadeInUp} className="mt-8 text-center">
             <button
               className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300"
-              onClick={handleUpload} // Directly call handleUpload for testing
+              onClick={handleUpload}
             >
               Submit Demo
             </button>
@@ -262,15 +255,22 @@ export default function UploadDemo() {
           </motion.div>
         )}
 
-        {/* Success Message */}
-        {downloadURL && (
+        {/* Success Message and Go to Home Button */}
+        {isUploadComplete && (
           <motion.div
             variants={fadeInUp}
-            className="mt-8 text-center text-green-600"
+            className="mt-8 text-center"
           >
-            <p className="text-lg">
-              Your demo has been successfully submitted!
+            <p className="text-lg text-green-600 mb-4">
+              Your demo has been successfully submitted! Your ID is:{" "}
+              <strong>{generatedId}</strong>
             </p>
+            <button
+              className="px-8 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-blue-700 transition-colors duration-300"
+              onClick={goToHomePage}
+            >
+              Go to Home
+            </button>
           </motion.div>
         )}
       </motion.div>
