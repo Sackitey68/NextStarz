@@ -5,12 +5,14 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
+import Accordion from "../components/Faq.jsx";
 import Video from "../assets/Banner.mp4";
 import Picture from "../assets/banner.jpg";
+import Song from "../components/Song.jsx";
 
 export default function Main() {
   const [isPlaying, setIsPlaying] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0); // Track active slide index
+  const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef(null);
 
   const carouselItems = [
@@ -39,6 +41,7 @@ export default function Main() {
 
   return (
     <section className="group relative">
+      {/* Carousel Section */}
       <Swiper
         modules={[Pagination, Autoplay, Navigation]}
         spaceBetween={50}
@@ -60,7 +63,7 @@ export default function Main() {
         onAutoplayStop={() => setIsPlaying(false)}
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
-          setActiveIndex(swiper.realIndex); // Set initial active index
+          setActiveIndex(swiper.realIndex);
         }}
         className="relative w-full h-96 object-cover md:h-[45rem] rounded-lg"
       >
@@ -168,8 +171,7 @@ export default function Main() {
         <div className="swiper-button-prev !h-full !top-0 !left-0 !mt-0 !w-[50px] md:!w-[100px] opacity-0 group-hover:opacity-100 !transition-opacity !duration-300"></div>
         <div className="swiper-button-next !h-full !top-0 !right-0 !mt-0 !w-[50px] md:!w-[100px] opacity-0 group-hover:opacity-100 !transition-opacity !duration-300"></div>
       </Swiper>
+      <Song />
     </section>
   );
 }
-
-

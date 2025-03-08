@@ -5,6 +5,7 @@ import About from "../pages/About.jsx";
 import Login from "../pages/Login.jsx";
 import PageNotFound from "../pages/PageNotFound.jsx";
 import UploadDemo from "../pages/UploadDemo.jsx";
+import Faq from "../components/Faq.jsx";
 
 export default function AllRoutes() {
   return (
@@ -13,9 +14,10 @@ export default function AllRoutes() {
       <Route path="/about" element={<About />} />
       <Route path="/register" element={<Login />} />
       <Route path="/contact" element={<Contact />} />
-      <Route path="/faq" element={<PageNotFound />} />
+      <Route path="/faq" element={<Faq />} />
       <Route path="/login" element={<Login />} />
       <Route path="/uploaddemo" element={<UploadDemo />} />
+
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
