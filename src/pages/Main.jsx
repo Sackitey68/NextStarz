@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import Accordion from "../components/Faq.jsx";
+// import Accordion from "../components/Faq.jsx";
 import Video from "../assets/Banner.mp4";
 import Picture from "../assets/banner.jpg";
 import Song from "../components/Song.jsx";
@@ -65,7 +65,7 @@ export default function Main() {
           swiperRef.current = swiper;
           setActiveIndex(swiper.realIndex);
         }}
-        className="relative w-full h-96 object-cover md:h-[45rem] rounded-lg"
+        className="relative w-full h-full object-cover md:h-[45rem] rounded-lg"
       >
         {carouselItems.map((item, index) => (
           <SwiperSlide key={index}>
