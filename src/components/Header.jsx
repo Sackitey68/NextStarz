@@ -41,11 +41,11 @@ export default function Header() {
 
   return (
     <header>
-      {/* Reddish Background with Text */}
+      {/* purple Background with Text */}
       <div
-        className={`fixed inset-x-0 top-0 h-[4.45rem] flex items-center p-5 z-30 transform transition-all duration-500 ease-in-out ${
+        className={`fixed inset-x-0 top-0 h-[4.7rem] flex items-center p-5 z-30 transform transition-all duration-500 ease-in-out ${
           isScrolled ? "translate-y-0" : "-translate-y-full"
-        }`}
+        } md:block hidden`} // Added `lg:block hidden` to hide on screens smaller than lg (1024px)
         style={{
           background:
             "linear-gradient(to right, rgb(160, 32, 240), rgba(0, 0, 0, 1))",
@@ -57,7 +57,7 @@ export default function Header() {
         </p>
       </div>
 
-      <nav className="fixed w-full z-20 top-0 start-0">
+      <nav className="fixed w-full z-20 top-0 start-0 bg-bg-color">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
           {/* Logo and Nav Links Container */}
           <div className="flex items-center space-x-8">

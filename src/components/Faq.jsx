@@ -37,7 +37,7 @@ export default function FAQPage() {
         {
           question: "How can I register for NextStarz?",
           answer:
-            "You can register through our official website www.nextstarz.com. Fill out the online registration form, upload your audition file (if required), and complete any additional steps outlined.",
+            "Simply sign up or log in using your social media accounts. Click on Register to sign up or Login to access your account. Then, fill out the online form, upload your audition file (if required), and follow the steps to complete your registration.",
         },
         {
           question: "Is there a registration fee?",
@@ -208,8 +208,10 @@ export default function FAQPage() {
           {faqSections.map((section, sectionIndex) => (
             <div
               key={sectionIndex}
-              className={`bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-1000 ease-out ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`bg-white/10 backdrop-blur-lg p-8 border border-white/20 rounded-tl-lg rounded-bl-lg hover:shadow-xl transition-all duration-1000 ease-out ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${sectionIndex * 100}ms` }}
             >
@@ -226,7 +228,7 @@ export default function FAQPage() {
                       onClick={() =>
                         toggleAccordion(`${sectionIndex}-${index}`)
                       }
-                      className="w-full flex justify-between items-center p-4 bg-gray-700 hover:bg-gray-600 focus:outline-none transition-colors duration-200"
+                      className="w-full flex justify-between items-center p-4 bg-white/10 hover:bg-cyan-700 focus:outline-none transition-colors duration-200"
                     >
                       <span className="text-lg font-medium text-gray-100 text-left">
                         {faq.question}
@@ -238,7 +240,7 @@ export default function FAQPage() {
                             : ""
                         }`}
                         fill="none"
-                        stroke="currentColor"
+                        stroke="white"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -257,7 +259,7 @@ export default function FAQPage() {
                           : "max-h-0 opacity-0"
                       }`}
                     >
-                      <p className="p-4 bg-gray-700 text-gray-300 whitespace-pre-line">
+                      <p className="p-4 bg-white/10 text-gray-200 whitespace-pre-line ">
                         {faq.answer}
                       </p>
                     </div>
