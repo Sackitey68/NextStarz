@@ -1,13 +1,27 @@
 import { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom"; // Import Link and NavLink
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // Firebase Auth
 import Logo from "../assets/Logo.png";
 
 export default function Header() {
-  // State to manage mobile menu visibility
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // State to manage scroll behavior
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSignedUp, setIsSignedUp] = useState(false); // Track sign-up status
+  const navigate = useNavigate();
+  const auth = getAuth(); // Firebase Auth instance
+
+  // Track authentication state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsSignedUp(true); // User is signed in
+      } else {
+        setIsSignedUp(false); // User is signed out
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup subscription
+  }, [auth]);
 
   // Toggle mobile menu
   const toggleMenu = () => {
@@ -39,13 +53,22 @@ export default function Header() {
     };
   }, []);
 
+  // Handle button click
+  const handleButtonClick = () => {
+    if (isSignedUp) {
+      navigate("/upload-demo"); // Redirect to Upload Demo page
+    } else {
+      navigate("/register"); // Redirect to Register page
+    }
+  };
+
   return (
     <header>
-      {/* purple Background with Text */}
+      {/* Purple Background with Text */}
       <div
         className={`fixed inset-x-0 top-0 h-[4.7rem] flex items-center p-5 z-30 transform transition-all duration-500 ease-in-out ${
           isScrolled ? "translate-y-0" : "-translate-y-full"
-        } md:block hidden`} // Added `lg:block hidden` to hide on screens smaller than lg (1024px)
+        } md:block hidden`}
         style={{
           background:
             "linear-gradient(to right, rgb(160, 32, 240), rgba(0, 0, 0, 1))",
@@ -135,15 +158,18 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Sign Up Button */}
+          {/* Sign Up / Upload Demo Button */}
           <div
             className={`flex items-center space-x-3 md:space-x-0 ${
               isMenuOpen ? "hidden" : "block"
             }`}
           >
-            <button className="relative inline-flex items-center max-sm:hidden justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-xl group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-gray-300 focus:ring-2 focus:outline-none focus:ring-hover-color">
+            <button
+              onClick={handleButtonClick}
+              className="relative inline-flex items-center max-sm:hidden justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-xl group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-gray-300 focus:ring-2 focus:outline-none focus:ring-hover-color"
+            >
               <span className="relative px-3 py-1.5 md:px-5 md:py-2.5 transition-all ease-in duration-75 bg-gray-300 rounded-md group-hover:bg-transparent uppercase">
-                sign up
+                {isSignedUp ? "Upload Demo" : "Sign Up"}
               </span>
             </button>
 
@@ -283,11 +309,14 @@ export default function Header() {
                 </NavLink>
               </li>
 
-              {/* Sign Up Button in Mobile Menu */}
+              {/* Sign Up / Upload Demo Button in Mobile Menu */}
               <li>
-                <button className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-white rounded-xl group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-gray-300 focus:ring-2 focus:outline-none focus:ring-hover-color">
+                <button
+                  onClick={handleButtonClick}
+                  className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-white rounded-xl group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-gray-300 focus:ring-2 focus:outline-none focus:ring-hover-color"
+                >
                   <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-transparent rounded-md group-hover:bg-transparent uppercase">
-                    sign up
+                    {isSignedUp ? "Upload Demo" : "Sign Up"}
                   </span>
                 </button>
               </li>
