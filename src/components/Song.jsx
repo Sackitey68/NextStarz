@@ -27,16 +27,16 @@ export default function Song() {
       {/* Song Section */}
       <div className="max-w-7xl mx-auto mt-16 px-4">
         <h2 className="text-3xl font-bold text-center mb-8 text-gray-300">
-          🎵 Featured Song 🎵
+          🎵 Soundtrack 🎵
         </h2>
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg overflow-hidden p-6">
           <div className="flex flex-col items-center text-center">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Song Title 🎶
+            <h3 className="text-2xl font-bold text-white mb-4 ">
+              Shine Like a Star 
+              <p className="text-xl text-neutral-900">By Diojo</p> 
             </h3>
             <p className="text-gray-200 mb-6">
-              Listen to our latest hit song on your favorite streaming platform!
-              🎧✨
+              Listen to the official soundtrack for NextStarz Season 1
             </p>
 
             {/* Streaming Platform Links */}
@@ -59,7 +59,7 @@ export default function Song() {
 
             {/* Fun Message */}
             <p className="text-gray-200 mt-6">
-              Tap the icons above to start streaming! 🚀
+              Click on any of the icons above to stream 🎧
             </p>
           </div>
         </div>

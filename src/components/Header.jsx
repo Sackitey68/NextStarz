@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth"; // Firebase Auth
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { FaUpload } from "react-icons/fa"; // Import the upload icon
 import Logo from "../assets/Logo.png";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isSignedUp, setIsSignedUp] = useState(false); // Track sign-up status
+  const [isSignedUp, setIsSignedUp] = useState(false);
   const navigate = useNavigate();
   const auth = getAuth(); // Firebase Auth instance
 
@@ -20,7 +21,7 @@ export default function Header() {
       }
     });
 
-    return () => unsubscribe(); // Cleanup subscription
+    return () => unsubscribe();
   }, [auth]);
 
   // Toggle mobile menu
@@ -56,7 +57,7 @@ export default function Header() {
   // Handle button click
   const handleButtonClick = () => {
     if (isSignedUp) {
-      navigate("/upload-demo"); // Redirect to Upload Demo page
+      navigate("/uploaddemo"); // Redirect to Upload Demo page
     } else {
       navigate("/register"); // Redirect to Register page
     }
@@ -168,8 +169,15 @@ export default function Header() {
               onClick={handleButtonClick}
               className="relative inline-flex items-center max-sm:hidden justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-xl group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-gray-300 focus:ring-2 focus:outline-none focus:ring-hover-color"
             >
-              <span className="relative px-3 py-1.5 md:px-5 md:py-2.5 transition-all ease-in duration-75 bg-gray-300 rounded-md group-hover:bg-transparent uppercase">
-                {isSignedUp ? "Upload Demo" : "Sign Up"}
+              <span className="relative px-3 py-1.5 md:px-5 md:py-2.5 transition-all ease-in duration-75 bg-gray-300 rounded-md group-hover:bg-transparent uppercase flex items-center space-x-2">
+                {isSignedUp ? (
+                  <>
+                    <FaUpload className="animate-bounce" /> {/* Upload Icon */}
+                    <span>Upload</span> {/* Upload Text */}
+                  </>
+                ) : (
+                  "Sign Up"
+                )}
               </span>
             </button>
 
@@ -315,8 +323,15 @@ export default function Header() {
                   onClick={handleButtonClick}
                   className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-white rounded-xl group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-gray-300 focus:ring-2 focus:outline-none focus:ring-hover-color"
                 >
-                  <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-transparent rounded-md group-hover:bg-transparent uppercase">
-                    {isSignedUp ? "Upload Demo" : "Sign Up"}
+                  <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-transparent rounded-md group-hover:bg-transparent uppercase flex items-center space-x-2">
+                    {isSignedUp ? (
+                      <>
+                        <FaUpload className="animate-bounce" />
+                        <span>Upload</span> 
+                      </>
+                    ) : (
+                      "Sign Up"
+                    )}
                   </span>
                 </button>
               </li>

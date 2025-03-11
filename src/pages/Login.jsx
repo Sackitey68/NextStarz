@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -8,12 +8,16 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 import {
   GoogleAuthProvider,
+  FacebookAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase"; // Ensure Firebase is initialized
 import { FcGoogle } from "react-icons/fc";
+import { FaFacebook, FaApple, FaArrowLeft } from "react-icons/fa"; // Added Apple and Back icons
 
 // Import your images for the slider
 import Image1 from "../assets/slider1.jpg";
@@ -47,7 +51,22 @@ export default function Login() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showEmailForm, setShowEmailForm] = useState(false); // Toggle email/password form
+  const [user, setUser] = useState(null); // Track user authentication state
   const navigate = useNavigate(); // Initialize useNavigate
+
+  // Track authentication state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user); // Set user if logged in
+      } else {
+        setUser(null); // Clear user if logged out
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup subscription
+  }, []);
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -61,26 +80,10 @@ export default function Login() {
         await signInWithEmailAndPassword(auth, email, password);
       } else {
         // Register with email and password
-        const username = e.target.username.value;
-
-        // Create user with email and password
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-        // Save additional user details (e.g., username) to Firestore or another database
-        const user = userCredential.user;
-        console.log("User registered:", user);
+        await createUserWithEmailAndPassword(auth, email, password);
       }
       setIsSubmitted(true);
       setIsError(false);
-
-      // Wait for 1 second before redirecting
-      setTimeout(() => {
-        navigate("/uploaddemo"); // Use navigate to redirect
-      }, 1000); // 1000 milliseconds = 1 second
     } catch (error) {
       setIsError(true);
       setErrorMessage(error.message);
@@ -94,14 +97,38 @@ export default function Login() {
       await signInWithPopup(auth, provider);
       setIsSubmitted(true);
       setIsError(false);
-
-      // Wait for 2 second before redirecting
-      setTimeout(() => {
-        navigate("/uploaddemo"); // Use navigate to redirect
-      }, 2000); // 1000 milliseconds = 1 second
     } catch (error) {
       setIsError(true);
       setErrorMessage(error.message);
+    }
+  };
+
+  // Handle Facebook login
+  const handleFacebookLogin = async () => {
+    const provider = new FacebookAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      setIsSubmitted(true);
+      setIsError(false);
+    } catch (error) {
+      setIsError(true);
+      setErrorMessage(error.message);
+    }
+  };
+
+  // Handle Apple login (Placeholder for now)
+  const handleAppleLogin = async () => {
+    alert("Apple login is not implemented yet.");
+  };
+
+  // Handle logout
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      console.log("User signed out successfully");
+      navigate("/login"); // Redirect to login page after logout
+    } catch (error) {
+      console.error("Error signing out: ", error);
     }
   };
 
@@ -132,174 +159,176 @@ export default function Login() {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeInUp}
-          className="bg-white/10 backdrop-blur-lg transition-all duration-300 p-8 border border-white/20 rounded-tl-lg rounded-bl-lg"
+          className="bg-white/10 backdrop-blur-lg transition-all duration-300 p-8 border border-white/20 rounded-tl-lg rounded-bl-lg relative"
         >
+          {/* Fancy Back Arrow (Visible when email form is shown) */}
+          {showEmailForm && (
+            <motion.div
+              variants={fadeInUp}
+              className="absolute top-4 left-4 cursor-pointer"
+              onClick={() => setShowEmailForm(false)}
+            >
+              <FaArrowLeft className="text-gray-300 w-8 h-8 hover:text-gray-400 transition-colors duration-300" />
+            </motion.div>
+          )}
+
           {/* Form Title */}
           <h2 className="text-2xl font-bold text-center mb-6 text-gray-300">
-            {isLogin ? "Login" : "Sign Up"}
+            SIGN UP OR LOGIN TO NEXTSTARZ
           </h2>
 
-          {/* Form */}
-          <motion.form
-            onSubmit={handleSubmit}
-            variants={staggerContainer}
-            className="space-y-6"
-          >
-            {/* Email Field */}
-            <motion.div variants={fadeInUp} className="space-y-2">
-              <label className="block text-md font-medium text-gray-300">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
-                required
-              />
-            </motion.div>
-
-            {/* Password Field */}
-            <motion.div variants={fadeInUp} className="space-y-2">
-              <label className="block text-md font-medium text-gray-300">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
-                required
-              />
-            </motion.div>
-
-            {/* Username Field (Only for Sign Up) */}
-            {!isLogin && (
-              <motion.div variants={fadeInUp} className="space-y-2">
-                <label className="block text-md font-medium text-gray-300">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Enter your username"
-                  className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
-                  required
-                />
-              </motion.div>
-            )}
-
-            {/* Remember Me and Forgot Password (Only for Login) */}
-            {isLogin && (
-              <>
-                <motion.div
-                  variants={fadeInUp}
-                  className="flex justify-between items-center"
+          {/* Social Login Buttons */}
+          {!showEmailForm && (
+            <motion.div
+              variants={staggerContainer}
+              className="space-y-4 max-w-md mx-auto" // Centered and max width
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.div variants={fadeInUp} className="text-center">
+                <button
+                  onClick={handleGoogleLogin}
+                  className="w-full px-8 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-300 flex items-center justify-center space-x-2"
                 >
-                  <div className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="rememberMe"
-                      className="w-4 h-4 rounded border-gray-300"
-                    />
-                    <label className="ml-2 text-sm text-gray-300">
-                      Remember Me
-                    </label>
-                  </div>
-                  <a
-                    href="#"
-                    className="text-sm text-blue-500 hover:text-blue-700"
-                  >
-                    Forgot Password?
-                  </a>
-                </motion.div>
-              </>
-            )}
+                  <FcGoogle className="w-6 h-6" />
+                  <span className="text-sm text-gray-700">
+                    Continue with Google
+                  </span>
+                </button>
+              </motion.div>
 
-            {/* Submit Button */}
-            <motion.div variants={fadeInUp} className="text-center">
-              <button
-                type="submit"
+              <motion.div variants={fadeInUp} className="text-center">
+                <button
+                  onClick={handleFacebookLogin}
+                  className="w-full px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center space-x-2"
+                >
+                  <FaFacebook className="w-6 h-6" />
+                  <span className="text-sm">Continue with Facebook</span>
+                </button>
+              </motion.div>
+
+              <motion.div variants={fadeInUp} className="text-center">
+                <button
+                  onClick={handleAppleLogin}
+                  className="w-full px-8 py-3 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors duration-300 flex items-center justify-center space-x-2"
+                >
+                  <FaApple className="w-6 h-6" />
+                  <span className="text-sm">Continue with Apple</span>
+                </button>
+              </motion.div>
+
+              <motion.div variants={fadeInUp} className="text-center">
+                <button
+                  onClick={() => setShowEmailForm(true)}
+                  className="w-full px-8 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-300"
+                >
+                  Continue with Email
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+
+          {/* Email/Password Form */}
+          <AnimatePresence>
+            {showEmailForm && (
+              <motion.form
+                onSubmit={handleSubmit}
+                variants={fadeInUp}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                className="space-y-6 max-w-md mx-auto" // Centered and max width
+              >
+                {/* Email Field */}
+                <motion.div variants={fadeInUp} className="space-y-2">
+                  <label className="block text-md font-medium text-gray-300">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
+                    required
+                  />
+                </motion.div>
+
+                {/* Password Field */}
+                <motion.div variants={fadeInUp} className="space-y-2">
+                  <label className="block text-md font-medium text-gray-300">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
+                    required
+                  />
+                </motion.div>
+
+                {/* Submit Button */}
+                <motion.div variants={fadeInUp} className="text-center">
+                  <button
+                    type="submit"
+                    className="w-full px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+                  >
+                    {isLogin ? "Login" : "Sign Up"}
+                  </button>
+                </motion.div>
+              </motion.form>
+            )}
+          </AnimatePresence>
+
+          {/* Success Message with Musical Emojis and Animated Button */}
+          {isSubmitted && (
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
+              className="mt-4 p-4 bg-green-600 text-gray-100 rounded-lg flex flex-col items-center justify-center space-y-4"
+            >
+              <div className="flex items-center space-x-2">
+                <span role="img" aria-label="star" className="text-2xl">
+                  🌟
+                </span>
+                <span
+                  role="img"
+                  aria-label="musical notes"
+                  className="text-2xl"
+                >
+                  🎶
+                </span>
+                <span role="img" aria-label="star" className="text-2xl">
+                  🌟
+                </span>
+              </div>
+              <p className="text-center">Login Successful!</p>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate("/uploaddemo")}
                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
               >
-                {isLogin ? "Login" : "Sign Up"}
-              </button>
+                Go to Upload Demo
+              </motion.button>
             </motion.div>
+          )}
 
-            {/* Success/Error Message */}
-            {isSubmitted && (
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={fadeIn}
-                className="mt-4 p-4 bg-green-600 text-gray-100 rounded-lg"
-              >
-                {isLogin ? "Login successful!" : "Registration successful!"}
-              </motion.div>
-            )}
-            {isError && (
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={fadeIn}
-                className="mt-4 p-4 bg-red-600 text-gray-100 rounded-lg"
-              >
-                {errorMessage}
-              </motion.div>
-            )}
-          </motion.form>
-
-          {/* Divider with "Or continue with" */}
-          <motion.div
-            variants={fadeInUp}
-            className="flex items-center my-6 space-x-4"
-          >
-            <div className="flex-1 h-px bg-gray-300"></div>
-            <span className="text-sm text-gray-300">Or continue with</span>
-            <div className="flex-1 h-px bg-gray-300"></div>
-          </motion.div>
-
-          {/* Google Button */}
-          <motion.div
-            variants={fadeInUp}
-            className="flex justify-center space-x-4"
-          >
-            <button
-              onClick={handleGoogleLogin}
-              className="py-3 px-[20%] bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-300 flex items-center space-x-2"
+          {/* Error Message with Animated Frown Emoji */}
+          {isError && (
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
+              className="mt-4 p-4 bg-red-600 text-gray-100 rounded-lg flex items-center justify-center space-x-2"
             >
-              <FcGoogle className="w-6 h-6" />
-              <span className="text-sm text-gray-700">Google</span>
-            </button>
-          </motion.div>
-
-          {/* Toggle Between Login and Sign Up */}
-          <motion.div
-            variants={fadeInUp}
-            className="text-center mt-6 text-gray-300"
-          >
-            {isLogin ? (
-              <p>
-                Need an account?{" "}
-                <button
-                  onClick={() => setIsLogin(false)}
-                  className="text-blue-500 hover:text-blue-700"
-                >
-                  Sign Up
-                </button>
-              </p>
-            ) : (
-              <p>
-                Already have an account?{" "}
-                <button
-                  onClick={() => setIsLogin(true)}
-                  className="text-blue-500 hover:text-blue-700"
-                >
-                  Login
-                </button>
-              </p>
-            )}
-          </motion.div>
+              <span role="img" aria-label="frown" className="animate-bounce">
+                😞
+              </span>
+              <span>{errorMessage}</span>
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Image Slider */}
@@ -344,6 +373,25 @@ export default function Login() {
           <div className="swiper-pagination absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10"></div>
         </motion.div>
       </div>
+
+      {/* Logout Button at the Bottom-Right Corner (Visible after successful login) */}
+      {user && (
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+          className="fixed bottom-4 right-4"
+        >
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition-colors duration-300 flex items-center space-x-2"
+          >
+            <span role="img" aria-label="logout" className="text-lg">
+              Logout
+            </span>
+          </button>
+        </motion.div>
+      )}
     </div>
   );
 }
