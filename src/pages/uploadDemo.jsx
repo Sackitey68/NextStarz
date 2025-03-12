@@ -20,6 +20,7 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { usePaystackPayment } from "react-paystack";
 
 // Animation variants
 const staggerContainer = {
@@ -46,7 +47,7 @@ export default function UploadDemo() {
   const [videoFile, setVideoFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
-  const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
+  const [isPaymentComplete, setIsPaymentComplete] = useState(false);
   const [downloadURL, setDownloadURL] = useState("");
   const [error, setError] = useState("");
   const [category, setCategory] = useState("");
@@ -54,49 +55,64 @@ export default function UploadDemo() {
   const [generatedId, setGeneratedId] = useState("");
   const navigate = useNavigate();
 
+  // Paystack configuration
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  const config = {
+    reference: `NEXTSTAR_${new Date().getTime()}`, // Unique reference for each payment
+    email: user?.email || "user@example.com", // Use the logged-in user's email
+    amount: 10000, // 100 GHC in kobo (10000 kobo = 100 GHC)
+    publicKey: "pk_test_1a67487abb41a3b18b77ebbbba37c03933835018",
+    currency: "GHS",
+  };
+
+  // Initialize Paystack payment
+  const initializePayment = usePaystackPayment(config);
+
+  // Payment success handler
+  const onSuccess = (reference) => {
+    console.log("Payment successful:", reference);
+    setIsPaymentComplete(true); // Mark payment as complete
+    setError(""); // Clear any previous errors
+  };
+  
+
+  // Payment close handler
+  const onClose = () => {
+    console.log("Payment closed");
+    setError("Payment was not completed. Please try again.");
+  };
+
   // Handle file input change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Check file type
       if (!file.type.startsWith("video/")) {
         setError("🚫 Oops! Please upload a valid video file.");
         setVideoFile(null);
         return;
       }
 
-      // Check file size (20MB limit)
-      const fileSizeInMB = file.size / (1024 * 1024); // Convert bytes to MB
+      const fileSizeInMB = file.size / (1024 * 1024);
       if (fileSizeInMB > 20) {
         setError("🚫 File size must not exceed 20MB.");
         setVideoFile(null);
         return;
       }
 
-      // If valid, set the file and clear any previous errors
       setVideoFile(file);
       setError("");
     }
   };
 
-  // Generate unique ID
-  const generateUniqueId = async () => {
-    try {
-      const counterRef = doc(db, "counters", "demoUploads");
-      const counterDoc = await getDoc(counterRef);
-      let count = counterDoc.exists() ? counterDoc.data().count : 0;
-      count += 1;
-      await updateDoc(counterRef, { count });
-      const paddedCount = String(count).padStart(5, "0");
-      return `NXTS/25-${paddedCount}`;
-    } catch (error) {
-      console.error("Error generating unique ID:", error);
-      throw error;
-    }
-  };
-
   // Handle video upload
   const handleUpload = async () => {
+    if (!isPaymentComplete) {
+      setError("🚫 Please complete the payment to proceed with the upload.");
+      return;
+    }
+
     if (!videoFile) {
       setError("🚫 Please select a video file first.");
       return;
@@ -110,7 +126,6 @@ export default function UploadDemo() {
     setIsUploading(true);
 
     try {
-      // Get the currently logged-in user
       const auth = getAuth();
       const user = auth.currentUser;
 
@@ -120,30 +135,15 @@ export default function UploadDemo() {
         return;
       }
 
-      const email = user.email; // User's email
-
-      // Check if the user has already submitted a demo
-      const demosCollection = collection(db, "demos");
-      const querySnapshot = await getDocs(
-        query(demosCollection, where("userEmail", "==", email))
-      );
-
-      if (!querySnapshot.empty) {
-        setError("🚫 You have already submitted a demo.");
-        setIsUploading(false);
-        return;
-      }
-
-      const username = user.displayName || "Anonymous"; // Use "Anonymous" if displayName is not set
+      const email = user.email;
+      const username = user.displayName || "Anonymous";
 
       // Generate a unique ID
       const uniqueId = await generateUniqueId();
       setGeneratedId(uniqueId);
 
-      // Create a reference to the storage location
+      // Upload the file to Firebase Storage
       const storageRef = ref(storage, `demos/${category}/${videoFile.name}`);
-
-      // Upload the file
       const uploadTask = uploadBytesResumable(storageRef, videoFile);
 
       uploadTask.on(
@@ -159,7 +159,6 @@ export default function UploadDemo() {
           setIsUploading(false);
         },
         async () => {
-          // Upload completed successfully
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
           // Save metadata to Firestore
@@ -183,6 +182,22 @@ export default function UploadDemo() {
       console.error("Error during upload:", error);
       setError("🚫 An error occurred. Please try again.");
       setIsUploading(false);
+    }
+  };
+
+  // Generate unique ID
+  const generateUniqueId = async () => {
+    try {
+      const counterRef = doc(db, "counters", "demoUploads");
+      const counterDoc = await getDoc(counterRef);
+      let count = counterDoc.exists() ? counterDoc.data().count : 0;
+      count += 1;
+      await updateDoc(counterRef, { count });
+      const paddedCount = String(count).padStart(5, "0");
+      return `NXTS/25-${paddedCount}`;
+    } catch (error) {
+      console.error("Error generating unique ID:", error);
+      throw error;
     }
   };
 
@@ -286,14 +301,26 @@ export default function UploadDemo() {
           </motion.div>
         )}
 
-        {/* Submit Button */}
-        {!isPaymentSuccessful && videoFile && !error && category && (
+        {/* Paystack Payment Button */}
+        {!isPaymentComplete && videoFile && !error && category && (
           <motion.div variants={fadeInUp} className="mt-8 text-center">
             <button
               className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300"
+              onClick={() => initializePayment(onSuccess, onClose)}
+            >
+              💳 Pay GHC 100 to Submit
+            </button>
+          </motion.div>
+        )}
+
+        {/* Upload Button (Visible After Payment) */}
+        {isPaymentComplete && !isUploading && !isUploadComplete && (
+          <motion.div variants={fadeInUp} className="mt-8 text-center">
+            <button
+              className="px-8 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-blue-700 transition-colors duration-300"
               onClick={handleUpload}
             >
-              🔥 Ready to shine? Submit now!
+              📤 Upload Your Video
             </button>
           </motion.div>
         )}

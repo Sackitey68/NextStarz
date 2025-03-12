@@ -1,31 +1,31 @@
-import { FaSpotify } from "react-icons/fa"; // Import Spotify icon from React Icons
-import AudiomackIcon from "../assets/icons/audiomack.svg"; // Import Audiomack SVG
-import BoomplayIcon from "../assets/icons/boomplay.svg"; // Import Boomplay SVG
+import { FaSpotify } from "react-icons/fa"; 
+import AudiomackIcon from "../assets/icons/audiomack.svg"; 
+import BoomplayIcon from "../assets/icons/boomplay.svg"; 
 
 export default function Song() {
   // Streaming platform links
   const streamingLinks = [
     {
       platform: "Spotify",
-      icon: <FaSpotify className="text-2xl text-green-500" />, // Spotify icon
-      link: "https://open.spotify.com/track/your-song-id", // Replace with your Spotify link
+      icon: <FaSpotify className="text-2xl text-green-500" />, 
+      link: "https://open.spotify.com/track/your-song-id", 
     },
     {
       platform: "Audiomack",
-      icon: <img src={AudiomackIcon} alt="Audiomack" className="w-6 h-6" />, // Audiomack icon
-      link: "https://audiomack.com/your-song-link", // Replace with your Audiomack link
+      icon: <img src={AudiomackIcon} alt="Audiomack" className="w-6 h-6" />, 
+      link: "https://audiomack.com/your-song-link", 
     },
     {
       platform: "Boomplay",
-      icon: <img src={BoomplayIcon} alt="Boomplay" className="w-6 h-6" />, // Boomplay icon
-      link: "https://www.boomplay.com/your-song-link", // Replace with your Boomplay link
+      icon: <img src={BoomplayIcon} alt="Boomplay" className="w-6 h-6" />,
+      link: "https://www.boomplay.com/your-song-link",
     },
   ];
 
   return (
     <>
       {/* Song Section */}
-      <div className="max-w-7xl mx-auto mt-16 px-4">
+      <div className="max-w-7xl mx-auto mt-16 px-4 mb-24">
         <h2 className="text-3xl font-bold text-center mb-8 text-gray-300">
           🎵 Soundtrack 🎵
         </h2>

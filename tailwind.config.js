@@ -11,6 +11,15 @@ export default {
       fontFamily: {
         inter: ["Inter", "serif"],
       },
+      animation: {
+        soundwave: "soundwave 1.2s ease-in-out infinite",
+      },
+      keyframes: {
+        soundwave: {
+          "0%, 100%": { transform: "scaleY(1)" },
+          "50%": { transform: "scaleY(0.3)" },
+        },
+      },
     },
   },
   plugins: [],
