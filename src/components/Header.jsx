@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { FaUpload } from "react-icons/fa"; // Import the upload icon
+import { FaUpload } from "react-icons/fa";
 import Logo from "../assets/Logo.png";
 
 export default function Header() {
@@ -9,15 +9,15 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSignedUp, setIsSignedUp] = useState(false);
   const navigate = useNavigate();
-  const auth = getAuth(); // Firebase Auth instance
+  const auth = getAuth();
 
   // Track authentication state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsSignedUp(true); // User is signed in
+        setIsSignedUp(true);
       } else {
-        setIsSignedUp(false); // User is signed out
+        setIsSignedUp(false);
       }
     });
 
@@ -56,6 +56,7 @@ export default function Header() {
 
   // Handle button click
   const handleButtonClick = () => {
+    toggleMenu(); // Close the mobile menu
     if (isSignedUp) {
       navigate("/uploaddemo"); // Redirect to Upload Demo page
     } else {
@@ -327,7 +328,7 @@ export default function Header() {
                     {isSignedUp ? (
                       <>
                         <FaUpload className="animate-bounce" />
-                        <span>Upload</span> 
+                        <span>Upload</span>
                       </>
                     ) : (
                       "Sign Up"
