@@ -20,6 +20,9 @@ export default {
           "50%": { transform: "scaleY(0.3)" },
         },
       },
+      transitionDuration: {
+        800: "800ms",
+      },
     },
   },
   plugins: [],
