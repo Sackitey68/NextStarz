@@ -56,7 +56,6 @@ export default function Header() {
 
   // Handle button click
   const handleButtonClick = () => {
-    toggleMenu(); // Close the mobile menu
     if (isSignedUp) {
       navigate("/uploaddemo"); // Redirect to Upload Demo page
     } else {
@@ -252,7 +251,7 @@ export default function Header() {
                         : ""
                     }`
                   }
-                  onClick={toggleMenu}
+                  onClick={toggleMenu} // Close menu on click
                 >
                   Home
                 </NavLink>
@@ -267,7 +266,7 @@ export default function Header() {
                         : ""
                     }`
                   }
-                  onClick={toggleMenu}
+                  onClick={toggleMenu} // Close menu on click
                 >
                   About
                 </NavLink>
@@ -282,7 +281,7 @@ export default function Header() {
                         : ""
                     }`
                   }
-                  onClick={toggleMenu}
+                  onClick={toggleMenu} // Close menu on click
                 >
                   Register
                 </NavLink>
@@ -297,7 +296,7 @@ export default function Header() {
                         : ""
                     }`
                   }
-                  onClick={toggleMenu}
+                  onClick={toggleMenu} // Close menu on click
                 >
                   Contact
                 </NavLink>
@@ -312,7 +311,7 @@ export default function Header() {
                         : ""
                     }`
                   }
-                  onClick={toggleMenu}
+                  onClick={toggleMenu} // Close menu on click
                 >
                   FAQ
                 </NavLink>
@@ -321,7 +320,7 @@ export default function Header() {
               {/* Sign Up / Upload Demo Button in Mobile Menu */}
               <li>
                 <button
-                  onClick={handleButtonClick}
+                  onClick={handleButtonClick} // Only navigate, no toggleMenu
                   className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-white rounded-xl group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-gray-300 focus:ring-2 focus:outline-none focus:ring-hover-color"
                 >
                   <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-transparent rounded-md group-hover:bg-transparent uppercase flex items-center space-x-2">

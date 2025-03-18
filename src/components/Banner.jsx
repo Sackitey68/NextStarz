@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
@@ -12,12 +13,34 @@ export default function Banner() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef(null);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const carouselItems = [
     {
       type: "video",
       src: Video,
-      text: "Welcome to the ultimate Talent Hunt!",
+      text: (
+        <div className="flex flex-col items-center justify-center h-full px-4">
+          {/* Main Text */}
+          <h1 className="text-4xl md:text-6xl font-bold text-center text-gray-200 mb-10 animate-fade-in">
+            Welcome to the ultimate Talent Hunt!
+          </h1>
+
+          {/* Bottom Text and Button */}
+          <div className="text-center space-y-4">
+            <p className="text-xl md:text-2xl font-semibold text-gray-200">
+              Your time is now! Enter NextStarz for a chance to become the next
+              big star!
+            </p>
+            <button
+              onClick={() => navigate("/login")}
+              className="px-8  py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-gray-200 rounded-md  transition-all duration-300 font-semibold"
+            >
+              Enter Now
+            </button>
+          </div>
+        </div>
+      ),
     },
     {
       type: "image",
@@ -25,7 +48,7 @@ export default function Banner() {
       text: (
         <div className="flex flex-col items-center justify-center h-full px-4">
           {/* Top Text */}
-          <h2 className="text-2xl md:text-4xl font-bold text-center my-8 text-primary-color" >
+          <h2 className="text-2xl md:text-4xl font-bold text-center my-8 text-primary-color">
             OPEN TO ALL WORLDWIDE!
           </h2>
 
@@ -41,7 +64,8 @@ export default function Banner() {
 
           {/* Bottom Text */}
           <p className="text-lg md:text-xl text-center mt-24 md:mt-32 text-primary-color">
-            MUSIC RECORDING DEALS | MANAGEMENT DEAL | INTERNATIONAL DISTRIBUTION | MEDIA EXPOSURE | FULLY SPONSORED TRIP TO DUBAI, ETC…
+            MUSIC RECORDING DEAL | MANAGEMENT DEAL | INTERNATIONAL DISTRIBUTION
+            | MEDIA EXPOSURE | FULLY SPONSORED TRIP TO DUBAI, ETC…
           </p>
         </div>
       ),
@@ -58,7 +82,7 @@ export default function Banner() {
   }, []);
 
   return (
-    <div className="animate-section opacity-0 translate-y-20 transition-all duration-800 ease-out">
+    <div className="animate-section opacity-0 translate-y-20 transition-all duration-800 ease-out group">
       <Swiper
         modules={[Pagination, Autoplay, Navigation]}
         spaceBetween={50}
@@ -178,8 +202,8 @@ export default function Banner() {
         </div>
 
         {/* Custom Navigation Buttons */}
-        <div className="swiper-button-prev !h-full !top-0 !left-0 !mt-0 !w-[50px] md:!w-[100px] opacity-0 group-hover:opacity-100 !transition-opacity !duration-300"></div>
-        <div className="swiper-button-next !h-full !top-0 !right-0 !mt-0 !w-[50px] md:!w-[100px] opacity-0 group-hover:opacity-100 !transition-opacity !duration-300"></div>
+        <div className="swiper-button-prev !h-full !top-0 !left-0 !mt-0 !w-[30px] md:!w-[50px] opacity-0 group-hover:opacity-100 !transition-opacity !duration-300"></div>
+        <div className="swiper-button-next !h-full !top-0 !right-0 !mt-0 !w-[30px] md:!w-[50px] opacity-0 group-hover:opacity-100 !transition-opacity !duration-300"></div>
       </Swiper>
     </div>
   );

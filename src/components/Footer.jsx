@@ -170,7 +170,7 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
             <div className="flex space-x-6 md:flex-col md:items-center md:justify-center md:space-x-0 md:space-y-5 md:ml-5 lg:flex-row lg:space-x-6 lg:items-center lg:justify-center lg:space-y-0 lg:mr-20">
               <a
-                href="https://tiktok.com"
+                href="https://www.tiktok.com/@nextstarz2"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-pink-500 transition-all duration-300"
@@ -180,7 +180,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/NextStarzOfficial"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-pink-500 transition-all duration-300"
@@ -190,7 +190,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://twitter.com"
+                href="https://x.com/NextStarz2"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-pink-500 transition-all duration-300"
@@ -200,7 +200,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://youtube.com"
+                href="https://www.youtube.com/@NextStarzOfficial"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-pink-500 transition-all duration-300"
@@ -210,7 +210,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://facebook.com"
+                href="https://web.facebook.com/nextstarzglobal/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-pink-500 transition-all duration-300"
@@ -261,9 +261,10 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                Phone:{" "}
+                Whatsapp:{" "}
                 <a
-                  href="tel:+233534886377"
+                  href="https://api.whatsapp.com/send?phone=233534886377"
+                  target="_blank"
                   className="hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-4"
                 >
                   +233 534 886 377
@@ -282,8 +283,13 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
           <p>&copy; 2025 Suede Entertainment. All Rights Reserved</p>
           <p className="mt-4 md:mt-0">
-            Join the Conversation:{" "}
-            <span className="text-pink-500">#NextStarz2025</span>
+            Join our whatsapp Community:{" "}
+            <a
+              href="https://chat.whatsapp.com/HUthrXOegbIHo3MxGYvUcL" target="_blank"
+              className="text-hover-color hover:font-bold transition duration-300 hover:underline hover:underline-offset-4"
+            >
+              NextStarz✨
+            </a>
           </p>
         </div>
       </div>
