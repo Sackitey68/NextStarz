@@ -1,16 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import {
-  collection,
-  addDoc,
-  doc,
-  getDoc,
-  updateDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { storage, db } from "../firebase/firebase.js";
 import {
@@ -51,12 +42,26 @@ export default function UploadDemo() {
   const [downloadURL, setDownloadURL] = useState("");
   const [error, setError] = useState("");
   const [category, setCategory] = useState("");
+  const [country, setCountry] = useState("");
   const [isUploadComplete, setIsUploadComplete] = useState(false);
   const [generatedId, setGeneratedId] = useState("");
   const navigate = useNavigate();
 
-  // Paystack configuration
+  // Firebase Auth
   const auth = getAuth();
+
+  // Redirect to login if user is not logged in
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (!user) {
+        navigate("/login"); // Redirect to login page if user is not logged in
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup subscription
+  }, [auth, navigate]);
+
+  // Paystack configuration
   const user = auth.currentUser;
 
   const config = {
@@ -76,7 +81,6 @@ export default function UploadDemo() {
     setIsPaymentComplete(true); // Mark payment as complete
     setError(""); // Clear any previous errors
   };
-  
 
   // Payment close handler
   const onClose = () => {
@@ -123,10 +127,14 @@ export default function UploadDemo() {
       return;
     }
 
+    if (!country) {
+      setError("🚫 Please select your country.");
+      return;
+    }
+
     setIsUploading(true);
 
     try {
-      const auth = getAuth();
       const user = auth.currentUser;
 
       if (!user) {
@@ -166,6 +174,7 @@ export default function UploadDemo() {
             id: uniqueId,
             fileName: videoFile.name,
             category: category,
+            country: country, // Include the selected country
             downloadURL: downloadURL,
             timestamp: new Date(),
             userEmail: email,
@@ -249,6 +258,25 @@ export default function UploadDemo() {
           </select>
         </motion.div>
 
+        {/* Country Selection */}
+        <motion.div variants={fadeInUp} className="mb-6">
+          <label className="block text-lg font-medium text-gray-700 mb-2">
+            Select Your Country
+          </label>
+          <select
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
+            required
+          >
+            <option value="" disabled>
+              ✅ Choose your Country
+            </option>
+            <option value="Ghana">🇬🇭 Ghana</option>
+            <option value="Other">🌍 Other</option>
+          </select>
+        </motion.div>
+
         {/* File Upload Section */}
         <motion.div
           variants={scaleUp}
@@ -302,7 +330,7 @@ export default function UploadDemo() {
         )}
 
         {/* Paystack Payment Button */}
-        {!isPaymentComplete && videoFile && !error && category && (
+        {!isPaymentComplete && videoFile && !error && category && country && (
           <motion.div variants={fadeInUp} className="mt-8 text-center">
             <button
               className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300"
