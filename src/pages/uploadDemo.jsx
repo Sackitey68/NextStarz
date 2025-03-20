@@ -11,7 +11,12 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { usePaystackPayment } from "react-paystack";
+import {
+  getPaystackConfig,
+  initializePaystackPayment,
+  onSuccess,
+  onClose,
+} from "../utils/paystackUtils.js";
 
 // Animation variants
 const staggerContainer = {
@@ -63,30 +68,27 @@ export default function UploadDemo() {
 
   // Paystack configuration
   const user = auth.currentUser;
-
-  const config = {
-    reference: `NEXTSTAR_${new Date().getTime()}`, // Unique reference for each payment
-    email: user?.email || "user@example.com", // Use the logged-in user's email
-    amount: 10000, // 100 GHC in kobo (10000 kobo = 100 GHC)
-    publicKey: "pk_test_1a67487abb41a3b18b77ebbbba37c03933835018",
-    currency: "GHS",
-  };
+  const config = getPaystackConfig(user?.email);
 
   // Initialize Paystack payment
-  const initializePayment = usePaystackPayment(config);
-
-  // Payment success handler
-  const onSuccess = (reference) => {
-    console.log("Payment successful:", reference);
-    setIsPaymentComplete(true); // Mark payment as complete
-    setError(""); // Clear any previous errors
-  };
-
-  // Payment close handler
-  const onClose = () => {
-    console.log("Payment closed");
-    setError("Payment was not completed. Please try again.");
-  };
+  const handlePaystackPayment = initializePaystackPayment(
+    config,
+    async (reference) => {
+      try {
+        const paymentSuccess = await onSuccess(reference, config);
+        if (paymentSuccess) {
+          setIsPaymentComplete(true);
+          setError("");
+        }
+      } catch (error) {
+        setError(error.message);
+      }
+    },
+    () => {
+      onClose();
+      setError("Payment was not completed. Please try again.");
+    }
+  );
 
   // Handle file input change
   const handleFileChange = (e) => {
@@ -174,11 +176,11 @@ export default function UploadDemo() {
             id: uniqueId,
             fileName: videoFile.name,
             category: category,
-            country: country, // Include the selected country
+            country: country,
             downloadURL: downloadURL,
-            timestamp: new Date(),
             userEmail: email,
             username: username,
+            timestamp: new Date(),
           });
 
           setDownloadURL(downloadURL);
@@ -334,7 +336,7 @@ export default function UploadDemo() {
           <motion.div variants={fadeInUp} className="mt-8 text-center">
             <button
               className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300"
-              onClick={() => initializePayment(onSuccess, onClose)}
+              onClick={handlePaystackPayment}
             >
               💳 Pay GHC 100 to Submit
             </button>

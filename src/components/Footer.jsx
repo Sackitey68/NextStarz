@@ -170,7 +170,7 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
             <div className="flex space-x-6 md:flex-col md:items-center md:justify-center md:space-x-0 md:space-y-5 md:ml-5 lg:flex-row lg:space-x-6 lg:items-center lg:justify-center lg:space-y-0 lg:mr-20">
               <a
-                href="https://www.tiktok.com/@nextstarz2"
+                href="https://www.tiktok.com/@Nxtstarz"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-pink-500 transition-all duration-300"
@@ -180,7 +180,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://www.instagram.com/NextStarzOfficial"
+                href="https://www.instagram.com/NextStarzglobal"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-pink-500 transition-all duration-300"
@@ -190,7 +190,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://x.com/NextStarz2"
+                href="https://x.com/NextStarzglobal"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-pink-500 transition-all duration-300"
@@ -200,7 +200,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://www.youtube.com/@NextStarzOfficial"
+                href="https://www.youtube.com/@NextStarzglobal"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-pink-500 transition-all duration-300"
