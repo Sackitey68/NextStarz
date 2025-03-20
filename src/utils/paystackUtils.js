@@ -1,11 +1,16 @@
-export const getPaystackConfig = (userEmail) => ({
-  reference: `NEXTSTARZ_${new Date().getTime()}`,
-  email: userEmail || "user@example.com",
-  amount: 10000,
-  publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
-  secretKey: import.meta.env.VITE_PAYSTACK_SECRET_KEY,
-  currency: "GHS",
-});
+import { usePaystackPayment } from "react-paystack";
+
+// Paystack configuration
+export const getPaystackConfig = (userEmail) => {
+  return {
+    reference: `NEXTSTARZ_${new Date().getTime()}`,
+    email: userEmail || "user@example.com",
+    amount: 10000,
+    publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+    secretKey: import.meta.env.VITE_PAYSTACK_SECRET_KEY,
+    currency: "GHS",
+  };
+};
 
 // Initialize Paystack payment
 export const initializePaystackPayment = (config, onSuccess, onClose) => {
@@ -26,6 +31,10 @@ export const onSuccess = async (reference, config) => {
       }
     );
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
     const data = await response.json();
     console.log("Paystack verification response:", data);
 
@@ -38,15 +47,17 @@ export const onSuccess = async (reference, config) => {
     }
   } catch (error) {
     console.error("Error verifying payment:", error);
-    throw new Error(
-      "An error occurred while verifying payment. Please try again."
-    );
+    throw new Error("An error occurred while verifying payment. Please try again.");
   }
 };
 
 // Payment close handler
 export const onClose = () => {
   console.log("Payment closed");
-  throw new Error("Payment was not completed. Please try again.");
+  alert("Payment was not completed. Please try again.");
+  // Instead of throwing an error, return a message or set an error state
+  return "Payment was not completed. Please try again.";
 };
 
+console.log("localStorage:", localStorage);
+console.log("sessionStorage:", sessionStorage);

@@ -34,7 +34,7 @@ const fadeIn = {
 
 export default function About() {
   return (
-    <section className="bg-bg-color py-5 px-4 sm:px-6 lg:px-8">
+    <section className="bg-bg-color py-8 px-4 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <motion.div
         initial="hidden"
