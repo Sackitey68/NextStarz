@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaFacebook,
   FaTwitter,
@@ -9,10 +10,9 @@ import {
 } from "react-icons/fa";
 
 export default function Footer() {
-  // State to manage scroll-to-top button visibility
+  const navigate = useNavigate();
   const [showScrollButton, setShowScrollButton] = useState(false);
 
-  // Function to scroll to the top
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -20,7 +20,12 @@ export default function Footer() {
     });
   };
 
-  // Add scroll event listener to show/hide the button
+  // Handle navigation for internal links
+  const handleNavigation = (path) => {
+    navigate(path);
+    scrollToTop(); // Optional: scroll to top after navigation
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 300) {
@@ -59,75 +64,75 @@ export default function Footer() {
               <div>
                 <ul className="space-y-2">
                   <li>
-                    <a
-                      href="/"
+                    <button
+                      onClick={() => handleNavigation("/")}
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Home
-                    </a>
+                    </button>
                   </li>
 
                   <li>
-                    <a
-                      href="/about"
+                    <button
+                      onClick={() => handleNavigation("/about")}
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       About
-                    </a>
+                    </button>
                   </li>
 
                   <li>
-                    <a
-                      href="/login"
+                    <button
+                      onClick={() => handleNavigation("/login")}
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Register
-                    </a>
+                    </button>
                   </li>
 
                   <li>
-                    <a
-                      href="/auditions"
+                    <button
+                      onClick={() => handleNavigation("/auditions")}
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Auditions
-                    </a>
+                    </button>
                   </li>
 
                   <li>
-                    <a
-                      href="/judges"
+                    <button
+                      onClick={() => handleNavigation("/judges")}
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Judges
-                    </a>
+                    </button>
                   </li>
 
                   <li>
-                    <a
-                      href="/prizes"
+                    <button
+                      onClick={() => handleNavigation("/prizes")}
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Prizes
-                    </a>
+                    </button>
                   </li>
 
                   <li>
-                    <a
-                      href="/faq"
+                    <button
+                      onClick={() => handleNavigation("/faq")}
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       FAQ
-                    </a>
+                    </button>
                   </li>
 
                   <li>
-                    <a
-                      href="/contact"
+                    <button
+                      onClick={() => handleNavigation("/contact")}
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Contact Us
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>
@@ -135,30 +140,30 @@ export default function Footer() {
                 <h4 className="text-sm font-medium mb-2">Legal Pages</h4>
                 <ul className="space-y-2">
                   <li>
-                    <a
-                      href="/terms"
+                    <button
+                      onClick={() => handleNavigation("/terms")}
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Terms & Conditions
-                    </a>
+                    </button>
                   </li>
 
                   <li>
-                    <a
-                      href="/privacy"
+                    <button
+                      onClick={() => handleNavigation("/privacy")}
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Privacy Policy
-                    </a>
+                    </button>
                   </li>
 
                   <li>
-                    <a
-                      href="/cookies"
+                    <button
+                      onClick={() => handleNavigation("/cookies")}
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Cookie Policy
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>

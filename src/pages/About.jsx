@@ -8,7 +8,7 @@ import {
 import Suede from "../assets/Suede.jpg";
 import Ishmael from "../assets/Team/ishmael.jpg";
 import Nicolas from "../assets/Team/Nicolas.jpg";
-import Mark from "../assets/Team/Mark.jpg";
+import Anggie from "../assets/Team/Anggie.jpg";
 import Dorcas from "../assets/Team/Dorcas.jpg";
 
 // Animation variants
@@ -189,7 +189,7 @@ export default function About() {
           variants={staggerContainer}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
         >
-          {/* Panelist 1 */}
+          {/* Panelist 1 - Ishmael */}
           <motion.div
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
@@ -197,11 +197,11 @@ export default function About() {
           >
             <img
               src={Ishmael}
-              alt="Team Member 1"
+              alt="Ishmael Opoku-Acheampong"
               className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
             <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Ishmael Opoku-Acheampong{" "}
+              Ishmael Opoku-Acheampong
             </h3>
             <p className="text-gray-800">
               Known as Diojo — is the CEO of Suede Entertainment, a Creative
@@ -210,55 +210,15 @@ export default function About() {
             </p>
           </motion.div>
 
-          {/* Panelist 2 */}
-          <motion.div
-            variants={fadeInUp}
-            whileHover={{ scale: 1.05 }}
-            className="bg-gray-300 p-6 rounded-lg shadow-lg  hover:shadow-primary-color hover:shadow-lg transition duration-300"
-          >
-            <img
-              src={Nicolas}
-              alt="Team Member 2"
-              className="size-36 rounded-full mx-auto mb-4 object-cover"
-            />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Nicholas Amoako
-            </h3>
-            <p className="text-gray-800">
-            Known in the showbiz industry as Phewcha — a multi-talented musician, songwriter, actor, and social media influencer. He brings passion, experience, and a sharp eye for talent, inspiring the next generation of entertainers.
-            </p>
-          </motion.div>
-
-          {/* Panelist 3 */}
+          {/* Panelist 2 - Dorcas */}
           <motion.div
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
             className="bg-gray-300 p-6 rounded-lg hover:shadow-lg hover:shadow-primary-color transition duration-300"
           >
             <img
-              src={Mark}
-              alt="Team Member 3"
-              className="size-36 rounded-full mx-auto mb-4 object-cover"
-            />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Gyau Oppong Mark
-            </h3>
-            <p className="text-gray-800">
-              Known as Mac Hamlet — is a keyboardist, music producer, and CEO of
-              PL Studio Ltd. Signed to Lynx Entertainment, he’s performed on
-              major stages like VGMA, 3Music Awards, and AfroNation.
-            </p>
-          </motion.div>
-
-          {/* Team Member 4 */}
-          <motion.div
-            variants={fadeInUp}
-            whileHover={{ scale: 1.05 }}
-            className="bg-gray-300 p-6 rounded-lg  hover:shadow-primary-color hover:shadow-lg transition duration-300"
-          >
-            <img
               src={Dorcas}
-              alt="Team Member 4"
+              alt="Dorcas Agyeiwaa"
               className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
             <h3 className="text-xl font-bold text-gray-900 mb-2">
@@ -268,6 +228,49 @@ export default function About() {
               Known as AJ Truth, she is a vocalist, songwriter, entrepreneur,
               and media personality. A NextStarz panelist and former TV host,
               she mentors rising talents and redefines artistry and excellence.
+            </p>
+          </motion.div>
+
+          {/* Panelist 3 - Nicolas */}
+          <motion.div
+            variants={fadeInUp}
+            whileHover={{ scale: 1.05 }}
+            className="bg-gray-300 p-6 rounded-lg shadow-lg hover:shadow-primary-color hover:shadow-lg transition duration-300"
+          >
+            <img
+              src={Nicolas}
+              alt="Nicholas Amoako"
+              className="size-36 rounded-full mx-auto mb-4 object-cover"
+            />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              Nicholas Amoako
+            </h3>
+            <p className="text-gray-800">
+              Known in the showbiz industry as Phewcha — a multi-talented
+              musician, songwriter, actor, and social media influencer. He
+              brings passion, experience, and a sharp eye for talent, inspiring
+              the next generation of entertainers.
+            </p>
+          </motion.div>
+
+          {/* Panelist 4 - Anggie */}
+          <motion.div
+            variants={fadeInUp}
+            whileHover={{ scale: 1.05 }}
+            className="bg-gray-300 p-6 rounded-lg hover:shadow-lg hover:shadow-primary-color transition duration-300"
+          >
+            <img
+              src={Anggie}
+              alt="Anggie Gyau Oppong Mark"
+              className="size-36 rounded-full mx-auto mb-4 object-cover"
+            />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              Anggie Gyau Oppong Mark
+            </h3>
+            <p className="text-gray-800">
+              Known as Mac Hamlet — is a keyboardist, music producer, and CEO of
+              PL Studio Ltd. Signed to Lynx Entertainment, he's performed on
+              major stages like VGMA, 3Music Awards, and AfroNation.
             </p>
           </motion.div>
         </motion.div>

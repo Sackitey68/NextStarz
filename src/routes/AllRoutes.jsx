@@ -5,6 +5,7 @@ import About from "../pages/About.jsx";
 import Login from "../pages/Login.jsx";
 import PageNotFound from "../pages/PageNotFound.jsx";
 import UploadDemo from "../pages/UploadDemo.jsx";
+import Audition from "../pages/Audition.jsx"
 import Prizes from "../pages/Prizes.jsx";
 import Judges from "../pages/Judges.jsx";
 import Faq from "../components/Faq.jsx";
@@ -19,6 +20,7 @@ export default function AllRoutes() {
       <Route path="/faq" element={<Faq />} />
       <Route path="/login" element={<Login />} />
       <Route path="/judges" element={<Judges />} />
+      <Route path="/auditions" element={<Audition />} />
       <Route path="/uploaddemo" element={<UploadDemo />} />
       <Route path="/prizes" element={<Prizes />} />
 

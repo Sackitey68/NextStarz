@@ -1,40 +1,46 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import Ishmael from "../assets/Team/ishmael.jpg";
 import Nicolas from "../assets/Team/Nicolas.jpg";
-import Mark from "../assets/Team/Mark.jpg";
+import Anggie from "../assets/Team/Anggie.jpg";
 import Dorcas from "../assets/Team/Dorcas.jpg";
 
 const Judges = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
   const judges = [
     {
       id: 1,
       name: "Ishmael Opoku-Acheampong",
       role: "CEO of Suede Entertainment",
       image: Ishmael,
-      bio: "Widely known as Diojo. A powerhouse of creativity and inspiration. As the visionary CEO of Suede Entertainment, Diojo leads with passion and innovation. He's a multifaceted talent: a trailblazing Creative Director, a professional musician with an unmatched ear for melody, a transformative life coach empowering others to thrive, and a savvy entrepreneur with a knack for turning dreams into reality. Diojo doesn’t just wear many hats; he redefines them, leaving a legacy of brilliance wherever he goes.",
-    },
-    {
-      id: 2,
-      name: "Nicholas Amoako",
-      role: "Professional Musician",
-      image: Nicolas,
-      bio: "Meet Nicholas Amoako, widely known in the showbiz industry as Phewcha. A multi-talented musician, songwriter, actor, and social media influencer. With a deep passion for creativity and entertainment, he captivates audiences with his artistry, versatility, and engaging presence. His ability to blend music, storytelling, and digital influence has earned him a loyal following, making him a standout figure in the industry. Through his dedication and innovation, Phewcha continues to inspire, entertain, and shape the future of entertainment.",
-    },
-    {
-      id: 3,
-      name: "Gyau Oppong Mark",
-      role: "CEO of PL Studio Ltd",
-      image: Mark,
-      bio: "Popularly known as Mac Hamlet, is an accomplished keyboard player, music producer, and the CEO of PL Studio Ltd. Renowned for his exceptional musical skills and his ability to inspire and mentor talent, Mac Hamlet has established himself as a leading figure in the music industry.He is signed to Lynx Entertainment alongside the celebrated AfroHarmony Band and has graced some of the most prestigious stages, including: Vodafone Ghana Music Awards, 3Music Awards, Emy Africa Awards, Afrima Awards, Afrochella, AfroNation.",
+      bio: "Widely known as Diojo. A powerhouse of creativity and inspiration. As the visionary CEO of Suede Entertainment, Diojo leads with passion and innovation. He's a multifaceted talent: a trailblazing Creative Director, a professional musician with an unmatched ear for melody, a transformative life coach empowering others to thrive, and a savvy entrepreneur with a knack for turning dreams into reality. Diojo doesn't just wear many hats; he redefines them, leaving a legacy of brilliance wherever he goes.",
     },
     {
       id: 4,
       name: "Dorcas Agyeiwaa",
       role: "Professional Musician",
       image: Dorcas,
-      bio: " known as AJ Truth, is a multi-octave vocalist, songwriter, entrepreneur, and media personality. With years of experience performing alongside top musicians in Ghana’s music industry, she has graced prestigious stages and worked with multi-genre bands. As a panelist on NextStarz, she brings her industry expertise to mentor rising talents. Her background as a TV host and reality show panelist further cements her influence in the entertainment world. Passionate and dynamic, AJ Truth is redefining artistry and excellence.",
+      bio: "Known as AJ Truth, is a multi-octave vocalist, songwriter, entrepreneur, and media personality. With years of experience performing alongside top musicians in Ghana's music industry, she has graced prestigious stages and worked with multi-genre bands. As a panelist on NextStarz, she brings her industry expertise to mentor rising talents. Her background as a TV host and reality show panelist further cements her influence in the entertainment world. Passionate and dynamic, AJ Truth is redefining artistry and excellence.",
+    },
+    {
+      id: 2,
+      name: "Nicholas Amoako",
+      role: "Professional Musician",
+      image: Nicolas,
+      bio: "Widely known in the showbiz industry as Phewcha. A multi-talented musician, songwriter, actor, and social media influencer. With a deep passion for creativity and entertainment, he captivates audiences with his artistry, versatility, and engaging presence. His ability to blend music, storytelling, and digital influence has earned him a loyal following, making him a standout figure in the industry. Through his dedication and innovation, Phewcha continues to inspire, entertain, and shape the future of entertainment.",
+    },
+    {
+      id: 3,
+      name: "Anggie Wood",
+      role: "CEO of PL Studio Ltd",
+      image: Anggie,
+      bio: "Popularly known as Mac Hamlet, is an accomplished keyboard player, music producer, and the CEO of PL Studio Ltd. Renowned for his exceptional musical skills and his ability to inspire and mentor talent, Mac Hamlet has established himself as a leading figure in the music industry. He is signed to Lynx Entertainment alongside the celebrated AfroHarmony Band and has graced some of the most prestigious stages, including: Vodafone Ghana Music Awards, 3Music Awards, Emy Africa Awards, Afrima Awards, Afrochella, AfroNation.",
     },
   ];
+
+  const handleRegisterClick = () => {
+    navigate("/login");
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -186,13 +192,16 @@ const Judges = () => {
         transition={{ delay: 1.2, duration: 0.8, type: "spring" }}
         className="mt-20 text-center max-w-3xl mx-auto"
       >
-        <h2 className="text-3xl font-bold mb-6 text-gray-300">Ready to Impress Them?</h2>
+        <h2 className="text-3xl font-bold mb-6 text-gray-300">
+          Ready to Impress Them?
+        </h2>
         <p className="text-xl text-gray-200 mb-8">
           Our judges are looking for raw talent, unique style, and that special
           "it" factor. Bring your A-game and you might just become the next star
           they discover!
         </p>
         <motion.button
+          onClick={handleRegisterClick}
           className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full font-bold text-lg  transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50"
           whileHover={{
             scale: 1.1,
