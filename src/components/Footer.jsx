@@ -60,7 +60,7 @@ export default function Footer() {
                 <ul className="space-y-2">
                   <li>
                     <a
-                      href="#"
+                      href="/"
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Home
@@ -69,7 +69,7 @@ export default function Footer() {
 
                   <li>
                     <a
-                      href="#"
+                      href="/about"
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       About
@@ -78,7 +78,7 @@ export default function Footer() {
 
                   <li>
                     <a
-                      href="#"
+                      href="/login"
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Register
@@ -87,7 +87,7 @@ export default function Footer() {
 
                   <li>
                     <a
-                      href="#"
+                      href="/auditions"
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Auditions
@@ -96,7 +96,7 @@ export default function Footer() {
 
                   <li>
                     <a
-                      href="#"
+                      href="/judges"
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Judges
@@ -105,7 +105,7 @@ export default function Footer() {
 
                   <li>
                     <a
-                      href="#"
+                      href="/prizes"
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Prizes
@@ -114,7 +114,7 @@ export default function Footer() {
 
                   <li>
                     <a
-                      href="#"
+                      href="/faq"
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       FAQ
@@ -123,7 +123,7 @@ export default function Footer() {
 
                   <li>
                     <a
-                      href="#"
+                      href="/contact"
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Contact Us
@@ -136,7 +136,7 @@ export default function Footer() {
                 <ul className="space-y-2">
                   <li>
                     <a
-                      href="#"
+                      href="/terms"
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Terms & Conditions
@@ -145,7 +145,7 @@ export default function Footer() {
 
                   <li>
                     <a
-                      href="#"
+                      href="/privacy"
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Privacy Policy
@@ -154,7 +154,7 @@ export default function Footer() {
 
                   <li>
                     <a
-                      href="#"
+                      href="/cookies"
                       className="text-sm hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8"
                     >
                       Cookie Policy
@@ -285,7 +285,8 @@ export default function Footer() {
           <p className="mt-4 md:mt-0">
             Join our whatsapp Community:{" "}
             <a
-              href="https://chat.whatsapp.com/HUthrXOegbIHo3MxGYvUcL" target="_blank"
+              href="https://chat.whatsapp.com/HUthrXOegbIHo3MxGYvUcL"
+              target="_blank"
               className="text-hover-color hover:font-bold transition duration-300 hover:underline hover:underline-offset-4"
             >
               NextStarz✨
