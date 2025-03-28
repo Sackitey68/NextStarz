@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import Suede from "../assets/Suede.jpg";
 import Ishmael from "../assets/Team/ishmael.jpg";
-import Frank from "../assets/Team/Frank.jpg";
+import Nicolas from "../assets/Team/Nicolas.jpg";
 import Mark from "../assets/Team/Mark.jpg";
 import Dorcas from "../assets/Team/Dorcas.jpg";
 
@@ -206,7 +206,7 @@ export default function About() {
             <p className="text-gray-800">
               Known as Diojo — is the CEO of Suede Entertainment, a Creative
               Director, musician, life coach, and entrepreneur. He leads with
-              passion, turning dreams into reality and
+              passion, turning dreams into reality.
             </p>
           </motion.div>
 
@@ -217,18 +217,15 @@ export default function About() {
             className="bg-gray-300 p-6 rounded-lg shadow-lg  hover:shadow-primary-color hover:shadow-lg transition duration-300"
           >
             <img
-              src={Frank}
+              src={Nicolas}
               alt="Team Member 2"
               className="size-36 rounded-full mx-auto mb-4 object-cover"
             />
             <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Frank K. Harrison
+              Nicholas Amoako
             </h3>
             <p className="text-gray-800">
-              An innovative entrepreneur in music, business, and real estate,
-              co-founder of Trust Music Entertainment, and West Africa lead for
-              Paradise Worldwide, driving global partnerships and luxury
-              investments.
+            Known in the showbiz industry as Phewcha — a multi-talented musician, songwriter, actor, and social media influencer. He brings passion, experience, and a sharp eye for talent, inspiring the next generation of entertainers.
             </p>
           </motion.div>
 
