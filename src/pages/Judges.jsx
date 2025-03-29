@@ -32,9 +32,9 @@ const Judges = () => {
     {
       id: 3,
       name: "Anggie Wood",
-      role: "CEO of PL Studio Ltd",
+      role: "Professional Musician",
       image: Anggie,
-      bio: "Popularly known as Mac Hamlet, is an accomplished keyboard player, music producer, and the CEO of PL Studio Ltd. Renowned for his exceptional musical skills and his ability to inspire and mentor talent, Mac Hamlet has established himself as a leading figure in the music industry. He is signed to Lynx Entertainment alongside the celebrated AfroHarmony Band and has graced some of the most prestigious stages, including: Vodafone Ghana Music Awards, 3Music Awards, Emy Africa Awards, Afrima Awards, Afrochella, AfroNation.",
+      bio: "A versatile and vibrant Ghanaian musician, songwriter, and influencer, currently making waves on social media with her exceptional craft. Known for her keen eye for talent, she has captivated audiences with her unique sound, engaging performances, and dynamic presence. Her passion for music and entertainment shines through her work, inspiring a new generation of artists. With a growing fan base and an undeniable stage presence, Anggie Wood continues to redefine the music scene in Ghana and beyond. Keep an eye on this rising star!",
     },
   ];
 
@@ -156,7 +156,7 @@ const Judges = () => {
             key={judge.id}
             variants={judgeVariants}
             whileHover="hover"
-            className="bg-gray-800 bg-opacity-60 rounded-xl overflow-hidden shadow-2xl hover:shadow-purple-500/30 transition-all duration-300 h-full flex flex-col"
+            className="bg-white/10 bg-opacity-60 rounded-xl overflow-hidden shadow-2xl hover:shadow-purple-500/30 transition-all duration-300 h-full flex flex-col"
           >
             <div className="p-6 flex-1 flex flex-col">
               <motion.div className="relative group" variants={imageVariants}>
@@ -193,7 +193,7 @@ const Judges = () => {
         transition={{ delay: 1.2, duration: 0.8, type: "spring" }}
         className="mt-20 text-center max-w-3xl mx-auto"
       >
-        <h2 className="text-3xl font-bold mb-6 text-gray-300">
+        <h2 className="text-3xl font-bold mb-6 text-gray-400">
           Ready to Impress Them?
         </h2>
         <p className="text-xl text-gray-200 mb-8">
