@@ -9,6 +9,8 @@ import Audition from "../pages/Audition.jsx";
 import Prizes from "../pages/Prizes.jsx";
 import Judges from "../pages/Judges.jsx";
 import Privacy from "../pages/Privacy.jsx";
+import CookiesPolicy from "../pages/CookiesPolicy.jsx";
+import TermsAndConditions from "../pages/TermsAndConditions.jsx"
 import Faq from "../components/Faq.jsx";
 
 export default function AllRoutes() {
@@ -25,6 +27,8 @@ export default function AllRoutes() {
       <Route path="/uploaddemo" element={<UploadDemo />} />
       <Route path="/prizes" element={<Prizes />} />
       <Route path="/privacy" element={<Privacy />} />
+      <Route path="/cookies" element={<CookiesPolicy />} />
+      <Route path="/terms" element={<TermsAndConditions />} />
 
       <Route path="*" element={<PageNotFound />} />
     </Routes>

@@ -267,7 +267,7 @@ const Auditions = () => {
           Get Ready To Show Your Talent Now!
         </motion.h2>
         <motion.p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
-          Online auditions are for participants outside of Ghana! 🌍🎤✨
+          Online auditions are for participants outside of Ghana! 🌍🎤✨
         </motion.p>
         <motion.button
           onClick={() => navigate("/register")}

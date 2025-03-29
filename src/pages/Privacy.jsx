@@ -284,7 +284,7 @@ const PrivacyPolicy = () => {
                   Access & Update
                 </h3>
                 <p className="text-sm">
-                  View or edit your info anytime in your profile settings
+                  View or edit your info anytime.
                 </p>
               </div>
 

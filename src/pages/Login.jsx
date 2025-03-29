@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   GoogleAuthProvider,
   FacebookAuthProvider,
@@ -17,7 +17,15 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook, FaApple, FaArrowLeft, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaApple,
+  FaArrowLeft,
+  FaEnvelope,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 import { RiShieldUserFill } from "react-icons/ri";
 
 // Import your images for the slider
@@ -69,23 +77,23 @@ export default function Login() {
     {
       image: Image1,
       title: "Unlock Your Potential",
-      text: "Join thousands of creators showcasing their talent"
+      text: "Join thousands of creatives showcasing their talent",
     },
     {
       image: Image2,
       title: "Showcase Your Work",
-      text: "Get discovered by industry professionals worldwide"
+      text: "Get discovered by industry professionals worldwide",
     },
     {
       image: Image3,
       title: "Connect & Collaborate",
-      text: "Build your network with like-minded creatives"
+      text: "Build your network with like-minded creatives",
     },
     {
       image: Image4,
       title: "Your Journey Starts Here",
-      text: "Take the first step towards your creative future"
-    }
+      text: "Take the first step towards your creative future",
+    },
   ];
 
   // Track authentication state
@@ -187,7 +195,7 @@ export default function Login() {
     modules: [Autoplay, Pagination, EffectFade],
     effect: "fade",
     fadeEffect: {
-      crossFade: true
+      crossFade: true,
     },
     spaceBetween: 0,
     centeredSlides: true,
@@ -202,11 +210,11 @@ export default function Login() {
         return `<span class="${className} bg-white opacity-50 hover:opacity-100 transition-opacity duration-300"></span>`;
       },
     },
-    onSlideChange: (swiper) => setActiveSlide(swiper.activeIndex)
+    onSlideChange: (swiper) => setActiveSlide(swiper.activeIndex),
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden">
+    <div className="bg-bg-color min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden">
       {/* Background particles */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
@@ -218,7 +226,7 @@ export default function Login() {
               y: Math.random() * 100,
               width: Math.random() * 10 + 2,
               height: Math.random() * 10 + 2,
-              opacity: Math.random() * 0.5 + 0.1
+              opacity: Math.random() * 0.5 + 0.1,
             }}
             animate={{
               x: Math.random() * 100,
@@ -226,8 +234,8 @@ export default function Login() {
               transition: {
                 duration: Math.random() * 10 + 10,
                 repeat: Infinity,
-                repeatType: "reverse"
-              }
+                repeatType: "reverse",
+              },
             }}
           />
         ))}
@@ -249,7 +257,7 @@ export default function Login() {
           {/* Form container */}
           <div className="relative z-10">
             {/* Logo/Branding */}
-            <motion.div 
+            <motion.div
               variants={fadeInUp}
               className="flex items-center justify-center mb-8"
             >
@@ -271,12 +279,14 @@ export default function Login() {
             )}
 
             {/* Form Title */}
-            <motion.h2 
+            <motion.h2
               variants={fadeInUp}
               className="text-2xl sm:text-3xl font-bold text-center mb-6 text-white"
             >
-              {showEmailForm 
-                ? (isLogin ? "Welcome Back!" : "Join Our Community") 
+              {showEmailForm
+                ? isLogin
+                  ? "Welcome Back!"
+                  : "Join Our Community"
                 : "Sign In to Your Account"}
             </motion.h2>
 
@@ -324,9 +334,14 @@ export default function Login() {
                   </button>
                 </motion.div>
 
-                <motion.div variants={fadeInUp} className="relative flex items-center py-4">
+                <motion.div
+                  variants={fadeInUp}
+                  className="relative flex items-center py-4"
+                >
                   <div className="flex-grow border-t border-gray-600/50"></div>
-                  <span className="flex-shrink mx-4 text-gray-400 text-sm">OR</span>
+                  <span className="flex-shrink mx-4 text-gray-400 text-sm">
+                    OR
+                  </span>
                   <div className="flex-grow border-t border-gray-600/50"></div>
                 </motion.div>
 
@@ -336,9 +351,7 @@ export default function Login() {
                     className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-3 group"
                   >
                     <FaEnvelope className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                    <span className="text-sm">
-                      Continue with Email
-                    </span>
+                    <span className="text-sm">Continue with Email</span>
                   </button>
                 </motion.div>
               </motion.div>
@@ -381,10 +394,12 @@ export default function Login() {
                         Password
                       </label>
                       {isLogin && (
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
-                          onClick={() => alert("Password reset link sent to your email")}
+                          onClick={() =>
+                            alert("Password reset link sent to your email")
+                          }
                         >
                           Forgot password?
                         </button>
@@ -397,7 +412,11 @@ export default function Login() {
                       <input
                         type={showPassword ? "text" : "password"}
                         name="password"
-                        placeholder={isLogin ? "Enter your password" : "Create a password (min 6 chars)"}
+                        placeholder={
+                          isLogin
+                            ? "Enter your password"
+                            : "Create a password (min 6 chars)"
+                        }
                         className="w-full pl-10 pr-10 py-3 bg-white/5 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white placeholder-gray-400 border border-gray-600/50 rounded-lg transition-all duration-300"
                         required
                         minLength={6}
@@ -417,7 +436,10 @@ export default function Login() {
                   </motion.div>
 
                   {/* Remember Me & Toggle Login/Signup */}
-                  <motion.div variants={fadeInUp} className="flex items-center justify-between">
+                  <motion.div
+                    variants={fadeInUp}
+                    className="flex items-center justify-between"
+                  >
                     <div className="flex items-center">
                       <input
                         id="remember-me"
@@ -425,7 +447,10 @@ export default function Login() {
                         type="checkbox"
                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 rounded bg-white/5"
                       />
-                      <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-300">
+                      <label
+                        htmlFor="remember-me"
+                        className="ml-2 block text-sm text-gray-300"
+                      >
                         Remember me
                       </label>
                     </div>
@@ -434,7 +459,9 @@ export default function Login() {
                       onClick={() => setIsLogin(!isLogin)}
                       className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
                     >
-                      {isLogin ? "Need an account? Sign up" : "Already have an account? Login"}
+                      {isLogin
+                        ? "Need an account? Sign up"
+                        : "Already have an account? Login"}
                     </button>
                   </motion.div>
 
@@ -444,23 +471,37 @@ export default function Login() {
                       type="submit"
                       disabled={isLoading}
                       className={`w-full px-6 py-3 ${
-                        isLoading 
-                          ? 'bg-gray-600 cursor-not-allowed' 
-                          : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700'
+                        isLoading
+                          ? "bg-gray-600 cursor-not-allowed"
+                          : "bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
                       } text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2`}
                     >
                       {isLoading ? (
                         <>
-                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          <svg
+                            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
                           </svg>
                           Processing...
                         </>
                       ) : (
-                        <>
-                          {isLogin ? 'Sign In' : 'Create Account'}
-                        </>
+                        <>{isLogin ? "Sign In" : "Create Account"}</>
                       )}
                     </button>
                   </motion.div>
@@ -480,14 +521,20 @@ export default function Login() {
                   <span role="img" aria-label="star" className="text-2xl">
                     🌟
                   </span>
-                  <span role="img" aria-label="musical notes" className="text-2xl">
+                  <span
+                    role="img"
+                    aria-label="musical notes"
+                    className="text-2xl"
+                  >
                     🎉
                   </span>
                   <span role="img" aria-label="star" className="text-2xl">
                     🌟
                   </span>
                 </div>
-                <p className="text-center font-medium">Welcome back! Redirecting you...</p>
+                <p className="text-center font-medium">
+                  Welcome back! Redirecting you...
+                </p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -516,11 +563,21 @@ export default function Login() {
 
             {/* Terms & Privacy */}
             {!showEmailForm && (
-              <motion.div 
+              <motion.div
                 variants={fadeInUp}
                 className="mt-8 text-center text-xs text-gray-500"
               >
-                <p>By continuing, you agree to our <a href="#" className="text-blue-400 hover:underline">Terms of Service</a> and <a href="#" className="text-blue-400 hover:underline">Privacy Policy</a>.</p>
+                <p>
+                  By continuing, you agree to our{" "}
+                  <Link to="/terms" className="text-blue-400 hover:underline">
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link to="/privacy" className="text-blue-400 hover:underline">
+                    Privacy Policy
+                  </Link>
+                  .
+                </p>
               </motion.div>
             )}
           </div>
@@ -544,11 +601,11 @@ export default function Login() {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/30 flex items-end p-8">
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, y: 20 }}
-                      animate={{ 
+                      animate={{
                         opacity: activeSlide === index ? 1 : 0.7,
-                        y: activeSlide === index ? 0 : 20
+                        y: activeSlide === index ? 0 : 20,
                       }}
                       transition={{ duration: 0.5 }}
                       className="text-white"

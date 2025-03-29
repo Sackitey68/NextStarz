@@ -75,9 +75,9 @@ export default function Header() {
             "linear-gradient(to right, rgb(160, 32, 240), rgba(0, 0, 0, 1))",
         }}
       >
-        <p className="text-gray-300 text-lg flex flex-col font-semibold sm:pl-2">
-          <span>NextStarz</span>
-          <span>Saturdays: 9:00pm</span>
+        <p className="text-gray-900 text-lg flex flex-col font-semibold sm:pl-2">
+          <span>NEXTSTARZ - Season 1</span>
+          <span className="text-sm font-bold">Saturdays: 19:00 - 21:00 GMT</span>
         </p>
       </div>
 
