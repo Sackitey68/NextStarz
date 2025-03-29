@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Banner from "../components/Banner.jsx";
 import Song from "../components/Song.jsx";
-import HowItWorks from "./HowItWorks.jsx";
+import HowItWorks from "../components/HowItWorks.jsx";
 
 export default function Main() {
   const [isLoading, setIsLoading] = useState(true);

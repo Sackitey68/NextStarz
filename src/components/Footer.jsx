@@ -137,7 +137,6 @@ export default function Footer() {
                 </ul>
               </div>
               <div>
-                <h4 className="text-sm font-medium mb-2">Legal Pages</h4>
                 <ul className="space-y-2">
                   <li>
                     <button

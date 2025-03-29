@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
@@ -12,29 +12,38 @@ import Picture from "../assets/banner.jpg";
 export default function Banner() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const swiperRef = useRef(null);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
+
+  // Update window height on resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const carouselItems = [
     {
       type: "video",
       src: Video,
       text: (
-        <div className="flex flex-col items-center justify-center h-full px-4">
+        <div className="flex flex-col items-center justify-center h-full px-4 md:px-8">
           {/* Main Text */}
-          <h1 className="text-4xl md:text-6xl font-bold text-center text-gray-200 mb-10 animate-fade-in">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center text-white mb-4 sm:mb-6 md:mb-8 lg:mb-10">
             Welcome to the ultimate Talent Hunt!
           </h1>
 
           {/* Bottom Text and Button */}
-          <div className="text-center space-y-4">
-            <p className="text-xl md:text-2xl font-semibold text-gray-200">
-              Your time is now! Enter NextStarz for a chance to become the next
-              big star!
+          <div className="text-center space-y-2 sm:space-y-3 md:space-y-4">
+            <p className="text-lg sm:text-xl md:text-2xl font-semibold text-white">
+              Your time is now! Enter NextStarz for a chance to become the next big star!
             </p>
             <button
               onClick={() => navigate("/login")}
-              className="px-8  py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-gray-200 rounded-md  transition-all duration-300 font-semibold"
+              className="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-md transition-all duration-300 font-semibold text-sm sm:text-base"
             >
               Enter Now
             </button>
@@ -46,26 +55,26 @@ export default function Banner() {
       type: "image",
       src: Picture,
       text: (
-        <div className="flex flex-col items-center justify-center h-full px-4">
+        <div className="flex flex-col items-center justify-center h-full px-4 md:px-8">
           {/* Top Text */}
-          <h2 className="text-2xl md:text-4xl font-bold text-center my-8 text-primary-color">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center my-4 sm:my-6 md:my-8 text-white">
             OPEN TO ALL WORLDWIDE!
           </h2>
 
           {/* Middle Text */}
-          <div className="text-center space-y-2 py-4">
-            <p className="text-xl md:text-2xl font-semibold">
+          <div className="text-center space-y-1 sm:space-y-2 py-2 sm:py-4">
+            <p className="text-lg sm:text-xl md:text-2xl font-semibold text-white">
               ENTER FOR A CHANCE TO WIN A
             </p>
-            <p className="text-4xl md:text-6xl font-bold text-primary-color">
+            <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-yellow-400">
               GHS 10,000.00
             </p>
           </div>
 
           {/* Bottom Text */}
-          <p className="text-lg md:text-xl text-center mt-24 md:mt-32 text-primary-color">
-            MUSIC RECORDING DEAL | MANAGEMENT DEAL | INTERNATIONAL DISTRIBUTION
-            | MEDIA EXPOSURE | FULLY SPONSORED TRIP TO DUBAI, ETC…
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-center mt-8 sm:mt-12 md:mt-16 lg:mt-24 text-white">
+            MUSIC RECORDING DEAL | MANAGEMENT DEAL | INTERNATIONAL DISTRIBUTION | 
+            MEDIA EXPOSURE | FULLY SPONSORED TRIP TO DUBAI, ETC…
           </p>
         </div>
       ),
@@ -82,16 +91,16 @@ export default function Banner() {
   }, []);
 
   return (
-    <div className="animate-section opacity-0 translate-y-20 transition-all duration-800 ease-out group">
+    <div className="animate-section opacity-0 translate-y-20 transition-all duration-800 ease-out">
       <Swiper
         modules={[Pagination, Autoplay, Navigation]}
-        spaceBetween={50}
+        spaceBetween={0}
         slidesPerView={1}
         pagination={{
           clickable: true,
           el: ".custom-pagination",
           renderBullet: (index, className) => {
-            return `<span class="${className} hover:scale-110 transition-transform duration-200"></span>`;
+            return `<span class="${className}"></span>`;
           },
         }}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
@@ -106,33 +115,38 @@ export default function Banner() {
           swiperRef.current = swiper;
           setActiveIndex(swiper.realIndex);
         }}
-        className="relative w-full h-[550px] sm:h-[700px] md:h-[45rem] rounded-lg" // Responsive height
+        className="relative w-full"
+        style={{ height: "70vh", minHeight: "400px" }}
       >
         {carouselItems.map((item, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={index} className="!overflow-hidden">
             {item.type === "video" ? (
-              <video
-                className="w-full h-full object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-              >
-                <source src={item.src} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <div className="w-full h-full relative">
+                <video
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                >
+                  <source src={item.src} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
             ) : (
-              <img
-                src={item.src}
-                alt={`Slide ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
+              <div className="w-full h-full relative">
+                <img
+                  src={item.src}
+                  alt={`Slide ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
             )}
 
             {/* Overlay Text */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white">
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40">
               <div
-                className={`transition-all duration-800 ease-out ${
+                className={`w-full max-w-6xl mx-auto transition-all duration-800 ease-out ${
                   activeIndex === index
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-20"
@@ -156,11 +170,12 @@ export default function Banner() {
               }
               setIsPlaying(!isPlaying);
             }}
-            className="p-2 rounded-full hover:scale-125 transition-transform duration-200 focus:outline-none"
+            className="p-2 rounded-full bg-black/30 hover:bg-black/50 transition-all duration-200 focus:outline-none"
+            aria-label={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? (
               <svg
-                className="w-6 h-6 text-white"
+                className="w-5 h-5 sm:w-6 sm:h-6 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -175,7 +190,7 @@ export default function Banner() {
               </svg>
             ) : (
               <svg
-                className="w-6 h-6 text-white"
+                className="w-5 h-5 sm:w-6 sm:h-6 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -202,8 +217,8 @@ export default function Banner() {
         </div>
 
         {/* Custom Navigation Buttons */}
-        <div className="swiper-button-prev !h-full !top-0 !left-0 !mt-0 !w-[30px] md:!w-[50px] opacity-0 group-hover:opacity-100 !transition-opacity !duration-300"></div>
-        <div className="swiper-button-next !h-full !top-0 !right-0 !mt-0 !w-[30px] md:!w-[50px] opacity-0 group-hover:opacity-100 !transition-opacity !duration-300"></div>
+        <div className="swiper-button-prev !h-full !top-0 !left-0 !mt-0 !w-[30px] md:!w-[50px] opacity-0 hover:opacity-100 !transition-opacity !duration-300 "></div>
+        <div className="swiper-button-next !h-full !top-0 !right-0 !mt-0 !w-[30px] md:!w-[50px] opacity-0 hover:opacity-100 !transition-opacity !duration-300 "></div>
       </Swiper>
     </div>
   );

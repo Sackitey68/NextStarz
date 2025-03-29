@@ -266,7 +266,7 @@ export default function ContactPage() {
 
               <div className="flex items-center space-x-4">
                 <FaMapMarkerAlt className="w-6 h-6 text-yellow-400" />
-                <p className="text-gray-300">123 Main Street, Accra, Ghana</p>
+                <p className="text-gray-300">15 Sapele Cl, GC-136-5844, Accra</p>
               </div>
 
               {/* Working Hours */}

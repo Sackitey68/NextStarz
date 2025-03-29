@@ -2,12 +2,12 @@ const HowItWorks = () => {
   return (
     <div className="mt-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center text-gray-300 mb-8 animate-bounce">
+        <h2 className="text-3xl font-bold text-center text-gray-400 mb-8 animate-bounce">
           How to Participate
         </h2>
         <div className="space-y-8">
           {/* Step 1: Create Account or Login */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105">
+          <div className="bg-white/10 p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105">
             <h3 className="text-xl font-semibold text-gray-300 mb-4">
               1. Create an Account or Login
             </h3>
@@ -18,7 +18,7 @@ const HowItWorks = () => {
           </div>
 
           {/* Step 2: Select Category */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105">
+          <div className="bg-white/10 p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105">
             <h3 className="text-xl font-semibold text-gray-300 mb-4">
               2: Select Your Category
             </h3>
@@ -29,7 +29,7 @@ const HowItWorks = () => {
           </div>
 
           {/* Step 3: Upload Demo Video */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105">
+          <div className="bg-white/10 p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105">
             <h3 className="text-xl font-semibold text-gray-300 mb-4">
               3: Upload Your Demo Video
             </h3>
@@ -39,7 +39,7 @@ const HowItWorks = () => {
           </div>
 
           {/* Step 4: Make Payment */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105">
+          <div className="bg-white/10 p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105">
             <h3 className="text-xl font-semibold text-gray-300 mb-4">
               4: Make Payment
             </h3>
