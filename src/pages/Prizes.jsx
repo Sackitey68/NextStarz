@@ -175,7 +175,7 @@ export default function Prizes() {
               <span className="font-bold">📍 Online:</span> May 29 – June 3,
               2025
               <br />
-              <span className="font-bold">📍 Offline:</span> CJ Multimedia,
+              <span className="font-bold">📍 Offline:</span> CeeJay Multimedia,
               Lapaz, Accra <p> June 5 – 7, 2025</p>
             </p>
           </div>

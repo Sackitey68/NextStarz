@@ -6,7 +6,7 @@ import Anggie from "../assets/Team/Anggie.jpg";
 import Dorcas from "../assets/Team/Dorcas.jpg";
 
 const Judges = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const judges = [
     {
       id: 1,
@@ -144,20 +144,21 @@ const Judges = () => {
         </motion.p>
       </motion.div>
 
+      {/* Updated Judges Grid - Now spans full viewport width */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4 sm:px-6 lg:px-8 w-full"
       >
         {judges.map((judge) => (
           <motion.div
             key={judge.id}
             variants={judgeVariants}
             whileHover="hover"
-            className="bg-gray-800 bg-opacity-60 rounded-xl overflow-hidden shadow-2xl hover:shadow-purple-500/30 transition-all duration-300"
+            className="bg-gray-800 bg-opacity-60 rounded-xl overflow-hidden shadow-2xl hover:shadow-purple-500/30 transition-all duration-300 h-full flex flex-col"
           >
-            <div className="p-6">
+            <div className="p-6 flex-1 flex flex-col">
               <motion.div className="relative group" variants={imageVariants}>
                 <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 blur-md transition-all duration-500"></div>
                 <motion.img
@@ -168,13 +169,13 @@ const Judges = () => {
                 />
               </motion.div>
               <div className="mt-6 text-center">
-                <h3 className="text-2xl font-bold  bg-clip-text text-gray-400">
+                <h3 className="text-2xl font-bold bg-clip-text text-gray-400">
                   {judge.name}
                 </h3>
                 <p className="text-gray-200 font-medium">{judge.role}</p>
               </div>
               <motion.div
-                className="mt-6"
+                className="mt-6 flex-1"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
@@ -202,7 +203,7 @@ const Judges = () => {
         </p>
         <motion.button
           onClick={handleRegisterClick}
-          className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full font-bold text-lg  transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50"
+          className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/50"
           whileHover={{
             scale: 1.1,
             boxShadow: "0 0 20px rgba(192, 132, 252, 0.6)",
