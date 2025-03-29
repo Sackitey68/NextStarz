@@ -239,7 +239,7 @@ const Auditions = () => {
         {/* Added NB Note */}
         <motion.div 
           variants={fadeIn}
-          className="mt-8 max-w-4xl mx-auto bg-yellow-900 bg-opacity-20 p-4 rounded-lg border border-yellow-500/30"
+          className="mt-8 max-w-4xl mx-auto bg-blue-900 bg-opacity-20 p-4 rounded-lg border border-blue-400"
         >
           <p className="text-hover-color text-center">
             <strong>NB:</strong> If you missed the registration period, no worries—there will be a chance to register at the audition venue.
