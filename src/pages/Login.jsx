@@ -214,7 +214,7 @@ export default function Login() {
   };
 
   return (
-    <div className="bg-bg-color min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden">
+    <section className="bg-bg-color min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden">
       {/* Background particles */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
@@ -639,6 +639,6 @@ export default function Login() {
           </button>
         </motion.div>
       )}
-    </div>
+    </section>
   );
 }

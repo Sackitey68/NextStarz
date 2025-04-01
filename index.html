@@ -1,14 +1,105 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="./src/assets/favicon.ico" type="image/x-icon">
-    <script src="https://js.paystack.co/v1/inline.js"></script>
-    <title>NextStarz | Be the next star</title>
+    <meta name="theme-color" content="#6D28D9" />
+
+    <title>
+      NextStarz | Be The Next Big Star
+    </title>
+    <meta
+      name="description"
+      content="Showcase your talent in singing, dance, comedy & music production. Win recording deals, cash prizes & global exposure. Register now for Ghana's biggest talent hunt!"
+    />
+    <meta
+      name="keywords"
+      content="talent show, music competition, Ghana auditions, singing contest, dance battle, comedy competition, beat-making, Suede Entertainment"
+    />
+
+    <!-- Favicon & App Icons -->
+    <link
+      rel="shortcut icon"
+      href="./src/assets/favicon.ico"
+      type="image/x-icon"
+    />
+    
+    <!-- Open Graph / Facebook (for social sharing) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://thenextstarz.com" />
+    <meta
+      property="og:title"
+      content="NextStarz| Be the Next Big Star"
+    />
+    <meta
+      property="og:description"
+      content="Compete in the biggest talent hunt. Grand prize: Recording contract + GHS 10,000. Auditions open now!"
+    />
+    <meta
+      property="og:image"
+      content="https://thenextstarz.com/social-preview.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@NextStarzglobal" />
+    <meta name="twitter:creator" content="@SuedeEntertainment" />
+    <meta
+      name="twitter:title"
+      content="Applications Open! NextStarz Talent Hunt 2025"
+    />
+    <meta
+      name="twitter:description"
+      content="Singers, dancers, comedians & songwriters – your chance to shine! Deadline: June 5, 2025."
+    />
+    <meta
+      name="twitter:image"
+      content="https://thenextstarz.com/twitter-preview.jpg"
+    />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://thenextstarz.com" />
+
   </head>
   <body class="bg-bg-color font-inter">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+  
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": "NextStarz Talent Hunt 2025",
+        "startDate": "2025-04-05",
+        "endDate": "2025-06-07",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "location": {
+          "@type": "Place",
+          "name": "CJ Multimedia, Lapaz",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Near Ashanti HomeTouch",
+            "addressLocality": "Accra",
+            "addressCountry": "GH"
+          }
+        },
+        "image": "https://thenextstarz.com/logo.jpg",
+        "description": "Annual talent competition for singers, dancers, comedians and music producers.",
+        "performer": {
+          "@type": "PerformingGroup",
+          "name": "Suede Entertainment"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://thenextstarz.com/register",
+          "price": "100",
+          "priceCurrency": "GHS"
+        }
+      }
+    </script>
   </body>
 </html>
