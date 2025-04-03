@@ -11,331 +11,200 @@ export default function Header() {
   const navigate = useNavigate();
   const auth = getAuth();
 
-  // Track authentication state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsSignedUp(true);
-      } else {
-        setIsSignedUp(false);
-      }
+      setIsSignedUp(!!user);
     });
-
     return () => unsubscribe();
   }, [auth]);
 
-  // Toggle mobile menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    document.body.classList.toggle("overflow-hidden", !isMenuOpen);
   };
 
-  // Disable scrolling when mobile menu is open
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.classList.add("overflow-hidden");
-    } else {
-      document.body.classList.remove("overflow-hidden");
-    }
-  }, [isMenuOpen]);
-
-  // Add scroll event listener
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 100);
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Handle button click
   const handleButtonClick = () => {
-    if (isSignedUp) {
-      navigate("/uploaddemo"); // Redirect to Upload Demo page
-    } else {
-      navigate("/register"); // Redirect to Register page
-    }
+    navigate(isSignedUp ? "/uploaddemo" : "/register");
   };
+
+  const navItems = [
+    { path: "/", name: "Home" },
+    { path: "/about", name: "About" },
+    { path: "/register", name: "Register" },
+    { path: "/prizes", name: "Prizes" },
+    { path: "/contact", name: "Contact" },
+  ];
 
   return (
     <header>
-      {/* Purple Background with Text */}
-      <div
-        className={`fixed inset-x-0 top-0 h-[4.7rem] flex items-center p-5 z-30 transform transition-all duration-500 ease-in-out ${
-          isScrolled ? "translate-y-0" : "-translate-y-full"
-        } md:block hidden`}
-        style={{
-          background:
-            "linear-gradient(to right, rgb(160, 32, 240), rgba(0, 0, 0, 1))",
-        }}
-      >
-        <p className="text-gray-900 text-lg flex flex-col font-semibold sm:pl-2">
-          <span>NEXTSTARZ - Season 1</span>
-          <span className="text-sm font-bold">Saturdays: 19:00 - 21:00 GMT</span>
+      {/* Scrolling Announcement Bar */}
+      <div className={`fixed max-sm:text-sm top-0 w-full z-40 bg-gradient-to-r from-purple-900 to-pink-700 text-white text-center py-2 transition-transform duration-500 ${
+        isScrolled ? "translate-y-0" : "-translate-y-full"
+      }`}>
+        <p className="font-bold animate-pulse">
+          Registration Is Open Until June 5.{" "}
+          <span
+            className="underline cursor-pointer"
+            onClick={() => navigate("/register")}
+          >
+            Register Now!
+          </span>
         </p>
       </div>
 
-      <nav className="fixed w-full z-20 top-0 start-0 bg-bg-color">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
-          {/* Logo and Nav Links Container */}
-          <div className="flex items-center space-x-8">
+      {/* Main Navigation */}
+      <nav className={`fixed bg-bg-color shadow-sm w-full z-50 top-8 ${
+        isScrolled ? "bg-bg-color" : ""
+      } transition-all duration-300`}>
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center">
-              <img src={Logo} className="size-9" alt="NextStarz Logo" />
+            <Link to="/" className="flex items-center group">
+              <img
+                src={Logo}
+                className="h-10 w-10 group-hover:scale-110 transition-transform"
+                alt="NextStarz"
+              />
             </Link>
 
-            {/* Nav Links */}
-            <div className="hidden md:flex items-center space-x-8 text-base text-gray-300">
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  `transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
-                    isActive
-                      ? "text-hover-color font-semibold underline underline-offset-8"
-                      : ""
-                  }`
-                }
-              >
-                Home
-              </NavLink>
-
-              <NavLink
-                to="/about"
-                className={({ isActive }) =>
-                  `transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
-                    isActive
-                      ? "text-hover-color font-semibold underline underline-offset-8"
-                      : ""
-                  }`
-                }
-              >
-                About
-              </NavLink>
-
-              <NavLink
-                to="/register"
-                className={({ isActive }) =>
-                  `transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
-                    isActive
-                      ? "text-hover-color font-semibold underline underline-offset-8"
-                      : ""
-                  }`
-                }
-              >
-                Register
-              </NavLink>
-
-              <NavLink
-                to="/contact"
-                className={({ isActive }) =>
-                  `transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
-                    isActive
-                      ? "text-hover-color font-semibold underline underline-offset-8"
-                      : ""
-                  }`
-                }
-              >
-                Contact
-              </NavLink>
-
-              <NavLink
-                to="/faq"
-                className={({ isActive }) =>
-                  `transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
-                    isActive
-                      ? "text-hover-color font-semibold underline underline-offset-8"
-                      : ""
-                  }`
-                }
-              >
-                FAQ
-              </NavLink>
+            {/* Desktop Navigation with Underline Hover Effect */}
+            <div className="hidden md:flex items-center flex-1 justify-center">
+              <div className="flex items-center space-x-8">
+                {navItems.map((item) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={({ isActive }) => `
+                      relative px-2 py-1 transition-all duration-300
+                      ${
+                        isActive
+                          ? "text-hover-color font-medium"
+                          : "text-gray-300 hover:text-hover-color"
+                      }
+                      after:content-[''] after:absolute after:bottom-0 after:left-0 
+                      after:w-0 after:h-0.5 after:bg-hover-color after:transition-all 
+                      after:duration-300 hover:after:w-full
+                      ${isActive ? "after:w-full" : ""}
+                    `}
+                  >
+                    {item.name}
+                  </NavLink>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Sign Up / Upload Demo Button */}
-          <div
-            className={`flex items-center space-x-3 md:space-x-0 ${
-              isMenuOpen ? "hidden" : "block"
-            }`}
-          >
-            <button
-              onClick={handleButtonClick}
-              className="relative inline-flex items-center max-sm:hidden justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-xl group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-gray-300 focus:ring-2 focus:outline-none focus:ring-hover-color"
-            >
-              <span className="relative px-3 py-1.5 md:px-5 md:py-2.5 transition-all ease-in duration-75 bg-gray-300 rounded-md group-hover:bg-transparent uppercase flex items-center space-x-2">
-                {isSignedUp ? (
-                  <>
-                    <FaUpload className="animate-bounce" /> {/* Upload Icon */}
-                    <span>Upload</span> {/* Upload Text */}
-                  </>
-                ) : (
-                  "Sign Up"
-                )}
-              </span>
-            </button>
+            {/* Upload Demo Button */}
+            <div className="hidden md:block">
+              <button
+                onClick={handleButtonClick}
+                className="relative overflow-hidden group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full"></div>
+                <div className="relative px-6 py-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 hover:to-purple-600 text-white flex items-center group-hover:bg-transparent transition-all duration-300 transform hover:shadow-lg">
+                  {isSignedUp ? (
+                    <>
+                      <FaUpload className="mr-2 animate-bounce" />
+                      <span>Upload</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Sign In</span>
+                    </>
+                  )}
+                </div>
+              </button>
+            </div>
 
             {/* Mobile Menu Button */}
             <button
-              type="button"
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-hover-color"
-              aria-expanded={isMenuOpen}
               onClick={toggleMenu}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-800 focus:outline-none"
+              aria-label="Menu"
             >
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="w-5 h-5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 17 14"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M1 1h15M1 7h15M1 13h15"
-                />
-              </svg>
+              <div className={`w-6 flex flex-col items-end transition-all ${
+                isMenuOpen ? "rotate-180" : ""
+              }`}>
+                <span className={`block h-0.5 w-6 bg-white transition-all ${
+                  isMenuOpen ? "rotate-45 translate-y-1.5" : "mb-1.5"
+                }`}></span>
+                <span className={`block h-0.5 w-4 bg-white transition-all ${
+                  isMenuOpen ? "opacity-0" : "mb-1.5"
+                }`}></span>
+                <span className={`block h-0.5 ${
+                  isMenuOpen ? "w-6 -rotate-45" : "w-5"
+                } bg-white transition-all`}></span>
+              </div>
             </button>
           </div>
         </div>
 
-        {/* Mobile Nav Links */}
-        <div
-          className={`fixed inset-0 w-full h-screen bg-black bg-opacity-80 backdrop-blur-sm transition-all duration-300 ease-in-out z-10 ${
-            isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
-          }`}
-          id="navbar-sticky"
-        >
+        {/* Mobile Menu - Centered with Matching Underline Effect */}
+        <div className={`md:hidden fixed inset-0 z-20 bg-gray-900/70 backdrop-blur-lg transition-all duration-300 ${
+          isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}>
           {/* Close Button */}
-          <button
-            type="button"
-            className="absolute top-4 right-4 p-2 text-white hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-hover-color rounded-lg"
-            onClick={toggleMenu}
-          >
-            <svg
-              className="w-6 h-6"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
+          <div className="absolute top-6 right-6">
+            <button
+              onClick={toggleMenu}
+              className="p-2 rounded-lg hover:bg-gray-800 focus:outline-none"
             >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+              <div className="w-6 h-6 relative">
+                <span className="block absolute top-1/2 left-1/2 w-6 h-0.5 bg-white transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                <span className="block absolute top-1/2 left-1/2 w-6 h-0.5 bg-white transform -translate-x-1/2 -translate-y-1/2 -rotate-45"></span>
+              </div>
+            </button>
+          </div>
+          
+          {/* Centered Navigation Links */}
+          <div className="h-full flex flex-col items-center justify-center">
+            <div className="w-full max-w-xs space-y-8">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  onClick={toggleMenu}
+                  className={({ isActive }) => `
+                    relative block w-full text-center px-6 py-4 text-xl
+                    ${
+                      isActive
+                        ? "text-hover-color font-medium"
+                        : "text-gray-300 hover:text-hover-color"
+                    }
+                    after:content-[''] after:absolute after:bottom-2 after:left-1/2 
+                    after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-hover-color 
+                    after:transition-all after:duration-300 hover:after:w-20
+                    ${isActive ? "after:w-20" : ""}
+                  `}
+                >
+                  {item.name}
+                </NavLink>
+              ))}
 
-          {/* Centered Nav Links */}
-          <div className="flex flex-col items-center justify-center h-full">
-            <ul className="flex flex-col space-y-6 text-center text-xl">
-              <li>
-                <NavLink
-                  to="/"
-                  className={({ isActive }) =>
-                    `block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
-                      isActive
-                        ? "text-hover-color font-semibold underline underline-offset-8"
-                        : ""
-                    }`
-                  }
-                  onClick={toggleMenu} // Close menu on click
-                >
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/about"
-                  className={({ isActive }) =>
-                    `block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
-                      isActive
-                        ? "text-hover-color font-semibold underline underline-offset-8"
-                        : ""
-                    }`
-                  }
-                  onClick={toggleMenu} // Close menu on click
-                >
-                  About
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/register"
-                  className={({ isActive }) =>
-                    `block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
-                      isActive
-                        ? "text-hover-color font-semibold underline underline-offset-8"
-                        : ""
-                    }`
-                  }
-                  onClick={toggleMenu} // Close menu on click
-                >
-                  Register
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/contact"
-                  className={({ isActive }) =>
-                    `block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
-                      isActive
-                        ? "text-hover-color font-semibold underline underline-offset-8"
-                        : ""
-                    }`
-                  }
-                  onClick={toggleMenu} // Close menu on click
-                >
-                  Contact
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/faq"
-                  className={({ isActive }) =>
-                    `block py-2 px-3 text-white rounded-sm transition-all duration-200 hover:text-hover-color hover:font-semibold hover:underline hover:underline-offset-8 ${
-                      isActive
-                        ? "text-hover-color font-semibold underline underline-offset-8"
-                        : ""
-                    }`
-                  }
-                  onClick={toggleMenu} // Close menu on click
-                >
-                  FAQ
-                </NavLink>
-              </li>
-
-              {/* Sign Up / Upload Demo Button in Mobile Menu */}
-              <li>
-                <button
-                  onClick={handleButtonClick} // Only navigate, no toggleMenu
-                  className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-white rounded-xl group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-gray-300 focus:ring-2 focus:outline-none focus:ring-hover-color"
-                >
-                  <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-transparent rounded-md group-hover:bg-transparent uppercase flex items-center space-x-2">
-                    {isSignedUp ? (
-                      <>
-                        <FaUpload className="animate-bounce" />
-                        <span>Upload</span>
-                      </>
-                    ) : (
-                      "Sign Up"
-                    )}
-                  </span>
-                </button>
-              </li>
-            </ul>
+              <button
+                onClick={() => {
+                  handleButtonClick();
+                  toggleMenu();
+                }}
+                className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-500 rounded-xl text-white font-bold flex items-center justify-center hover:scale-[1.02] transition-transform mt-4"
+              >
+                {isSignedUp ? (
+                  <>
+                    <FaUpload className="mr-3 animate-pulse" />
+                    <span>Upload Demo</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Sign In</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
