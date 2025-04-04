@@ -36,7 +36,7 @@ export default function Prizes() {
   }, []);
 
   return (
-    <div className="text-white min-h-screen py-10 px-6 lg:px-8">
+    <div className="text-white min-h-screen py-8 px-6 lg:px-8">
       <title>Prizes | Win Recording Deals & GHS 10,000 Cash </title>
       <meta
         name="description"
@@ -44,7 +44,7 @@ export default function Prizes() {
       />
 
       <div className="text-center mb-16">
-        <h1 className="text-5xl font-bold mb-4 animate-fade-in opacity-0 translate-y-10 animate-on-scroll">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-fade-in opacity-0 translate-y-10 animate-on-scroll text-gray-200">
           Awards & Recognition – NextStarz Season 1
         </h1>
         <p className="text-lg text-gray-400 animate-fade-in opacity-0 translate-y-10 animate-on-scroll delay-100">
