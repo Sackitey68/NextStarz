@@ -70,11 +70,7 @@ export default function Header() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center group">
-              <img
-                src={Logo}
-                className="h-10 w-10 group-hover:scale-110 transition-transform"
-                alt="NextStarz"
-              />
+              <img src={Logo} className="h-10 w-10" alt="NextStarz Logo" />
             </Link>
 
             {/* Desktop Navigation with Underline Hover Effect */}

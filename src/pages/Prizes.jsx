@@ -37,10 +37,10 @@ export default function Prizes() {
 
   return (
     <div className="text-white min-h-screen py-10 px-6 lg:px-8">
-      <title>About Us | Suede Entertainment</title>
+      <title>Prizes | Win Recording Deals & GHS 10,000 Cash </title>
       <meta
         name="description"
-        content="Discover Suede Entertainment - A powerhouse in music and entertainment industry"
+        content="Discover amazing prizes for NextStarz Talent Hunt 2025 winners - recording contracts with Suede Entertainment, GHS 10,000 cash prize, music equipment, and global exposure for singers, dancers & comedians in Ghana."
       />
 
       <div className="text-center mb-16">

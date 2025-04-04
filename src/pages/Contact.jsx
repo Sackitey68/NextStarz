@@ -84,6 +84,7 @@ export default function ContactPage() {
 
   return (
     <section className="py-10 px-4 sm:px-6 lg:px-8 bg-bg-color">
+      <title>Contact Us | NextStarz </title>
       {/* Hero Section */}
       <motion.div
         initial="hidden"

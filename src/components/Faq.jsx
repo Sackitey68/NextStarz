@@ -195,7 +195,9 @@ export default function FAQPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-color py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-color py-10 px-4 sm:px-6 lg:px-8">
+      <title>Faq | NextStarz</title>
+
       <div className="max-w-4xl mx-auto">
         <h1
           className={`text-2xl md:text-3xl lg:text-4xl font-bold text-center text-gray-100 mb-8 transition-all duration-1000 ease-out ${

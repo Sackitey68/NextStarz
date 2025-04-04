@@ -121,6 +121,8 @@ const Auditions = () => {
       variants={containerVariants}
       className="min-h-screen bg-bg-color text-white py-10 px-4 sm:px-6 lg:px-8"
     >
+         <title>Auditions | NextStarz</title>
+     
       {/* Hero Section */}
       <motion.section variants={fadeIn} className="text-center mb-16">
         <motion.h1
