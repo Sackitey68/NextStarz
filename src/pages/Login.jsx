@@ -533,7 +533,7 @@ export default function Login() {
                   </span>
                 </div>
                 <p className="text-center font-medium">
-                  Welcome back! Redirecting you...
+                  Welcome back! Click here ⬇️ to upload demo
                 </p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -541,7 +541,7 @@ export default function Login() {
                   onClick={() => navigate("/uploaddemo")}
                   className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium rounded-lg transition-all duration-300"
                 >
-                  Go Now
+                  Upload Demo
                 </motion.button>
               </motion.div>
             )}
@@ -629,7 +629,7 @@ export default function Login() {
           initial="hidden"
           animate="visible"
           variants={fadeInUp}
-          className="fixed bottom-6 right-6 z-50"
+          className="fixed bottom-5 right-6 z-50"
         >
           <button
             onClick={handleLogout}

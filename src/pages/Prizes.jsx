@@ -36,8 +36,13 @@ export default function Prizes() {
   }, []);
 
   return (
-    <div className="text-white min-h-screen py-8 px-6 lg:px-8">
-      {/* Hero Section */}
+    <div className="text-white min-h-screen py-10 px-6 lg:px-8">
+      <title>About Us | Suede Entertainment</title>
+      <meta
+        name="description"
+        content="Discover Suede Entertainment - A powerhouse in music and entertainment industry"
+      />
+
       <div className="text-center mb-16">
         <h1 className="text-5xl font-bold mb-4 animate-fade-in opacity-0 translate-y-10 animate-on-scroll">
           Awards & Recognition – NextStarz Season 1
@@ -176,7 +181,7 @@ export default function Prizes() {
               2025
               <br />
               <span className="font-bold">📍 Offline:</span> CeeJay Multimedia,
-              Lapaz, Accra <p> June 5 – 7, 2025</p>
+              Lapaz, Accra <br /> June 5 – 7, 2025
             </p>
           </div>
         </div>

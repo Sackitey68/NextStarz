@@ -42,11 +42,13 @@ export default function Header() {
   ];
 
   return (
-    <header>
+    <header className="py-5">
       {/* Scrolling Announcement Bar */}
-      <div className={`fixed max-sm:text-sm top-0 w-full z-40 bg-gradient-to-r from-purple-900 to-pink-700 text-white text-center py-2 transition-transform duration-500 ${
-        isScrolled ? "translate-y-0" : "-translate-y-full"
-      }`}>
+      <div
+        className={`fixed max-sm:text-sm top-0 w-full z-40 bg-gradient-to-r from-purple-900 to-pink-700 text-white text-center py-2 transition-transform duration-500 ${
+          isScrolled ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
         <p className="font-bold animate-pulse">
           Registration Is Open Until June 5.{" "}
           <span
@@ -59,9 +61,11 @@ export default function Header() {
       </div>
 
       {/* Main Navigation */}
-      <nav className={`fixed bg-bg-color shadow-sm w-full z-50 top-8 ${
-        isScrolled ? "bg-bg-color" : ""
-      } transition-all duration-300`}>
+      <nav
+        className={`fixed bg-bg-color shadow-sm w-full z-50 top-8 ${
+          isScrolled ? "bg-bg-color" : ""
+        } transition-all duration-300`}
+      >
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -99,22 +103,27 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Upload Demo Button */}
+            {/* Upload Demo Button - Enhanced with Smooth Hover */}
             <div className="hidden md:block">
               <button
                 onClick={handleButtonClick}
-                className="relative overflow-hidden group"
+                className="relative overflow-hidden group transition-all duration-300"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full"></div>
-                <div className="relative px-6 py-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 hover:to-purple-600 text-white flex items-center group-hover:bg-transparent transition-all duration-300 transform hover:shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full opacity-100 group-hover:opacity-0 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative px-6 py-2 rounded-full flex items-center text-white transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-lg">
                   {isSignedUp ? (
                     <>
-                      <FaUpload className="mr-2 animate-bounce" />
-                      <span>Upload</span>
+                      <FaUpload className="mr-2 transition-transform duration-300 group-hover:scale-110" />
+                      <span className="transition-all duration-300 group-hover:tracking-wider">
+                        Upload
+                      </span>
                     </>
                   ) : (
                     <>
-                      <span>Sign In</span>
+                      <span className="transition-all duration-300 group-hover:tracking-wider">
+                        Sign In
+                      </span>
                     </>
                   )}
                 </div>
@@ -127,27 +136,37 @@ export default function Header() {
               className="md:hidden p-2 rounded-lg hover:bg-gray-800 focus:outline-none"
               aria-label="Menu"
             >
-              <div className={`w-6 flex flex-col items-end transition-all ${
-                isMenuOpen ? "rotate-180" : ""
-              }`}>
-                <span className={`block h-0.5 w-6 bg-white transition-all ${
-                  isMenuOpen ? "rotate-45 translate-y-1.5" : "mb-1.5"
-                }`}></span>
-                <span className={`block h-0.5 w-4 bg-white transition-all ${
-                  isMenuOpen ? "opacity-0" : "mb-1.5"
-                }`}></span>
-                <span className={`block h-0.5 ${
-                  isMenuOpen ? "w-6 -rotate-45" : "w-5"
-                } bg-white transition-all`}></span>
+              <div
+                className={`w-6 flex flex-col items-end transition-all ${
+                  isMenuOpen ? "rotate-180" : ""
+                }`}
+              >
+                <span
+                  className={`block h-0.5 w-6 bg-white transition-all ${
+                    isMenuOpen ? "rotate-45 translate-y-1.5" : "mb-1.5"
+                  }`}
+                ></span>
+                <span
+                  className={`block h-0.5 w-4 bg-white transition-all ${
+                    isMenuOpen ? "opacity-0" : "mb-1.5"
+                  }`}
+                ></span>
+                <span
+                  className={`block h-0.5 ${
+                    isMenuOpen ? "w-6 -rotate-45" : "w-5"
+                  } bg-white transition-all`}
+                ></span>
               </div>
             </button>
           </div>
         </div>
 
         {/* Mobile Menu - Centered with Matching Underline Effect */}
-        <div className={`md:hidden fixed inset-0 z-20 bg-gray-900/70 backdrop-blur-lg transition-all duration-300 ${
-          isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}>
+        <div
+          className={`md:hidden fixed inset-0 z-20 bg-gray-900/70 backdrop-blur-lg transition-all duration-300 ${
+            isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+        >
           {/* Close Button */}
           <div className="absolute top-6 right-6">
             <button
@@ -160,7 +179,7 @@ export default function Header() {
               </div>
             </button>
           </div>
-          
+
           {/* Centered Navigation Links */}
           <div className="h-full flex flex-col items-center justify-center">
             <div className="w-full max-w-xs space-y-8">
@@ -191,16 +210,20 @@ export default function Header() {
                   handleButtonClick();
                   toggleMenu();
                 }}
-                className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-500 rounded-xl text-white font-bold flex items-center justify-center hover:scale-[1.02] transition-transform mt-4"
+                className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-500 rounded-xl text-white font-bold flex items-center justify-center hover:scale-[1.02] transition-transform mt-4 group"
               >
                 {isSignedUp ? (
                   <>
-                    <FaUpload className="mr-3 animate-pulse" />
-                    <span>Upload Demo</span>
+                    <FaUpload className="mr-3 transition-transform duration-300 group-hover:scale-110" />
+                    <span className="transition-all duration-300 group-hover:tracking-wider">
+                      Upload Demo
+                    </span>
                   </>
                 ) : (
                   <>
-                    <span>Sign In</span>
+                    <span className="transition-all duration-300 group-hover:tracking-wider">
+                      Sign In
+                    </span>
                   </>
                 )}
               </button>

@@ -119,7 +119,7 @@ const Auditions = () => {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="min-h-screen bg-bg-color text-white py-12 px-4 sm:px-6 lg:px-8"
+      className="min-h-screen bg-bg-color text-white py-10 px-4 sm:px-6 lg:px-8"
     >
       {/* Hero Section */}
       <motion.section variants={fadeIn} className="text-center mb-16">

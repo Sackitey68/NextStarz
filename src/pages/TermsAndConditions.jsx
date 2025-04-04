@@ -91,7 +91,7 @@ export default function TermsAndConditions() {
           animate="visible"
           variants={fadeInUp}
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 text-center relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center relative z-10">
             <motion.h1
               variants={fadeInUp}
               className="text-4xl sm:text-6xl font-bold mb-6 text-gray-400"
