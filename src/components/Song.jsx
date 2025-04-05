@@ -1,24 +1,24 @@
-import { FaSpotify } from "react-icons/fa"; 
-import AudiomackIcon from "../assets/icons/audiomack.svg"; 
-import BoomplayIcon from "../assets/icons/boomplay.svg"; 
+import { FaSpotify } from "react-icons/fa";
+import AudiomackIcon from "../assets/icons/audiomack.svg";
+import BoomplayIcon from "../assets/icons/boomplay.svg";
 
 export default function Song() {
   // Streaming platform links
   const streamingLinks = [
     {
       platform: "Spotify",
-      icon: <FaSpotify className="text-2xl text-green-500" />, 
-      link: "https://open.spotify.com/track/your-song-id", 
+      icon: <FaSpotify className="text-2xl text-green-500" />,
+      link: "https://open.spotify.com/album/79Q5DIDdBhrlQMgXmGoJvh?si=SPYNVkADRmyqI9XKBZhV_g&nd=1&dlsi=c4809e32b71c4fab",
     },
     {
       platform: "Audiomack",
-      icon: <img src={AudiomackIcon} alt="Audiomack" className="w-6 h-6" />, 
-      link: "https://audiomack.com/your-song-link", 
+      icon: <img src={AudiomackIcon} alt="Audiomack" className="w-6 h-6" />,
+      link: "https://audiomack.com/diojoofsuede/song/shine-like-a-star?share-user-id=19582793",
     },
     {
       platform: "Boomplay",
       icon: <img src={BoomplayIcon} alt="Boomplay" className="w-6 h-6" />,
-      link: "https://www.boomplay.com/your-song-link",
+      link: "https://www.boomplay.com/albums/107800315",
     },
   ];
 
@@ -32,8 +32,8 @@ export default function Song() {
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg overflow-hidden p-6">
           <div className="flex flex-col items-center text-center">
             <h3 className="text-2xl font-bold text-white mb-4 ">
-              Shine Like a Star 
-              <p className="text-xl text-neutral-900">By Diojo</p> 
+              Shine Like a Star
+              <p className="text-xl text-neutral-900">By Diojo</p>
             </h3>
             <p className="text-gray-200 mb-6">
               Listen to the official soundtrack for NextStarz Season 1
