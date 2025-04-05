@@ -113,15 +113,7 @@ export default function Header() {
 
             {/* Desktop Buttons */}
             <div className="hidden md:flex items-center gap-4">
-              {isSignedUp && (
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-2 text-white hover:text-red-400 transition-colors"
-                >
-                  <FaSignOutAlt />
-                  <span>Logout</span>
-                </button>
-              )}
+            
               <button
                 onClick={() => navigate(isSignedUp ? "/uploaddemo" : "/register")}
                 className="relative overflow-hidden group transition-all duration-300"
@@ -267,7 +259,6 @@ export default function Header() {
                 ))}
               </div>
 
-              {/* Action Buttons - Only Upload/Sign In (No Logout) */}
               <div className="mt-6">
                 <button
                   onClick={isSignedUp ? handleUploadClick : () => {

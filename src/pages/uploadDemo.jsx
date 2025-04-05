@@ -38,7 +38,7 @@ export default function UploadDemo() {
   const [videoFile, setVideoFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
-  const [isPaymentComplete, setIsPaymentComplete] = useState(false);
+  const [isPaymentComplete, setIsPaymentComplete] = useState(false)
   const [downloadURL, setDownloadURL] = useState("");
   const [error, setError] = useState("");
   const [category, setCategory] = useState("");
