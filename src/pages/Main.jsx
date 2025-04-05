@@ -7,6 +7,7 @@ import { FaFilm, FaStar, FaMusic, FaGamepad, FaHeadphones } from "react-icons/fa
 
 export default function Main() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isReloading, setIsReloading] = useState(false);
 
   // Floating entertainment icons configuration
   const floatingIcons = [
@@ -21,15 +22,34 @@ export default function Main() {
   useEffect(() => {
     const hasLoaded = sessionStorage.getItem("hasLoaded");
 
+    // Handle page reload
+    const handleBeforeUnload = () => {
+      setIsReloading(true);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
     if (hasLoaded) {
-      setIsLoading(false);
+      // For subsequent loads, show a shorter loading state
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+      
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
     } else {
+      // First load - show full loading animation
       const timer = setTimeout(() => {
         setIsLoading(false);
         sessionStorage.setItem("hasLoaded", "true");
       }, 3000);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
     }
   }, []);
 
@@ -88,19 +108,25 @@ export default function Main() {
           className="fixed inset-0 flex flex-col items-center justify-center bg-gray-900 z-50"
         >
           <div className="flex space-x-2 mb-8">
-            {/* Animated Soundwave Bars */}
+            {/* Animated Soundwave Bars - different animation for reload */}
             {[1, 2, 3, 4, 5].map((i) => (
               <motion.div
                 key={i}
-                className="w-3 h-12 bg-gradient-to-b from-purple-500 to-blue-500 rounded-full"
+                className={`w-3 rounded-full ${
+                  isReloading 
+                    ? "bg-gradient-to-b from-blue-400 to-purple-400" 
+                    : "bg-gradient-to-b from-purple-500 to-blue-500"
+                }`}
                 animate={{
-                  height: [20, 60, 20],
+                  height: isReloading 
+                    ? [40, 20, 40] 
+                    : [20, 60, 20],
                 }}
                 transition={{
-                  duration: 1.5,
+                  duration: isReloading ? 0.8 : 1.5,
                   repeat: Infinity,
                   repeatType: "reverse",
-                  delay: i * 0.2
+                  delay: i * (isReloading ? 0.1 : 0.2)
                 }}
               />
             ))}
@@ -108,19 +134,28 @@ export default function Main() {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.3 }}
             className="text-2xl font-bold text-white mb-2"
           >
-            Welcome to NEXTSTARZ
+            {isReloading ? "Refreshing Content..." : "Welcome to NEXTSTARZ"}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.7 }}
-            transition={{ delay: 0.8 }}
+            transition={{ delay: 0.5 }}
             className="text-gray-400"
           >
-            Loading your entertainment experience...
+            {isReloading ? "Just a moment..." : "Loading your entertainment experience..."}
           </motion.p>
+          
+          {isReloading && (
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: "50%" }}
+              transition={{ duration: 1, ease: "linear" }}
+              className="h-1 bg-gradient-to-r from-blue-400 to-purple-500 mt-4 rounded-full"
+            />
+          )}
         </motion.div>
       )}
 
