@@ -3,7 +3,13 @@ import { motion } from "framer-motion";
 import Banner from "../components/Banner.jsx";
 import Song from "../components/Song.jsx";
 import HowItWorks from "../components/HowItWorks.jsx";
-import { FaFilm, FaStar, FaMusic, FaGamepad, FaHeadphones } from "react-icons/fa";
+import {
+  FaFilm,
+  FaStar,
+  FaMusic,
+  FaGamepad,
+  FaHeadphones,
+} from "react-icons/fa";
 
 export default function Main() {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,11 +17,31 @@ export default function Main() {
 
   // Floating entertainment icons configuration
   const floatingIcons = [
-    { icon: <FaFilm className="text-purple-400/30" />, size: "text-5xl", position: "top-20 left-10" },
-    { icon: <FaStar className="text-yellow-400/30" />, size: "text-6xl", position: "top-1/3 right-20" },
-    { icon: <FaMusic className="text-blue-400/30" />, size: "text-7xl", position: "bottom-1/4 left-1/4" },
-    { icon: <FaGamepad className="text-green-400/30" />, size: "text-5xl", position: "bottom-20 right-1/4" },
-    { icon: <FaHeadphones className="text-pink-400/30" />, size: "text-6xl", position: "top-1/4 left-1/3" }
+    {
+      icon: <FaFilm className="text-purple-400/30" />,
+      size: "text-5xl",
+      position: "top-20 left-10",
+    },
+    {
+      icon: <FaStar className="text-yellow-400/30" />,
+      size: "text-6xl",
+      position: "top-1/3 right-20",
+    },
+    {
+      icon: <FaMusic className="text-blue-400/30" />,
+      size: "text-7xl",
+      position: "bottom-1/4 left-1/4",
+    },
+    {
+      icon: <FaGamepad className="text-green-400/30" />,
+      size: "text-5xl",
+      position: "bottom-20 right-1/4",
+    },
+    {
+      icon: <FaHeadphones className="text-pink-400/30" />,
+      size: "text-6xl",
+      position: "top-1/4 left-1/3",
+    },
   ];
 
   // Check if the page has already loaded
@@ -27,17 +53,17 @@ export default function Main() {
       setIsReloading(true);
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     if (hasLoaded) {
       // For subsequent loads, show a shorter loading state
       const timer = setTimeout(() => {
         setIsLoading(false);
       }, 1000);
-      
+
       return () => {
         clearTimeout(timer);
-        window.removeEventListener('beforeunload', handleBeforeUnload);
+        window.removeEventListener("beforeunload", handleBeforeUnload);
       };
     } else {
       // First load - show full loading animation
@@ -48,7 +74,7 @@ export default function Main() {
 
       return () => {
         clearTimeout(timer);
-        window.removeEventListener('beforeunload', handleBeforeUnload);
+        window.removeEventListener("beforeunload", handleBeforeUnload);
       };
     }
   }, []);
@@ -83,16 +109,16 @@ export default function Main() {
           key={index}
           className={`absolute ${item.size} ${item.position} z-0 pointer-events-none`}
           initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ 
+          animate={{
             scale: 1,
             opacity: 0.3,
             y: [0, -20, 0],
-            rotate: [0, 5, 0]
+            rotate: [0, 5, 0],
           }}
           transition={{
             duration: 8 + index * 2,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         >
           {item.icon}
@@ -101,7 +127,7 @@ export default function Main() {
 
       {/* Music-Themed Loading Overlay */}
       {isLoading && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
@@ -113,20 +139,18 @@ export default function Main() {
               <motion.div
                 key={i}
                 className={`w-3 rounded-full ${
-                  isReloading 
-                    ? "bg-gradient-to-b from-blue-400 to-purple-400" 
+                  isReloading
+                    ? "bg-gradient-to-b from-blue-400 to-purple-400"
                     : "bg-gradient-to-b from-purple-500 to-blue-500"
                 }`}
                 animate={{
-                  height: isReloading 
-                    ? [40, 20, 40] 
-                    : [20, 60, 20],
+                  height: isReloading ? [40, 20, 40] : [20, 60, 20],
                 }}
                 transition={{
                   duration: isReloading ? 0.8 : 1.5,
                   repeat: Infinity,
                   repeatType: "reverse",
-                  delay: i * (isReloading ? 0.1 : 0.2)
+                  delay: i * (isReloading ? 0.1 : 0.2),
                 }}
               />
             ))}
@@ -145,9 +169,9 @@ export default function Main() {
             transition={{ delay: 0.5 }}
             className="text-gray-400"
           >
-            {isReloading ? "Just a moment..." : "Loading your entertainment experience..."}
+            {isReloading ? "Just a moment..." : "Ghana's Biggest Talent Hunt..."}
           </motion.p>
-          
+
           {isReloading && (
             <motion.div
               initial={{ width: 0 }}
@@ -162,7 +186,7 @@ export default function Main() {
       {/* Main Content */}
       <div className="relative z-10">
         {/* Banner Section */}
-        <motion.div 
+        <motion.div
           className="animate-section opacity-0 translate-y-20"
           initial="hidden"
           whileInView="visible"
@@ -172,7 +196,7 @@ export default function Main() {
         </motion.div>
 
         {/* How to Participate Section */}
-        <motion.div 
+        <motion.div
           className="animate-section opacity-0 translate-y-20"
           initial="hidden"
           whileInView="visible"
@@ -183,7 +207,7 @@ export default function Main() {
         </motion.div>
 
         {/* Song Component */}
-        <motion.div 
+        <motion.div
           className="animate-section opacity-0 translate-y-20"
           initial="hidden"
           whileInView="visible"
@@ -205,7 +229,7 @@ export default function Main() {
               y: Math.random() * 100,
               width: Math.random() * 10 + 2,
               height: Math.random() * 10 + 2,
-              opacity: Math.random() * 0.3 + 0.1
+              opacity: Math.random() * 0.3 + 0.1,
             }}
             animate={{
               x: Math.random() * 100,
@@ -213,8 +237,8 @@ export default function Main() {
               transition: {
                 duration: Math.random() * 15 + 15,
                 repeat: Infinity,
-                repeatType: "reverse"
-              }
+                repeatType: "reverse",
+              },
             }}
           />
         ))}
