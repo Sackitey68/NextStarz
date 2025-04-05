@@ -51,11 +51,11 @@ export const onSuccess = async (reference, config) => {
   }
 };
 
-// Payment close handler
+// Payment close handlera
 export const onClose = () => {
   console.log("Payment closed");
   alert("Payment was not completed. Please try again.");
-  // Instead of throwing an error, return a message or set an error state
+  // Instead of throwing an error, return a message or set an error statea
   return "Payment was not completed. Please try again.";
 };
 
