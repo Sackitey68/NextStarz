@@ -858,7 +858,7 @@ export default function Login() {
           initial="hidden"
           animate="visible"
           variants={fadeInUp}
-          className="fixed bottom-5 right-6 z-50"
+          className="fixed bottom-5 right-6 z-20"
         >
           <button
             onClick={handleLogout}

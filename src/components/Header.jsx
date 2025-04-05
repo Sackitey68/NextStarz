@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { FaUpload } from "react-icons/fa";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { FaUpload, FaSignOutAlt } from "react-icons/fa";
 import Logo from "../assets/Logo.png";
 
 export default function Header() {
@@ -29,16 +29,28 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleButtonClick = () => {
-    navigate(isSignedUp ? "/uploaddemo" : "/register");
+  const handleUploadClick = () => {
+    navigate("/uploaddemo");
+    toggleMenu();
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/");
+      toggleMenu();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   const navItems = [
     { path: "/", name: "Home" },
     { path: "/about", name: "About" },
+    { path: "/contact", name: "Contact" },
     { path: "/register", name: "Register" },
     { path: "/prizes", name: "Prizes" },
-    { path: "/contact", name: "Contact" },
+    { path: "/faq", name: "Faq" },
   ];
 
   return (
@@ -73,15 +85,15 @@ export default function Header() {
               <img src={Logo} className="h-10 w-10" alt="NextStarz Logo" />
             </Link>
 
-            {/* Desktop Navigation with Underline Hover Effect */}
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center flex-1 justify-center">
               <div className="flex items-center space-x-8">
                 {navItems.map((item) => (
                   <NavLink
                     key={item.path}
                     to={item.path}
-                    className={({ isActive }) => `
-                      relative px-2 py-1 transition-all duration-300
+                    className={({ isActive }) =>
+                      `relative px-2 py-1 transition-all duration-300
                       ${
                         isActive
                           ? "text-hover-color font-medium"
@@ -90,8 +102,8 @@ export default function Header() {
                       after:content-[''] after:absolute after:bottom-0 after:left-0 
                       after:w-0 after:h-0.5 after:bg-hover-color after:transition-all 
                       after:duration-300 hover:after:w-full
-                      ${isActive ? "after:w-full" : ""}
-                    `}
+                      ${isActive ? "after:w-full" : ""}`
+                    }
                   >
                     {item.name}
                   </NavLink>
@@ -99,10 +111,19 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Upload Demo Button - Enhanced with Smooth Hover */}
-            <div className="hidden md:block">
+            {/* Desktop Buttons */}
+            <div className="hidden md:flex items-center gap-4">
+              {isSignedUp && (
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 px-4 py-2 text-white hover:text-red-400 transition-colors"
+                >
+                  <FaSignOutAlt />
+                  <span>Logout</span>
+                </button>
+              )}
               <button
-                onClick={handleButtonClick}
+                onClick={() => navigate(isSignedUp ? "/uploaddemo" : "/register")}
                 className="relative overflow-hidden group transition-all duration-300"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full opacity-100 group-hover:opacity-0 transition-opacity duration-300"></div>
@@ -129,100 +150,149 @@ export default function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMenu}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-800 focus:outline-none"
+              className="md:hidden p-2 rounded-lg focus:outline-none"
               aria-label="Menu"
             >
-              <div
-                className={`w-6 flex flex-col items-end transition-all ${
-                  isMenuOpen ? "rotate-180" : ""
-                }`}
-              >
+              <div className="w-6 h-6 relative transform transition-all duration-300">
                 <span
-                  className={`block h-0.5 w-6 bg-white transition-all ${
-                    isMenuOpen ? "rotate-45 translate-y-1.5" : "mb-1.5"
+                  className={`block absolute top-1/2 left-1/2 w-6 h-0.5 bg-white transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
+                    isMenuOpen ? "rotate-45 translate-y-0" : "-translate-y-2"
                   }`}
                 ></span>
                 <span
-                  className={`block h-0.5 w-4 bg-white transition-all ${
-                    isMenuOpen ? "opacity-0" : "mb-1.5"
+                  className={`block absolute top-1/2 left-1/2 w-6 h-0.5 bg-white transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
+                    isMenuOpen ? "opacity-0" : "opacity-100"
                   }`}
                 ></span>
                 <span
-                  className={`block h-0.5 ${
-                    isMenuOpen ? "w-6 -rotate-45" : "w-5"
-                  } bg-white transition-all`}
+                  className={`block absolute top-1/2 left-1/2 w-6 h-0.5 bg-white transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
+                    isMenuOpen ? "-rotate-45 translate-y-0" : "translate-y-2"
+                  }`}
                 ></span>
               </div>
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu - Centered with Matching Underline Effect */}
+        {/* Mobile Menu - Slides from Right */}
         <div
-          className={`md:hidden fixed inset-0 z-20 bg-gray-900/70 backdrop-blur-lg transition-all duration-300 ${
-            isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          className={`md:hidden fixed inset-0 z-20 transition-all duration-500 ease-in-out ${
+            isMenuOpen
+              ? "opacity-100 visible"
+              : "opacity-0 invisible delay-300"
           }`}
         >
-          {/* Close Button */}
-          <div className="absolute top-6 right-6">
-            <button
-              onClick={toggleMenu}
-              className="p-2 rounded-lg hover:bg-gray-800 focus:outline-none"
-            >
-              <div className="w-6 h-6 relative">
-                <span className="block absolute top-1/2 left-1/2 w-6 h-0.5 bg-white transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
-                <span className="block absolute top-1/2 left-1/2 w-6 h-0.5 bg-white transform -translate-x-1/2 -translate-y-1/2 -rotate-45"></span>
-              </div>
-            </button>
-          </div>
+          {/* Overlay */}
+          <div
+            className={`absolute inset-0 bg-gray-900/70 backdrop-blur-lg transition-opacity duration-500 ${
+              isMenuOpen ? "opacity-100" : "opacity-0"
+            }`}
+            onClick={toggleMenu}
+          ></div>
 
-          {/* Centered Navigation Links */}
-          <div className="h-full flex flex-col items-center justify-center">
-            <div className="w-full max-w-xs space-y-8">
-              {navItems.map((item) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  onClick={toggleMenu}
-                  className={({ isActive }) => `
-                    relative block w-full text-center px-6 py-4 text-xl
-                    ${
-                      isActive
-                        ? "text-hover-color font-medium"
-                        : "text-gray-300 hover:text-hover-color"
-                    }
-                    after:content-[''] after:absolute after:bottom-2 after:left-1/2 
-                    after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-hover-color 
-                    after:transition-all after:duration-300 hover:after:w-20
-                    ${isActive ? "after:w-20" : ""}
-                  `}
-                >
-                  {item.name}
-                </NavLink>
-              ))}
+          {/* Menu Content */}
+          <div
+            className={`absolute right-0 top-0 h-full w-4/5 max-w-sm bg-gray-900 shadow-xl transform transition-transform duration-500 ease-in-out ${
+              isMenuOpen ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
+            {/* Small Logo in Mobile Menu */}
+            <div className="absolute top-5 left-5">
+              <Link to="/" onClick={toggleMenu}>
+                <img src={Logo} className="h-8 w-8" alt="NextStarz Logo" />
+              </Link>
+            </div>
 
+            {/* Close Button */}
+            <div className="absolute top-5 right-5">
               <button
-                onClick={() => {
-                  handleButtonClick();
-                  toggleMenu();
-                }}
-                className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-500 rounded-xl text-white font-bold flex items-center justify-center hover:scale-[1.02] transition-transform mt-4 group"
+                onClick={toggleMenu}
+                className="p-2 rounded-lg hover:bg-gray-800 focus:outline-none"
               >
-                {isSignedUp ? (
-                  <>
-                    <FaUpload className="mr-3 transition-transform duration-300 group-hover:scale-110" />
-                    <span className="transition-all duration-300 group-hover:tracking-wider">
-                      Upload Demo
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <span className="transition-all duration-300 group-hover:tracking-wider">
-                      Sign In
-                    </span>
-                  </>
-                )}
+                <svg
+                  className="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
               </button>
+            </div>
+
+            {/* Menu Items */}
+            <div className="h-full flex flex-col pt-20 pb-10 px-6 overflow-y-auto">
+              {/* Navigation Links */}
+              <div className="flex-1 flex flex-col space-y-3">
+                {navItems.map((item, index) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    onClick={toggleMenu}
+                    className={({ isActive }) =>
+                      `relative px-3 py-2 text-base rounded-md
+                      transition-all duration-300 transform
+                      ${
+                        isActive
+                          ? "bg-gray-800 text-hover-color font-medium"
+                          : "text-gray-300 hover:bg-gray-800 hover:text-hover-color"
+                      }
+                      ${
+                        isMenuOpen
+                          ? "translate-x-0 opacity-100"
+                          : "translate-x-10 opacity-0"
+                      }`
+                    }
+                    style={{
+                      transitionDelay: isMenuOpen ? `${index * 50}ms` : "0ms",
+                    }}
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {item.name}
+                        <span
+                          className={`absolute left-0 top-1/2 -translate-y-1/2 h-4 w-1 rounded-r-md bg-hover-color transition-all duration-300 ${
+                            isActive ? "opacity-100" : "opacity-0"
+                          }`}
+                        ></span>
+                      </>
+                    )}
+                  </NavLink>
+                ))}
+              </div>
+
+              {/* Action Buttons - Only Upload/Sign In (No Logout) */}
+              <div className="mt-6">
+                <button
+                  onClick={isSignedUp ? handleUploadClick : () => {
+                    navigate("/register");
+                    toggleMenu();
+                  }}
+                  className={`w-full px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 rounded-md text-white font-medium flex items-center justify-center hover:scale-[1.02] transition-transform ${
+                    isMenuOpen
+                      ? "translate-x-0 opacity-100"
+                      : "translate-x-10 opacity-0"
+                  }`}
+                  style={{
+                    transitionDelay: isMenuOpen ? `${navItems.length * 50}ms` : "0ms",
+                  }}
+                >
+                  {isSignedUp ? (
+                    <>
+                      <FaUpload className="mr-2" />
+                      <span>Upload Demo</span>
+                    </>
+                  ) : (
+                    <span>Sign In</span>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>

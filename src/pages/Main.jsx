@@ -169,7 +169,7 @@ export default function Main() {
             transition={{ delay: 0.5 }}
             className="text-gray-400"
           >
-            {isReloading ? "Just a moment..." : "Ghana's Biggest Talent Hunt..."}
+            {isReloading ? "Just a moment..." : "Ghana's Biggest Talent Discovery Platform..."}
           </motion.p>
 
           {isReloading && (

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { storage, db } from "../firebase/firebase.js";
 import {
@@ -11,14 +11,9 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import {
-  getPaystackConfig,
-  initializePaystackPayment,
-  onSuccess,
-  onClose,
-} from "../utils/paystackUtils.js";
+import { usePaystackPayment } from "react-paystack";
 
-// Animation variants
+
 const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
@@ -50,6 +45,7 @@ export default function UploadDemo() {
   const [country, setCountry] = useState("");
   const [isUploadComplete, setIsUploadComplete] = useState(false);
   const [generatedId, setGeneratedId] = useState("");
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const navigate = useNavigate();
 
   // Firebase Auth
@@ -59,38 +55,149 @@ export default function UploadDemo() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (!user) {
-        navigate("/login"); // Redirect to login page if user is not logged in
+        navigate("/login");
       }
     });
 
-    return () => unsubscribe(); // Cleanup subscription
+    return () => unsubscribe();
   }, [auth, navigate]);
 
-  // Paystack configuration
-  const user = auth.currentUser;
-  const config = getPaystackConfig(user?.email);
+  // Check for existing successful payment
+  useEffect(() => {
+    const checkExistingPayment = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
 
-  // Initialize Paystack payment
-  const handlePaystackPayment = initializePaystackPayment(
-    config,
-    async (reference) => {
       try {
-        const paymentSuccess = await onSuccess(reference, config);
-        if (paymentSuccess) {
+        const transactionRef = doc(db, "transactions", `user_${user.uid}`);
+        const transactionDoc = await getDoc(transactionRef);
+
+        if (transactionDoc.exists() && transactionDoc.data().status === "success") {
           setIsPaymentComplete(true);
-          setError("");
         }
       } catch (error) {
-        setError(error.message);
+        console.error("Error checking existing payment:", error);
       }
-    },
-    () => {
-      onClose();
-      setError("Payment was not completed. Please try again.");
-    }
-  );
+    };
 
-  // Handle file input change
+    checkExistingPayment();
+  }, [auth.currentUser]);
+
+  // Paystack configuration
+  const getPaystackConfig = () => {
+    const user = auth.currentUser;
+    return {
+      reference: `NXSTARZ_${new Date().getTime()}`,
+      email: user?.email || "user@example.com",
+      amount: 10000, // 100 GHS in kobo
+      publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+      currency: "GHS",
+      metadata: {
+        userId: user?.uid,
+        category: category,
+        country: country
+      }
+    };
+  };
+
+  // Initialize Paystack payment
+  const config = getPaystackConfig();
+  const initializePayment = usePaystackPayment(config);
+
+  const handlePaystackPayment = () => {
+    if (!category || !country) {
+      setError("🚫 Please select both category and country before payment");
+      return;
+    }
+
+    setIsProcessingPayment(true);
+    setError("");
+
+    initializePayment(
+      async (response) => {
+        try {
+          // Save transaction to Firebase
+          await saveTransactionToFirebase(response.reference, config.email, config.amount);
+          
+          // Verify payment
+          const verificationSuccess = await verifyPayment(response.reference);
+          
+          if (verificationSuccess) {
+            setIsPaymentComplete(true);
+            setError("");
+          }
+        } catch (error) {
+          setError(`🚫 ${error.message}`);
+        } finally {
+          setIsProcessingPayment(false);
+        }
+      },
+      () => {
+        setError("🚫 Payment was not completed. Please try again.");
+        setIsProcessingPayment(false);
+      }
+    );
+  };
+
+  // Save transaction to Firebase
+  const saveTransactionToFirebase = async (reference, email, amount) => {
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated");
+
+    const transactionRef = doc(db, "transactions", `user_${user.uid}`);
+    await setDoc(transactionRef, {
+      reference,
+      email,
+      amount,
+      status: "pending",
+      createdAt: new Date(),
+      userId: user.uid,
+      category,
+      country
+    }, { merge: true });
+  };
+
+  // Verify payment with Paystack
+  const verifyPayment = async (reference) => {
+    try {
+      const response = await fetch(
+        `https://api.paystack.co/transaction/verify/${reference}`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_PAYSTACK_SECRET_KEY}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Payment verification failed");
+      }
+
+      const data = await response.json();
+
+      if (data.status && data.data.status === "success") {
+        // Update transaction in Firebase
+        const user = auth.currentUser;
+        if (!user) throw new Error("User not authenticated");
+
+        const transactionRef = doc(db, "transactions", `user_${user.uid}`);
+        await updateDoc(transactionRef, {
+          status: "success",
+          verifiedAt: new Date(),
+          paymentData: data.data
+        });
+
+        return true;
+      } else {
+        throw new Error(data.message || "Payment verification failed");
+      }
+    } catch (error) {
+      console.error("Payment verification error:", error);
+      throw error;
+    }
+  };
+
+  // Handle file input change (keeping your original implementation)
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -112,7 +219,7 @@ export default function UploadDemo() {
     }
   };
 
-  // Handle video upload
+  // Handle video upload (keeping your original implementation with minor adjustments)
   const handleUpload = async () => {
     if (!isPaymentComplete) {
       setError("🚫 Please complete the payment to proceed with the upload.");
@@ -181,12 +288,12 @@ export default function UploadDemo() {
             userEmail: email,
             username: username,
             timestamp: new Date(),
+            userId: user.uid
           });
 
           setDownloadURL(downloadURL);
           setIsUploading(false);
           setIsUploadComplete(true);
-          alert("🎉 Upload successful! Thank you for submitting your demo.");
         }
       );
     } catch (error) {
@@ -196,7 +303,7 @@ export default function UploadDemo() {
     }
   };
 
-  // Generate unique ID
+  // Generate unique ID (keeping your original implementation)
   const generateUniqueId = async () => {
     try {
       const counterRef = doc(db, "counters", "demoUploads");
@@ -212,7 +319,7 @@ export default function UploadDemo() {
     }
   };
 
-  // Navigate to home page
+  // Navigate to home page (keeping your original implementation)
   const goToHomePage = () => {
     navigate("/");
   };
@@ -232,7 +339,7 @@ export default function UploadDemo() {
           🎤 Show Us Your Talent! 🌟
         </h1>
         <p className="text-lg text-gray-600 text-center mb-8">
-          Upload a 2-minute demo video (Max: 20MB) and pay GHC 100 to submit
+          Upload a 2-minute demo video (Max: 20MB) and pay GHS 100 to submit
           your performance.
         </p>
 
@@ -282,7 +389,7 @@ export default function UploadDemo() {
         {/* File Upload Section */}
         <motion.div
           variants={scaleUp}
-          className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-purple-500 transition-colors duration-300"
+          className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-purple-500 transition-colors duration-300 mb-6"
           onClick={() => document.getElementById("video-upload").click()}
         >
           <input
@@ -335,10 +442,20 @@ export default function UploadDemo() {
         {!isPaymentComplete && videoFile && !error && category && country && (
           <motion.div variants={fadeInUp} className="mt-8 text-center">
             <button
-              className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300"
+              className={`px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300 ${
+                isProcessingPayment ? "opacity-75 cursor-not-allowed" : ""
+              }`}
               onClick={handlePaystackPayment}
+              disabled={isProcessingPayment}
             >
-              💳 Pay GHC 100 to Submit
+              {isProcessingPayment ? (
+                <>
+                  <FaSpinner className="inline-block animate-spin mr-2" />
+                  Processing Payment...
+                </>
+              ) : (
+                "💳 Pay GHC 100 to Submit"
+              )}
             </button>
           </motion.div>
         )}
