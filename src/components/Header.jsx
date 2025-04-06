@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { FaUpload, FaSignOutAlt } from "react-icons/fa";
+import { FaUpload} from "react-icons/fa";
 import Logo from "../assets/Logo.png";
 
 export default function Header() {
