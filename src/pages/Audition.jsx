@@ -16,7 +16,7 @@ const Auditions = () => {
     categories: [
       {
         id: 1,
-        title: "Singer",
+        title: "Singer / Rapper",
         icon: "🎤",
         description: "Showcase your vocal talent across any genre",
         color: "from-purple-700 to-pink-700",

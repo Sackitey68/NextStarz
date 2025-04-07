@@ -45,16 +45,19 @@ export default function UploadDemo() {
   const [isUploadComplete, setIsUploadComplete] = useState(false);
   const [generatedId, setGeneratedId] = useState("");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [isFirebaseReady, setIsFirebaseReady] = useState(false);
   const navigate = useNavigate();
 
   // Firebase Auth
   const auth = getAuth();
 
-  // Redirect to login if user is not logged in
+  // Check Firebase initialization and auth state
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (!user) {
         navigate("/login");
+      } else {
+        setIsFirebaseReady(true);
       }
     });
 
@@ -64,11 +67,13 @@ export default function UploadDemo() {
   // Check for existing successful payment
   useEffect(() => {
     const checkExistingPayment = async () => {
+      if (!isFirebaseReady) return;
+      
       const user = auth.currentUser;
       if (!user) return;
 
       try {
-        const transactionRef = doc(db, "transactions", `user_${user.uid}`);
+        const transactionRef = doc(db, "transactions", user.uid);
         const transactionDoc = await getDoc(transactionRef);
 
         if (transactionDoc.exists() && transactionDoc.data().status === "success") {
@@ -76,32 +81,36 @@ export default function UploadDemo() {
         }
       } catch (error) {
         console.error("Error checking existing payment:", error);
+        if (error.code === 'permission-denied') {
+          setError("Please sign in to access your payment history");
+        } else {
+          setError("Failed to check payment status. Please refresh the page.");
+        }
       }
     };
 
     checkExistingPayment();
-  }, [auth.currentUser]);
+  }, [auth.currentUser, isFirebaseReady]);
 
   // Paystack configuration
-  const getPaystackConfig = () => {
-    const user = auth.currentUser;
+  const getPaystackConfig = (user) => {
+    if (!user) {
+      throw new Error("User not authenticated");
+    }
+    
     return {
       reference: `NXSTARZ_${new Date().getTime()}`,
-      email: user?.email || "user@example.com",
+      email: user.email,
       amount: 10000, // 100 GHS in kobo
       publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
       currency: "GHS",
       metadata: {
-        userId: user?.uid,
+        userId: user.uid,
         category: category,
         country: country
       }
     };
   };
-
-  // Initialize Paystack payment
-  const config = getPaystackConfig();
-  const initializePayment = usePaystackPayment(config);
 
   const handlePaystackPayment = () => {
     if (!category || !country) {
@@ -109,8 +118,17 @@ export default function UploadDemo() {
       return;
     }
 
+    const user = auth.currentUser;
+    if (!user) {
+      setError("🚫 Please sign in to make a payment");
+      return;
+    }
+
     setIsProcessingPayment(true);
     setError("");
+
+    // Initialize payment here with current user
+    const initializePayment = usePaystackPayment(getPaystackConfig(user));
 
     // Add timeout for payment processing
     const paymentTimeout = setTimeout(() => {
@@ -124,7 +142,7 @@ export default function UploadDemo() {
           clearTimeout(paymentTimeout);
           try {
             // Save transaction to Firebase
-            await saveTransactionToFirebase(response.reference, config.email, config.amount);
+            await saveTransactionToFirebase(response.reference, user);
             
             // Verify payment
             const verificationSuccess = await verifyPayment(response.reference);
@@ -151,15 +169,16 @@ export default function UploadDemo() {
   };
 
   // Save transaction to Firebase
-  const saveTransactionToFirebase = async (reference, email, amount) => {
-    const user = auth.currentUser;
+  const saveTransactionToFirebase = async (reference, user) => {
     if (!user) throw new Error("User not authenticated");
 
-    const transactionRef = doc(db, "transactions", `user_${user.uid}`);
+    const config = getPaystackConfig(user);
+    const transactionRef = doc(db, "transactions", user.uid);
+    
     await setDoc(transactionRef, {
       reference,
-      email,
-      amount,
+      email: config.email,
+      amount: config.amount,
       status: "pending",
       createdAt: new Date(),
       userId: user.uid,
@@ -190,7 +209,7 @@ export default function UploadDemo() {
       const user = auth.currentUser;
       if (!user) throw new Error("User not authenticated");
 
-      const transactionRef = doc(db, "transactions", `user_${user.uid}`);
+      const transactionRef = doc(db, "transactions", user.uid);
       await updateDoc(transactionRef, {
         status: "success",
         verifiedAt: new Date(),
@@ -203,7 +222,7 @@ export default function UploadDemo() {
       // Update transaction as failed
       const user = auth.currentUser;
       if (user) {
-        const transactionRef = doc(db, "transactions", `user_${user.uid}`);
+        const transactionRef = doc(db, "transactions", user.uid);
         await updateDoc(transactionRef, {
           status: "failed",
           error: error.message
@@ -235,8 +254,38 @@ export default function UploadDemo() {
     }
   };
 
+  // Generate unique ID with proper error handling
+  const generateUniqueId = async () => {
+    try {
+      const counterRef = doc(db, "counters", "demoUploads");
+      
+      // Initialize counter if it doesn't exist
+      await setDoc(counterRef, { count: 0 }, { merge: true });
+      
+      // Get the current count
+      const counterDoc = await getDoc(counterRef);
+      let count = counterDoc.data()?.count || 0;
+      
+      // Increment and update
+      count += 1;
+      await updateDoc(counterRef, { count });
+      
+      // Format the ID
+      const paddedCount = String(count).padStart(5, "0");
+      return `NXTS/25-${paddedCount}`;
+    } catch (error) {
+      console.error("Error generating unique ID:", error);
+      throw new Error("Failed to generate submission ID. Please try again.");
+    }
+  };
+
   // Handle video upload
   const handleUpload = async () => {
+    if (!isFirebaseReady) {
+      setError("🚫 Firebase not ready. Please refresh the page.");
+      return;
+    }
+
     if (!isPaymentComplete) {
       setError("🚫 Please complete the payment to proceed with the upload.");
       return;
@@ -258,25 +307,34 @@ export default function UploadDemo() {
     }
 
     setIsUploading(true);
+    setError("");
 
     try {
       const user = auth.currentUser;
 
       if (!user) {
-        setError("🚫 You must be logged in to upload a demo.");
-        setIsUploading(false);
-        return;
+        throw new Error("You must be logged in to upload a demo.");
       }
 
       const email = user.email;
       const username = user.displayName || "Anonymous";
 
-      // Generate a unique ID
-      const uniqueId = await generateUniqueId();
-      setGeneratedId(uniqueId);
+      // Generate a unique ID with error handling
+      let uniqueId;
+      try {
+        uniqueId = await generateUniqueId();
+        setGeneratedId(uniqueId);
+      } catch (error) {
+        throw new Error(`Failed to generate ID: ${error.message}`);
+      }
 
-      // Upload the file to Firebase Storage
-      const storageRef = ref(storage, `demos/${category}/${videoFile.name}`);
+      // Create a safe filename by replacing spaces and special characters
+      const safeFileName = videoFile.name.replace(/[^\w.-]/g, '_');
+      
+      // Upload the file to Firebase Storage with user UID in the path
+      const storagePath = `demos/${category}/${user.uid}/${uniqueId}_${safeFileName}`;
+      const storageRef = ref(storage, storagePath);
+      
       const uploadTask = uploadBytesResumable(storageRef, videoFile);
 
       uploadTask.on(
@@ -288,50 +346,48 @@ export default function UploadDemo() {
         },
         (error) => {
           console.error("Upload failed:", error);
-          setError("🚫 Upload failed. Please try again.");
-          setIsUploading(false);
+          let errorMessage = "Upload failed. Please try again.";
+          if (error.code === 'storage/unauthorized') {
+            errorMessage = "You don't have permission to upload. Please contact support.";
+          } else if (error.code === 'storage/retry-limit-exceeded') {
+            errorMessage = "Network issues. Please check your connection.";
+          }
+          throw new Error(errorMessage);
         },
         async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          try {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
-          // Save metadata to Firestore
-          await addDoc(collection(db, "demos"), {
-            id: uniqueId,
-            fileName: videoFile.name,
-            category: category,
-            country: country,
-            downloadURL: downloadURL,
-            userEmail: email,
-            username: username,
-            timestamp: new Date(),
-            userId: user.uid
-          });
+            // Save metadata to Firestore
+            await addDoc(collection(db, "demos"), {
+              id: uniqueId,
+              fileName: safeFileName,
+              originalFileName: videoFile.name,
+              category: category,
+              country: country,
+              downloadURL: downloadURL,
+              storagePath: storagePath,
+              userEmail: email,
+              username: username,
+              timestamp: new Date(),
+              userId: user.uid,
+              status: "pending_review"
+            });
 
-          setDownloadURL(downloadURL);
-          setIsUploading(false);
-          setIsUploadComplete(true);
+            setDownloadURL(downloadURL);
+            setIsUploadComplete(true);
+          } catch (error) {
+            console.error("Error saving metadata:", error);
+            throw new Error("Failed to save submission details.");
+          } finally {
+            setIsUploading(false);
+          }
         }
       );
     } catch (error) {
       console.error("Error during upload:", error);
-      setError("🚫 An error occurred. Please try again.");
+      setError(`🚫 ${error.message}`);
       setIsUploading(false);
-    }
-  };
-
-  // Generate unique ID
-  const generateUniqueId = async () => {
-    try {
-      const counterRef = doc(db, "counters", "demoUploads");
-      const counterDoc = await getDoc(counterRef);
-      let count = counterDoc.exists() ? counterDoc.data().count : 0;
-      count += 1;
-      await updateDoc(counterRef, { count });
-      const paddedCount = String(count).padStart(5, "0");
-      return `NXTS/25-${paddedCount}`;
-    } catch (error) {
-      console.error("Error generating unique ID:", error);
-      throw error;
     }
   };
 
@@ -373,7 +429,7 @@ export default function UploadDemo() {
             <option value="" disabled>
               ✅ Choose a category
             </option>
-            <option value="singer">🎤 Singer</option>
+            <option value="singer">🎤 Singer / Rapper</option>
             <option value="songwriter">🎵 Songwriter</option>
             <option value="dancer">💃 Dancer</option>
             <option value="comedian">🎭 Comedian</option>
@@ -419,12 +475,18 @@ export default function UploadDemo() {
             <div className="flex flex-col items-center">
               <FaCheckCircle className="w-12 h-12 text-green-500 mb-4" />
               <p className="text-lg text-gray-700">{videoFile.name}</p>
+              <p className="text-sm text-gray-500 mt-2">
+                {(videoFile.size / (1024 * 1024)).toFixed(2)} MB
+              </p>
             </div>
           ) : (
             <div className="flex flex-col items-center">
               <FaUpload className="w-12 h-12 text-purple-500 mb-4" />
               <p className="text-lg text-gray-700">
                 📤 Click here to upload your video
+              </p>
+              <p className="text-sm text-gray-500 mt-2">
+                (Max 20MB, video files only)
               </p>
             </div>
           )}
@@ -434,7 +496,7 @@ export default function UploadDemo() {
         {error && (
           <motion.div
             variants={fadeInUp}
-            className="mt-4 flex items-center justify-center text-red-600"
+            className="mt-4 p-4 bg-red-50 rounded-lg flex items-center justify-center text-red-600"
           >
             <FaTimesCircle className="w-5 h-5 mr-2" />
             <p className="text-lg">{error}</p>
@@ -451,6 +513,9 @@ export default function UploadDemo() {
               className="bg-purple-500 h-full rounded-full transition-width duration-500"
               style={{ width: `${uploadProgress}%` }}
             ></div>
+            <p className="text-center text-sm mt-2 text-gray-600">
+              Uploading: {Math.round(uploadProgress)}% complete
+            </p>
           </motion.div>
         )}
 
@@ -473,6 +538,9 @@ export default function UploadDemo() {
                 "💳 Pay GHC 100 to Submit"
               )}
             </button>
+            <p className="text-sm text-gray-500 mt-2">
+              Secure payment powered by Paystack
+            </p>
           </motion.div>
         )}
 
@@ -496,22 +564,33 @@ export default function UploadDemo() {
           >
             <FaSpinner className="w-8 h-8 text-purple-500 animate-spin mb-2" />
             <p className="text-lg text-gray-700">📤 Uploading your video...</p>
+            <p className="text-sm text-gray-500">
+              Please don't close this window
+            </p>
           </motion.div>
         )}
 
         {/* Success Message */}
         {isUploadComplete && (
           <motion.div variants={fadeInUp} className="mt-8 text-center">
-            <p className="text-lg text-green-600 mb-4">
-              🎉 Your demo has been successfully submitted! Your ID is:{" "}
-              <strong>{generatedId}</strong>
-            </p>
-            <button
-              className="px-8 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-blue-700 transition-colors duration-300"
-              onClick={goToHomePage}
-            >
-              🏠 Go to Home
-            </button>
+            <div className="p-6 bg-green-50 rounded-lg">
+              <FaCheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+              <p className="text-lg text-green-600 mb-2">
+                🎉 Your demo has been successfully submitted!
+              </p>
+              <p className="text-lg font-semibold mb-4">
+                Your submission ID: <span className="text-purple-600">{generatedId}</span>
+              </p>
+              <p className="text-gray-600 mb-4">
+                We'll review your submission and get back to you soon.
+              </p>
+              <button
+                className="px-8 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-blue-700 transition-colors duration-300"
+                onClick={goToHomePage}
+              >
+                🏠 Go to Home
+              </button>
+            </div>
           </motion.div>
         )}
       </motion.div>
