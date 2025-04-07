@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HowItWorks() {
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
@@ -9,27 +11,27 @@ export default function HowItWorks() {
 
   const steps = [
     {
-      title: "Create an Account or Login",
+      title: "1. Create an Account or Login",
       description:
         "Sign up for a new account or log in using your social media accounts (Google, Facebook, etc.).",
       icon: "👤",
       color: "from-blue-400 to-cyan-400",
     },
     {
-      title: "Select Your Category",
+      title: "2. Select Your Category",
       description:
         "Choose the category you want to compete in (e.g., Singing, Dancing, Comedy, etc.).",
       icon: "🏷️",
       color: "from-purple-400 to-pink-400",
     },
     {
-      title: "Upload Your Demo Video",
+      title: "3. Upload Your Demo Video",
       description: "Upload a 2-minute video (max 20MB) showcasing your talent.",
       icon: "🎥",
       color: "from-red-400 to-orange-400",
     },
     {
-      title: "Make Payment",
+      title: "4. Make Payment",
       description: (
         <>
           Pay the participation fee:{" "}
@@ -164,8 +166,11 @@ export default function HowItWorks() {
                 {/* Button glow effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-xl blur-md group-hover:blur-lg transition-all duration-500 -z-10"></div>
 
-                {/* Main button */}
-                <button className="relative px-10 py-4 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white rounded-xl font-bold text-lg tracking-wide transition-all duration-300 transform group-hover:scale-105 shadow-2xl flex items-center justify-center gap-2">
+                {/* Main button with useNavigate */}
+                <button 
+                  className="relative px-10 py-4 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white rounded-xl font-bold text-lg tracking-wide transition-all duration-300 transform group-hover:scale-105 shadow-2xl flex items-center justify-center gap-2"
+                  onClick={() => navigate('/login')}
+                >
                   <span>Register Now</span>
                   <svg
                     className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"

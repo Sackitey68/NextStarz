@@ -8,6 +8,7 @@ import "swiper/css/navigation";
 
 import Video from "../assets/Banner.mp4";
 import Picture from "../assets/banner.jpg";
+// import photo from "../assets/bannerr.jpg"
 
 export default function Banner() {
   const [isPlaying, setIsPlaying] = useState(true);
