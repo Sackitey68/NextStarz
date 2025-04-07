@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { collection, addDoc, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, updateDoc, setDoc, query, where, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { storage, db } from "../firebase/firebase.js";
 import {
@@ -46,6 +46,7 @@ export default function UploadDemo() {
   const [generatedId, setGeneratedId] = useState("");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [isFirebaseReady, setIsFirebaseReady] = useState(false);
+  const [hasExistingSubmission, setHasExistingSubmission] = useState(false);
   const navigate = useNavigate();
 
   // Firebase Auth
@@ -64,15 +65,28 @@ export default function UploadDemo() {
     return () => unsubscribe();
   }, [auth, navigate]);
 
-  // Check for existing successful payment
+  // Check for existing submission and payment status
   useEffect(() => {
-    const checkExistingPayment = async () => {
+    const checkUserStatus = async () => {
       if (!isFirebaseReady) return;
       
       const user = auth.currentUser;
       if (!user) return;
 
       try {
+        // Check for existing submission
+        const submissionsRef = collection(db, "demos");
+        const q = query(submissionsRef, where("userId", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+          setHasExistingSubmission(true);
+          const submissionData = querySnapshot.docs[0].data();
+          setGeneratedId(submissionData.id);
+          return;
+        }
+
+        // Check payment status only if no submission exists
         const transactionRef = doc(db, "transactions", user.uid);
         const transactionDoc = await getDoc(transactionRef);
 
@@ -80,16 +94,12 @@ export default function UploadDemo() {
           setIsPaymentComplete(true);
         }
       } catch (error) {
-        console.error("Error checking existing payment:", error);
-        if (error.code === 'permission-denied') {
-          setError("Please sign in to access your payment history");
-        } else {
-          setError("Failed to check payment status. Please refresh the page.");
-        }
+        console.error("Error checking user status:", error);
+        setError("Failed to check your submission status. Please refresh the page.");
       }
     };
 
-    checkExistingPayment();
+    checkUserStatus();
   }, [auth.currentUser, isFirebaseReady]);
 
   // Paystack configuration
@@ -113,6 +123,11 @@ export default function UploadDemo() {
   };
 
   const handlePaystackPayment = () => {
+    if (hasExistingSubmission) {
+      setError("You've already submitted a video. Only one submission is allowed.");
+      return;
+    }
+
     if (!category || !country) {
       setError("🚫 Please select both category and country before payment");
       return;
@@ -127,10 +142,8 @@ export default function UploadDemo() {
     setIsProcessingPayment(true);
     setError("");
 
-    // Initialize payment here with current user
     const initializePayment = usePaystackPayment(getPaystackConfig(user));
 
-    // Add timeout for payment processing
     const paymentTimeout = setTimeout(() => {
       setIsProcessingPayment(false);
       setError("🚫 Payment took too long. Please try again.");
@@ -141,10 +154,7 @@ export default function UploadDemo() {
         onSuccess: async (response) => {
           clearTimeout(paymentTimeout);
           try {
-            // Save transaction to Firebase
             await saveTransactionToFirebase(response.reference, user);
-            
-            // Verify payment
             const verificationSuccess = await verifyPayment(response.reference);
             
             if (verificationSuccess) {
@@ -205,7 +215,6 @@ export default function UploadDemo() {
         throw new Error(data.message || "Payment verification failed");
       }
 
-      // Update transaction in Firebase
       const user = auth.currentUser;
       if (!user) throw new Error("User not authenticated");
 
@@ -219,7 +228,6 @@ export default function UploadDemo() {
       return true;
     } catch (error) {
       console.error("Payment verification error:", error);
-      // Update transaction as failed
       const user = auth.currentUser;
       if (user) {
         const transactionRef = doc(db, "transactions", user.uid);
@@ -234,6 +242,11 @@ export default function UploadDemo() {
 
   // Handle file input change
   const handleFileChange = (e) => {
+    if (hasExistingSubmission) {
+      setError("You've already submitted a video. Only one submission is allowed.");
+      return;
+    }
+
     const file = e.target.files[0];
     if (file) {
       if (!file.type.startsWith("video/")) {
@@ -254,23 +267,20 @@ export default function UploadDemo() {
     }
   };
 
-  // Generate unique ID with proper error handling
+  // Generate unique ID starting from NXTS/25-00002
   const generateUniqueId = async () => {
     try {
       const counterRef = doc(db, "counters", "demoUploads");
       
-      // Initialize counter if it doesn't exist
-      await setDoc(counterRef, { count: 0 }, { merge: true });
+      // Initialize counter at 1 if it doesn't exist (so first submission will be 2)
+      await setDoc(counterRef, { count: 1 }, { merge: true });
       
-      // Get the current count
       const counterDoc = await getDoc(counterRef);
-      let count = counterDoc.data()?.count || 0;
+      let count = counterDoc.data()?.count || 1;
       
-      // Increment and update
       count += 1;
       await updateDoc(counterRef, { count });
       
-      // Format the ID
       const paddedCount = String(count).padStart(5, "0");
       return `NXTS/25-${paddedCount}`;
     } catch (error) {
@@ -281,6 +291,11 @@ export default function UploadDemo() {
 
   // Handle video upload
   const handleUpload = async () => {
+    if (hasExistingSubmission) {
+      setError("You've already submitted a video. Only one submission is allowed.");
+      return;
+    }
+
     if (!isFirebaseReady) {
       setError("🚫 Firebase not ready. Please refresh the page.");
       return;
@@ -319,7 +334,6 @@ export default function UploadDemo() {
       const email = user.email;
       const username = user.displayName || "Anonymous";
 
-      // Generate a unique ID with error handling
       let uniqueId;
       try {
         uniqueId = await generateUniqueId();
@@ -328,10 +342,7 @@ export default function UploadDemo() {
         throw new Error(`Failed to generate ID: ${error.message}`);
       }
 
-      // Create a safe filename by replacing spaces and special characters
       const safeFileName = videoFile.name.replace(/[^\w.-]/g, '_');
-      
-      // Upload the file to Firebase Storage with user UID in the path
       const storagePath = `demos/${category}/${user.uid}/${uniqueId}_${safeFileName}`;
       const storageRef = ref(storage, storagePath);
       
@@ -340,8 +351,7 @@ export default function UploadDemo() {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setUploadProgress(progress);
         },
         (error) => {
@@ -358,7 +368,6 @@ export default function UploadDemo() {
           try {
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
-            // Save metadata to Firestore
             await addDoc(collection(db, "demos"), {
               id: uniqueId,
               fileName: safeFileName,
@@ -376,6 +385,7 @@ export default function UploadDemo() {
 
             setDownloadURL(downloadURL);
             setIsUploadComplete(true);
+            setHasExistingSubmission(true);
           } catch (error) {
             console.error("Error saving metadata:", error);
             throw new Error("Failed to save submission details.");
@@ -415,183 +425,208 @@ export default function UploadDemo() {
           your performance.
         </p>
 
-        {/* Category Selection */}
-        <motion.div variants={fadeInUp} className="mb-6">
-          <label className="block text-lg font-medium text-gray-700 mb-2">
-            Select Your Category
-          </label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
-            required
-          >
-            <option value="" disabled>
-              ✅ Choose a category
-            </option>
-            <option value="singer">🎤 Singer / Rapper</option>
-            <option value="songwriter">🎵 Songwriter</option>
-            <option value="dancer">💃 Dancer</option>
-            <option value="comedian">🎭 Comedian</option>
-            <option value="instrumentPlayer">🎸 Instrument Player</option>
-            <option value="beatMaker">🎧 Beat-Maker</option>
-            <option value="DJ">🎧 DJ</option>
-          </select>
-        </motion.div>
-
-        {/* Country Selection */}
-        <motion.div variants={fadeInUp} className="mb-6">
-          <label className="block text-lg font-medium text-gray-700 mb-2">
-            Select Your Country
-          </label>
-          <select
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
-            required
-          >
-            <option value="" disabled>
-              ✅ Choose your Country
-            </option>
-            <option value="Ghana">🇬🇭 Ghana</option>
-            <option value="Other">🌍 Other</option>
-          </select>
-        </motion.div>
-
-        {/* File Upload Section */}
-        <motion.div
-          variants={scaleUp}
-          className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-purple-500 transition-colors duration-300 mb-6"
-          onClick={() => document.getElementById("video-upload").click()}
-        >
-          <input
-            id="video-upload"
-            type="file"
-            accept="video/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-          {videoFile ? (
-            <div className="flex flex-col items-center">
-              <FaCheckCircle className="w-12 h-12 text-green-500 mb-4" />
-              <p className="text-lg text-gray-700">{videoFile.name}</p>
-              <p className="text-sm text-gray-500 mt-2">
-                {(videoFile.size / (1024 * 1024)).toFixed(2)} MB
-              </p>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center">
-              <FaUpload className="w-12 h-12 text-purple-500 mb-4" />
-              <p className="text-lg text-gray-700">
-                📤 Click here to upload your video
-              </p>
-              <p className="text-sm text-gray-500 mt-2">
-                (Max 20MB, video files only)
-              </p>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Error Message */}
-        {error && (
-          <motion.div
-            variants={fadeInUp}
-            className="mt-4 p-4 bg-red-50 rounded-lg flex items-center justify-center text-red-600"
-          >
-            <FaTimesCircle className="w-5 h-5 mr-2" />
-            <p className="text-lg">{error}</p>
-          </motion.div>
-        )}
-
-        {/* Progress Bar */}
-        {isUploading && (
-          <motion.div
-            variants={fadeInUp}
-            className="mt-6 bg-gray-200 rounded-full h-4 overflow-hidden"
-          >
-            <div
-              className="bg-purple-500 h-full rounded-full transition-width duration-500"
-              style={{ width: `${uploadProgress}%` }}
-            ></div>
-            <p className="text-center text-sm mt-2 text-gray-600">
-              Uploading: {Math.round(uploadProgress)}% complete
-            </p>
-          </motion.div>
-        )}
-
-        {/* Paystack Payment Button */}
-        {!isPaymentComplete && videoFile && !error && category && country && (
-          <motion.div variants={fadeInUp} className="mt-8 text-center">
-            <button
-              className={`px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300 ${
-                isProcessingPayment ? "opacity-75 cursor-not-allowed" : ""
-              }`}
-              onClick={handlePaystackPayment}
-              disabled={isProcessingPayment}
-            >
-              {isProcessingPayment ? (
-                <>
-                  <FaSpinner className="inline-block animate-spin mr-2" />
-                  Processing Payment...
-                </>
-              ) : (
-                "💳 Pay GHC 100 to Submit"
-              )}
-            </button>
-            <p className="text-sm text-gray-500 mt-2">
-              Secure payment powered by Paystack
-            </p>
-          </motion.div>
-        )}
-
-        {/* Upload Button (Visible After Payment) */}
-        {isPaymentComplete && !isUploading && !isUploadComplete && (
-          <motion.div variants={fadeInUp} className="mt-8 text-center">
-            <button
-              className="px-8 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-blue-700 transition-colors duration-300"
-              onClick={handleUpload}
-            >
-              📤 Upload Your Video
-            </button>
-          </motion.div>
-        )}
-
-        {/* Uploading Spinner */}
-        {isUploading && (
-          <motion.div
-            variants={fadeInUp}
-            className="mt-8 flex flex-col items-center"
-          >
-            <FaSpinner className="w-8 h-8 text-purple-500 animate-spin mb-2" />
-            <p className="text-lg text-gray-700">📤 Uploading your video...</p>
-            <p className="text-sm text-gray-500">
-              Please don't close this window
-            </p>
-          </motion.div>
-        )}
-
-        {/* Success Message */}
-        {isUploadComplete && (
-          <motion.div variants={fadeInUp} className="mt-8 text-center">
-            <div className="p-6 bg-green-50 rounded-lg">
-              <FaCheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <p className="text-lg text-green-600 mb-2">
-                🎉 Your demo has been successfully submitted!
+        {hasExistingSubmission ? (
+          <motion.div variants={fadeInUp} className="text-center">
+            <div className="p-6 bg-blue-50 rounded-lg">
+              <FaCheckCircle className="w-16 h-16 text-blue-500 mx-auto mb-4" />
+              <p className="text-lg text-blue-600 mb-2">
+                You've already submitted your demo!
               </p>
               <p className="text-lg font-semibold mb-4">
                 Your submission ID: <span className="text-purple-600">{generatedId}</span>
               </p>
               <p className="text-gray-600 mb-4">
-                We'll review your submission and get back to you soon.
+                We're reviewing your submission. Only one submission is allowed per user.
               </p>
               <button
-                className="px-8 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-blue-700 transition-colors duration-300"
+                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors duration-300"
                 onClick={goToHomePage}
               >
                 🏠 Go to Home
               </button>
             </div>
           </motion.div>
+        ) : (
+          <>
+            {/* Category Selection */}
+            <motion.div variants={fadeInUp} className="mb-6">
+              <label className="block text-lg font-medium text-gray-700 mb-2">
+                Select Your Category
+              </label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
+                required
+              >
+                <option value="" disabled>
+                  ✅ Choose a category
+                </option>
+                <option value="singer">🎤 Singer / Rapper</option>
+                <option value="songwriter">🎵 Songwriter</option>
+                <option value="dancer">💃 Dancer</option>
+                <option value="comedian">🎭 Comedian</option>
+                <option value="instrumentPlayer">🎸 Instrument Player</option>
+                <option value="beatMaker">🎧 Beat-Maker</option>
+                <option value="DJ">🎧 DJ</option>
+              </select>
+            </motion.div>
+
+            {/* Country Selection */}
+            <motion.div variants={fadeInUp} className="mb-6">
+              <label className="block text-lg font-medium text-gray-700 mb-2">
+                Select Your Country
+              </label>
+              <select
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
+                required
+              >
+                <option value="" disabled>
+                  ✅ Choose your Country
+                </option>
+                <option value="Ghana">🇬🇭 Ghana</option>
+                <option value="Other">🌍 Other</option>
+              </select>
+            </motion.div>
+
+            {/* File Upload Section */}
+            <motion.div
+              variants={scaleUp}
+              className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-purple-500 transition-colors duration-300 mb-6"
+              onClick={() => document.getElementById("video-upload").click()}
+            >
+              <input
+                id="video-upload"
+                type="file"
+                accept="video/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              {videoFile ? (
+                <div className="flex flex-col items-center">
+                  <FaCheckCircle className="w-12 h-12 text-green-500 mb-4" />
+                  <p className="text-lg text-gray-700">{videoFile.name}</p>
+                  <p className="text-sm text-gray-500 mt-2">
+                    {(videoFile.size / (1024 * 1024)).toFixed(2)} MB
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center">
+                  <FaUpload className="w-12 h-12 text-purple-500 mb-4" />
+                  <p className="text-lg text-gray-700">
+                    📤 Click here to upload your video
+                  </p>
+                  <p className="text-sm text-gray-500 mt-2">
+                    (Max 20MB, video files only)
+                  </p>
+                </div>
+              )}
+            </motion.div>
+
+            {/* Error Message */}
+            {error && (
+              <motion.div
+                variants={fadeInUp}
+                className="mt-4 p-4 bg-red-50 rounded-lg flex items-center justify-center text-red-600"
+              >
+                <FaTimesCircle className="w-5 h-5 mr-2" />
+                <p className="text-lg">{error}</p>
+              </motion.div>
+            )}
+
+            {/* Progress Bar */}
+            {isUploading && (
+              <motion.div
+                variants={fadeInUp}
+                className="mt-6 bg-gray-200 rounded-full h-4 overflow-hidden"
+              >
+                <div
+                  className="bg-purple-500 h-full rounded-full transition-width duration-500"
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
+                <p className="text-center text-sm mt-2 text-gray-600">
+                  Uploading: {Math.round(uploadProgress)}% complete
+                </p>
+              </motion.div>
+            )}
+
+            {/* Paystack Payment Button */}
+            {!isPaymentComplete && videoFile && !error && category && country && (
+              <motion.div variants={fadeInUp} className="mt-8 text-center">
+                <button
+                  className={`px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300 ${
+                    isProcessingPayment ? "opacity-75 cursor-not-allowed" : ""
+                  }`}
+                  onClick={handlePaystackPayment}
+                  disabled={isProcessingPayment}
+                >
+                  {isProcessingPayment ? (
+                    <>
+                      <FaSpinner className="inline-block animate-spin mr-2" />
+                      Processing Payment...
+                    </>
+                  ) : (
+                    "💳 Pay GHC 100 to Submit"
+                  )}
+                </button>
+                <p className="text-sm text-gray-500 mt-2">
+                  Secure payment powered by Paystack
+                </p>
+              </motion.div>
+            )}
+
+            {/* Upload Button (Visible After Payment) */}
+            {isPaymentComplete && !isUploading && !isUploadComplete && (
+              <motion.div variants={fadeInUp} className="mt-8 text-center">
+                <button
+                  className="px-8 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-blue-700 transition-colors duration-300"
+                  onClick={handleUpload}
+                >
+                  📤 Upload Your Video
+                </button>
+              </motion.div>
+            )}
+
+            {/* Uploading Spinner */}
+            {isUploading && (
+              <motion.div
+                variants={fadeInUp}
+                className="mt-8 flex flex-col items-center"
+              >
+                <FaSpinner className="w-8 h-8 text-purple-500 animate-spin mb-2" />
+                <p className="text-lg text-gray-700">📤 Uploading your video...</p>
+                <p className="text-sm text-gray-500">
+                  Please don't close this window
+                </p>
+              </motion.div>
+            )}
+
+            {/* Success Message */}
+            {isUploadComplete && (
+              <motion.div variants={fadeInUp} className="mt-8 text-center">
+                <div className="p-6 bg-green-50 rounded-lg">
+                  <FaCheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                  <p className="text-lg text-green-600 mb-2">
+                    🎉 Your demo has been successfully submitted!
+                  </p>
+                  <p className="text-lg font-semibold mb-4">
+                    Your submission ID: <span className="text-purple-600">{generatedId}</span>
+                  </p>
+                  <p className="text-gray-600 mb-4">
+                    We'll review your submission and get back to you soon.
+                  </p>
+                  <button
+                    className="px-8 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-blue-700 transition-colors duration-300"
+                    onClick={goToHomePage}
+                  >
+                    🏠 Go to Home
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </>
         )}
       </motion.div>
     </motion.div>
