@@ -16,29 +16,60 @@ import {
 } from "react-icons/fa";
 
 // Animation variants
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
-const staggerContainer = {
+const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
       staggerChildren: 0.2,
+      when: "beforeChildren",
+    },
+  },
+};
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
     },
   },
 };
 
 const fadeIn = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.6 } },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.6 },
+  },
 };
 
 const scaleUp = {
-  hidden: { scale: 0.9, opacity: 0 },
-  visible: { scale: 1, opacity: 1, transition: { duration: 0.6 } },
+  hidden: { scale: 0.95, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      duration: 0.4,
+      type: "spring",
+      stiffness: 100,
+    },
+  },
+};
+
+const buttonHover = {
+  hover: {
+    y: -3,
+    scale: 1.02,
+    boxShadow: "0 10px 20px -5px rgba(0, 0, 0, 0.2)",
+    transition: { duration: 0.3 },
+  },
+  tap: {
+    scale: 0.98,
+  },
 };
 
 export default function ContactPage() {
@@ -52,17 +83,15 @@ export default function ContactPage() {
     setIsSubmitted(false);
     setIsError(false);
 
-    // EmailJS credentials
     const serviceID = "service_mledv0h";
     const templateID = "template_4s32ncj";
     const userID = "sjnE7vrGy1Mt4BA88";
 
-    // Create form data with correct field names
     const formData = new FormData(e.target);
     const templateParams = {
       from_name: formData.get("name"),
       from_email: formData.get("email"),
-      message: formData.get("message")
+      message: formData.get("message"),
     };
 
     emailjs
@@ -71,7 +100,7 @@ export default function ContactPage() {
         console.log("Email sent successfully!", result.text);
         setIsSubmitted(true);
         setIsError(false);
-        e.target.reset(); // Reset form after successful submission
+        e.target.reset();
       })
       .catch((error) => {
         console.error("Failed to send email:", error.text);
@@ -83,136 +112,154 @@ export default function ContactPage() {
   };
 
   return (
-    <section className="py-10 px-4 sm:px-6 lg:px-8 bg-bg-color">
-      <title>Contact Us | NextStarz </title>
+    <motion.section
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="py-12 px-4 sm:px-6 lg:px-8  min-h-screen"
+    >
+      <title>Contact Us | NextStarz</title>
+      <meta
+        name="description"
+        content="Get in touch with NextStarz team for inquiries, support, or partnership opportunities"
+      />
+
       {/* Hero Section */}
       <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
         variants={fadeInUp}
         className="max-w-7xl mx-auto text-center mb-16"
       >
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-400 mb-6">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
           Let's Connect!
         </h1>
-        <p className="text-lg sm:text-xl text-gray-300">
+        <motion.p
+          className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto"
+          variants={fadeIn}
+        >
           We're here to help! Choose your preferred way to reach out to us.
-        </p>
+        </motion.p>
       </motion.div>
 
       {/* Quick Contact Buttons */}
       <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
         variants={fadeInUp}
-        className="max-w-7xl mx-auto mb-16 flex flex-wrap justify-center gap-4"
+        className="max-w-7xl mx-auto mb-16 flex flex-wrap justify-center gap-6"
       >
-        <a
+        <motion.a
           href="https://api.whatsapp.com/send?phone=233534886377"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-all duration-300"
+          className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300"
+          variants={buttonHover}
+          whileHover="hover"
+          whileTap="tap"
         >
-          <FaWhatsapp className="w-5 h-5" />
-          Chat on WhatsApp
-        </a>
+          <FaWhatsapp className="w-6 h-6" />
+          <span>Chat on WhatsApp</span>
+        </motion.a>
 
-        <a
+        <motion.a
           href="https://chat.whatsapp.com/HUthrXOegbIHo3MxGYvUcL"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-6 py-3 bg-green-800 text-white font-semibold rounded-lg hover:bg-green-900 transition-all duration-300"
+          className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-800 to-green-900 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300"
+          variants={buttonHover}
+          whileHover="hover"
+          whileTap="tap"
         >
-          <FaWhatsapp className="w-5 h-5" />
-          Join Our Community
-        </a>
+          <FaWhatsapp className="w-6 h-6" />
+          <span>Join Our Community</span>
+        </motion.a>
       </motion.div>
 
       {/* Contact Form and Info Section */}
       <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={staggerContainer}
+        variants={containerVariants}
         className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12"
       >
         {/* Contact Form */}
         <motion.div
           variants={fadeInUp}
-          className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-white/10 hover:border-purple-500/50 transition-all duration-300"
+          className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-gray-700 hover:border-purple-500/50 transition-all duration-300"
         >
-          <h2 className="text-2xl font-bold text-gray-400 mb-6">
-            Send Us a Message
+          <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+            <FaPaperPlane className="text-blue-400" />
+            <span>Send Us a Message</span>
           </h2>
+
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Name Field */}
-            <div className="space-y-2">
+            <motion.div variants={fadeIn} className="space-y-2">
               <label className="block text-sm font-medium text-gray-300">
-                Name
+                Your Name
               </label>
               <input
                 type="text"
                 name="name"
                 placeholder="Enter your name"
-                className="w-full px-4 py-3 bg-white/5 text-white rounded-lg focus:ring-2 focus:outline-none focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 placeholder-gray-400"
+                className="w-full px-4 py-3 bg-gray-700/50 text-white rounded-lg focus:ring-2 focus:outline-none focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 placeholder-gray-400 border border-gray-600"
                 required
               />
-            </div>
+            </motion.div>
 
-            {/* Email Field */}
-            <div className="space-y-2">
+            <motion.div variants={fadeIn} className="space-y-2">
               <label className="block text-sm font-medium text-gray-300">
-                Email
+                Email Address
               </label>
               <input
                 type="email"
                 name="email"
                 placeholder="Enter your email"
-                className="w-full px-4 py-3 bg-white/5 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-300 placeholder-gray-400"
+                className="w-full px-4 py-3 bg-gray-700/50 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-300 placeholder-gray-400 border border-gray-600"
                 required
               />
-            </div>
+            </motion.div>
 
-            {/* Message Field */}
-            <div className="space-y-2">
+            <motion.div variants={fadeIn} className="space-y-2">
               <label className="block text-sm font-medium text-gray-300">
-                Message
+                Your Message
               </label>
               <textarea
                 rows="5"
                 name="message"
-                placeholder="Enter your message"
-                className="w-full px-4 py-3 bg-white/5 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none focus:border-purple-500 transition-all duration-300 placeholder-gray-400"
+                placeholder="How can we help you?"
+                className="w-full px-4 py-3 bg-gray-700/50 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none focus:border-purple-500 transition-all duration-300 placeholder-gray-400 border border-gray-600"
                 required
               />
-            </div>
+            </motion.div>
 
-            {/* Submit Button */}
-            <div className="text-center">
-              <button
+            <motion.div variants={fadeIn} className="pt-2">
+              <motion.button
                 type="submit"
-                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 text-white font-semibold rounded-lg  hover:to-pink-700 transition-all duration-300 flex items-center justify-center gap-2 w-full"
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-3 w-full shadow-lg"
                 disabled={isLoading}
+                whileHover={
+                  !isLoading
+                    ? {
+                        scale: 1.02,
+                        boxShadow: "0 10px 25px -5px rgba(99, 102, 241, 0.5)",
+                      }
+                    : {}
+                }
+                whileTap={!isLoading ? { scale: 0.98 } : {}}
               >
                 {isLoading ? (
-                  <span className="inline-block h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  <span className="inline-block h-6 w-6 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                 ) : (
                   <>
-                    <FaPaperPlane /> Send Message
+                    <FaPaperPlane className="w-5 h-5" />
+                    <span>Send Message</span>
                   </>
                 )}
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
-            {/* Success/Error Message */}
+            {/* Form Messages */}
             {isSubmitted && (
               <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={scaleUp}
-                className="mt-4 p-4 bg-green-500/10 text-green-400 rounded-lg border border-green-500/30"
+                className="mt-4 p-4 bg-green-900/30 text-green-400 rounded-lg border border-green-500/30"
               >
                 Your message has been sent successfully!
               </motion.div>
@@ -222,7 +269,7 @@ export default function ContactPage() {
                 initial="hidden"
                 animate="visible"
                 variants={scaleUp}
-                className="mt-4 p-4 bg-red-500/10 text-red-400 rounded-lg border border-red-500/30"
+                className="mt-4 p-4 bg-red-900/30 text-red-400 rounded-lg border border-red-500/30"
               >
                 Failed to send message. Please try again.
               </motion.div>
@@ -230,31 +277,31 @@ export default function ContactPage() {
           </form>
         </motion.div>
 
-        {/* Contact Info and Social Media */}
-        <motion.div variants={fadeIn} className="space-y-8">
-          {/* Contact Info Card */}
+        {/* Contact Info Section */}
+        <motion.div variants={fadeInUp} className="space-y-8">
+          {/* Contact Information Card */}
           <motion.div
-            variants={fadeInUp}
-            className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-white/10 hover:border-blue-500/50 transition-all duration-300"
+            whileHover={{ y: -5 }}
+            className="bg-gradient-to-br from-blue-900/20 to-indigo-900/20 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-blue-700/30 hover:border-blue-500/50 transition-all duration-300"
           >
-            <h2 className="text-2xl font-bold text-white mb-6">
-              Contact Information
+            <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+              <FaMapMarkerAlt className="text-blue-400" />
+              <span>Contact Information</span>
             </h2>
+
             <div className="space-y-6">
-              {/* Email with clickable link */}
-              <div className="flex items-center space-x-4">
-                <FaEnvelope className="w-6 h-6 text-purple-400" />
+              <motion.div variants={fadeIn} className="flex items-start gap-4">
+                <FaEnvelope className="w-5 h-5 text-purple-400 mt-1 flex-shrink-0" />
                 <a
                   href="mailto:info.nextstarz@gmail.com"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   info.nextstarz@gmail.com
                 </a>
-              </div>
+              </motion.div>
 
-              {/* Phone with WhatsApp link */}
-              <div className="flex items-center space-x-4">
-                <FaPhone className="w-6 h-6 text-blue-400" />
+              <motion.div variants={fadeIn} className="flex items-start gap-4">
+                <FaPhone className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
                 <a
                   href="https://wa.me/233534886377"
                   target="_blank"
@@ -263,86 +310,84 @@ export default function ContactPage() {
                 >
                   +233 534 886 377
                 </a>
-              </div>
+              </motion.div>
 
-              <div className="flex items-center space-x-4">
-                <FaMapMarkerAlt className="w-6 h-6 text-yellow-400" />
-                <p className="text-gray-300">15 Sapele Cl, GC-136-5844, Accra</p>
-              </div>
+              <motion.div variants={fadeIn} className="flex items-start gap-4">
+                <FaMapMarkerAlt className="w-5 h-5 text-yellow-400 mt-1 flex-shrink-0" />
+                <p className="text-gray-300">
+                  15 Sapele Cl, GC-136-5844, Accra
+                </p>
+              </motion.div>
 
-              {/* Working Hours */}
-              <div className="flex items-center space-x-4">
-                <FaClock className="w-6 h-6 text-pink-400" />
+              <motion.div variants={fadeIn} className="flex items-start gap-4">
+                <FaClock className="w-5 h-5 text-pink-400 mt-1 flex-shrink-0" />
                 <p className="text-gray-300">Mon - Fri: 9:00 AM - 5:00 PM</p>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
 
-          {/* Social Media Links */}
+          {/* Social Media Card */}
           <motion.div
-            variants={fadeInUp}
-            className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-white/10 hover:border-pink-500/50 transition-all duration-300"
+            whileHover={{ y: -5 }}
+            className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-purple-700/30 hover:border-purple-500/50 transition-all duration-300"
           >
-            <h2 className="text-2xl font-bold text-white mb-6">Follow Us</h2>
-            <div className="flex flex-wrap gap-6">
-              {/* Facebook */}
-              <a
-                href="https://web.facebook.com/nextstarzglobal/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-700 transition-colors duration-300"
-                title="Facebook"
-              >
-                <FaFacebook className="w-8 h-8" />
-              </a>
+            <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+              <span>Follow Us</span>
+            </h2>
 
-              {/* Twitter */}
-              <a
-                href="https://x.com/NextStarzglobal"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-600 transition-colors duration-300"
-                title="Twitter"
-              >
-                <FaTwitter className="w-8 h-8" />
-              </a>
-
-              {/* Instagram */}
-              <a
-                href="https://www.instagram.com/NextStarzglobal"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-pink-500 hover:text-pink-700 transition-colors duration-300"
-                title="Instagram"
-              >
-                <FaInstagram className="w-8 h-8" />
-              </a>
-
-              {/* YouTube */}
-              <a
-                href="https://www.youtube.com/@NextStarzglobal"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-red-500 hover:text-red-700 transition-colors duration-300"
-                title="YouTube"
-              >
-                <FaYoutube className="w-8 h-8" />
-              </a>
-
-              {/* TikTok */}
-              <a
-                href="https://www.tiktok.com/@Nxtstarz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-black hover:text-gray-800 transition-colors duration-300 dark:text-gray-500 dark:hover:text-black"
-                title="TikTok"
-              >
-                <FaTiktok className="w-8 h-8" />
-              </a>
-            </div>
+            <motion.div
+              variants={containerVariants}
+              className="flex flex-wrap gap-6 justify-center md:justify-start"
+            >
+              {[
+                {
+                  icon: <FaFacebook className="w-7 h-7" />,
+                  color: "text-blue-500 hover:text-blue-400",
+                  href: "https://web.facebook.com/nextstarzglobal/",
+                  label: "Facebook",
+                },
+                {
+                  icon: <FaTwitter className="w-7 h-7" />,
+                  color: "text-blue-400 hover:text-blue-300",
+                  href: "https://x.com/NextStarzglobal",
+                  label: "Twitter",
+                },
+                {
+                  icon: <FaInstagram className="w-7 h-7" />,
+                  color: "text-pink-500 hover:text-pink-400",
+                  href: "https://www.instagram.com/NextStarzglobal",
+                  label: "Instagram",
+                },
+                {
+                  icon: <FaYoutube className="w-7 h-7" />,
+                  color: "text-red-500 hover:text-red-400",
+                  href: "https://www.youtube.com/@NextStarzglobal",
+                  label: "YouTube",
+                },
+                {
+                  icon: <FaTiktok className="w-7 h-7" />,
+                  color: "text-gray-300 hover:text-white",
+                  href: "https://www.tiktok.com/@Nxtstarz",
+                  label: "TikTok",
+                },
+              ].map((social, index) => (
+                <motion.a
+                  key={index}
+                  variants={fadeInUp}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${social.color} transition-colors duration-300`}
+                  aria-label={social.label}
+                  whileHover={{ y: -3, scale: 1.1 }}
+                >
+                  {social.icon}
+                </motion.a>
+              ))}
+            </motion.div>
           </motion.div>
         </motion.div>
       </motion.div>
-    </section>
+    </motion.section>
   );
 }

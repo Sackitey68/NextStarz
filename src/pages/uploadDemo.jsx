@@ -13,7 +13,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { usePaystackPayment } from "react-paystack";
 
-
 const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
@@ -38,7 +37,7 @@ export default function UploadDemo() {
   const [videoFile, setVideoFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
-  const [isPaymentComplete, setIsPaymentComplete] = useState(false)
+  const [isPaymentComplete, setIsPaymentComplete] = useState(false);
   const [downloadURL, setDownloadURL] = useState("");
   const [error, setError] = useState("");
   const [category, setCategory] = useState("");
@@ -113,28 +112,40 @@ export default function UploadDemo() {
     setIsProcessingPayment(true);
     setError("");
 
+    // Add timeout for payment processing
+    const paymentTimeout = setTimeout(() => {
+      setIsProcessingPayment(false);
+      setError("🚫 Payment took too long. Please try again.");
+    }, 300000); // 5 minutes timeout
+
     initializePayment(
-      async (response) => {
-        try {
-          // Save transaction to Firebase
-          await saveTransactionToFirebase(response.reference, config.email, config.amount);
-          
-          // Verify payment
-          const verificationSuccess = await verifyPayment(response.reference);
-          
-          if (verificationSuccess) {
-            setIsPaymentComplete(true);
-            setError("");
+      {
+        onSuccess: async (response) => {
+          clearTimeout(paymentTimeout);
+          try {
+            // Save transaction to Firebase
+            await saveTransactionToFirebase(response.reference, config.email, config.amount);
+            
+            // Verify payment
+            const verificationSuccess = await verifyPayment(response.reference);
+            
+            if (verificationSuccess) {
+              setIsPaymentComplete(true);
+              setError("");
+            } else {
+              setError("🚫 Payment verification failed. Please contact support.");
+            }
+          } catch (error) {
+            setError(`🚫 ${error.message}`);
+          } finally {
+            setIsProcessingPayment(false);
           }
-        } catch (error) {
-          setError(`🚫 ${error.message}`);
-        } finally {
+        },
+        onClose: () => {
+          clearTimeout(paymentTimeout);
           setIsProcessingPayment(false);
+          setError("🚫 Payment was not completed. Please try again.");
         }
-      },
-      () => {
-        setError("🚫 Payment was not completed. Please try again.");
-        setIsProcessingPayment(false);
       }
     );
   };
@@ -169,35 +180,40 @@ export default function UploadDemo() {
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Payment verification failed");
-      }
-
       const data = await response.json();
 
-      if (data.status && data.data.status === "success") {
-        // Update transaction in Firebase
-        const user = auth.currentUser;
-        if (!user) throw new Error("User not authenticated");
-
-        const transactionRef = doc(db, "transactions", `user_${user.uid}`);
-        await updateDoc(transactionRef, {
-          status: "success",
-          verifiedAt: new Date(),
-          paymentData: data.data
-        });
-
-        return true;
-      } else {
+      if (!response.ok || !data.status || data.data.status !== "success") {
         throw new Error(data.message || "Payment verification failed");
       }
+
+      // Update transaction in Firebase
+      const user = auth.currentUser;
+      if (!user) throw new Error("User not authenticated");
+
+      const transactionRef = doc(db, "transactions", `user_${user.uid}`);
+      await updateDoc(transactionRef, {
+        status: "success",
+        verifiedAt: new Date(),
+        paymentData: data.data
+      });
+
+      return true;
     } catch (error) {
       console.error("Payment verification error:", error);
+      // Update transaction as failed
+      const user = auth.currentUser;
+      if (user) {
+        const transactionRef = doc(db, "transactions", `user_${user.uid}`);
+        await updateDoc(transactionRef, {
+          status: "failed",
+          error: error.message
+        });
+      }
       throw error;
     }
   };
 
-  // Handle file input change (keeping your original implementation)
+  // Handle file input change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -219,7 +235,7 @@ export default function UploadDemo() {
     }
   };
 
-  // Handle video upload (keeping your original implementation with minor adjustments)
+  // Handle video upload
   const handleUpload = async () => {
     if (!isPaymentComplete) {
       setError("🚫 Please complete the payment to proceed with the upload.");
@@ -303,7 +319,7 @@ export default function UploadDemo() {
     }
   };
 
-  // Generate unique ID (keeping your original implementation)
+  // Generate unique ID
   const generateUniqueId = async () => {
     try {
       const counterRef = doc(db, "counters", "demoUploads");
@@ -319,7 +335,7 @@ export default function UploadDemo() {
     }
   };
 
-  // Navigate to home page (keeping your original implementation)
+  // Navigate to home page
   const goToHomePage = () => {
     navigate("/");
   };

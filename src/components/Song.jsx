@@ -72,7 +72,7 @@ export default function Song() {
       >
         <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-full max-w-xs h-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent blur-sm"></div>
         <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-4">
-          🎵 Soundtrack 🎵
+          🎵 Soundtrack 
         </h2>
        
       </motion.div>
@@ -97,9 +97,9 @@ export default function Song() {
               alt="Diojo" 
               className="w-full h-full object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900/70 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-transparent to-cyan-900/30"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-800 via-gray-800/70 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-gray-800 via-gray-800/70 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-800/30 via-transparent to-cyan-900/30"></div>
           </div>
           
           {/* Animated floating music notes */}
@@ -170,7 +170,7 @@ export default function Song() {
                 whileHover="hover"
                 className={`flex items-center gap-4 p-5 rounded-xl ${platform.bg} border border-gray-700/50 ${platform.color} transition-all duration-300 backdrop-blur-sm`}
               >
-                <div className="bg-gray-900/30 p-3 rounded-lg backdrop-blur-sm">
+                <div className="bg-gray-900/80 p-3 rounded-lg backdrop-blur-sm">
                   {platform.icon}
                 </div>
                 <span className="text-lg font-semibold text-gray-100">
