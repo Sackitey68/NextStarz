@@ -431,7 +431,7 @@ export default function UploadDemo() {
                 Your submission ID: <span className="text-purple-600">{generatedId}</span>
               </p>
               <p className="text-gray-600 mb-4">
-                We're reviewing your submission. Only one submission is allowed per user.
+                We're reviewing your submission. Kindly present your submission ID during auditions.
               </p>
               <button
                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors duration-300"
