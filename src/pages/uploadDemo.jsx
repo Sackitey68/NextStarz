@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { collection, addDoc, doc, getDoc, updateDoc, setDoc, query, where, getDocs } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, updateDoc, setDoc, query, where, getDocs, runTransaction } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { storage, db } from "../firebase/firebase.js";
 import {
@@ -49,10 +49,8 @@ export default function UploadDemo() {
   const [hasExistingSubmission, setHasExistingSubmission] = useState(false);
   const navigate = useNavigate();
 
-  // Firebase Auth
   const auth = getAuth();
 
-  // Check Firebase initialization and auth state
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (!user) {
@@ -65,7 +63,6 @@ export default function UploadDemo() {
     return () => unsubscribe();
   }, [auth, navigate]);
 
-  // Check for existing submission and payment status
   useEffect(() => {
     const checkUserStatus = async () => {
       if (!isFirebaseReady) return;
@@ -74,7 +71,6 @@ export default function UploadDemo() {
       if (!user) return;
 
       try {
-        // Check for existing submission
         const submissionsRef = collection(db, "demos");
         const q = query(submissionsRef, where("userId", "==", user.uid));
         const querySnapshot = await getDocs(q);
@@ -86,7 +82,6 @@ export default function UploadDemo() {
           return;
         }
 
-        // Check payment status only if no submission exists
         const transactionRef = doc(db, "transactions", user.uid);
         const transactionDoc = await getDoc(transactionRef);
 
@@ -102,7 +97,34 @@ export default function UploadDemo() {
     checkUserStatus();
   }, [auth.currentUser, isFirebaseReady]);
 
-  // Paystack configuration
+  const generateUniqueId = async () => {
+    try {
+      const counterRef = doc(db, "counters", "demoUploads");
+      
+      const newCount = await runTransaction(db, async (transaction) => {
+        const counterDoc = await transaction.get(counterRef);
+        
+        let count;
+        if (counterDoc.exists()) {
+          count = counterDoc.data().count;
+        } else {
+          count = 1;
+          transaction.set(counterRef, { count });
+        }
+        
+        const newCount = count + 1;
+        transaction.update(counterRef, { count: newCount });
+        return newCount;
+      });
+      
+      const paddedCount = String(newCount).padStart(5, "0");
+      return `NXTS/25-${paddedCount}`;
+    } catch (error) {
+      console.error("Error generating unique ID:", error);
+      throw new Error("Failed to generate submission ID. Please try again.");
+    }
+  };
+
   const getPaystackConfig = (user) => {
     if (!user) {
       throw new Error("User not authenticated");
@@ -111,7 +133,7 @@ export default function UploadDemo() {
     return {
       reference: `NXSTARZ_${new Date().getTime()}`,
       email: user.email,
-      amount: 10000, // 100 GHS in kobo
+      amount: 10000,
       publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
       currency: "GHS",
       metadata: {
@@ -147,7 +169,7 @@ export default function UploadDemo() {
     const paymentTimeout = setTimeout(() => {
       setIsProcessingPayment(false);
       setError("🚫 Payment took too long. Please try again.");
-    }, 300000); // 5 minutes timeout
+    }, 300000);
 
     initializePayment(
       {
@@ -178,7 +200,6 @@ export default function UploadDemo() {
     );
   };
 
-  // Save transaction to Firebase
   const saveTransactionToFirebase = async (reference, user) => {
     if (!user) throw new Error("User not authenticated");
 
@@ -197,7 +218,6 @@ export default function UploadDemo() {
     }, { merge: true });
   };
 
-  // Verify payment with Paystack
   const verifyPayment = async (reference) => {
     try {
       const response = await fetch(
@@ -240,7 +260,6 @@ export default function UploadDemo() {
     }
   };
 
-  // Handle file input change
   const handleFileChange = (e) => {
     if (hasExistingSubmission) {
       setError("You've already submitted a video. Only one submission is allowed.");
@@ -267,32 +286,9 @@ export default function UploadDemo() {
     }
   };
 
-  // Generate unique ID starting from NXTS/25-00002
-  const generateUniqueId = async () => {
-    try {
-      const counterRef = doc(db, "counters", "demoUploads");
-      
-      // Initialize counter at 1 if it doesn't exist (so first submission will be 2)
-      await setDoc(counterRef, { count: 1 }, { merge: true });
-      
-      const counterDoc = await getDoc(counterRef);
-      let count = counterDoc.data()?.count || 1;
-      
-      count += 1;
-      await updateDoc(counterRef, { count });
-      
-      const paddedCount = String(count).padStart(5, "0");
-      return `NXTS/25-${paddedCount}`;
-    } catch (error) {
-      console.error("Error generating unique ID:", error);
-      throw new Error("Failed to generate submission ID. Please try again.");
-    }
-  };
-
-  // Handle video upload
   const handleUpload = async () => {
     if (hasExistingSubmission) {
-      setError("You've already submitted a video. Only one submission is allowed.");
+      setError("You've submitted the video. Only one submission is allowed.");
       return;
     }
 
@@ -401,7 +397,6 @@ export default function UploadDemo() {
     }
   };
 
-  // Navigate to home page
   const goToHomePage = () => {
     navigate("/");
   };
@@ -430,7 +425,7 @@ export default function UploadDemo() {
             <div className="p-6 bg-blue-50 rounded-lg">
               <FaCheckCircle className="w-16 h-16 text-blue-500 mx-auto mb-4" />
               <p className="text-lg text-blue-600 mb-2">
-                You've already submitted your demo!
+                You've submitted your demo!
               </p>
               <p className="text-lg font-semibold mb-4">
                 Your submission ID: <span className="text-purple-600">{generatedId}</span>
@@ -448,7 +443,6 @@ export default function UploadDemo() {
           </motion.div>
         ) : (
           <>
-            {/* Category Selection */}
             <motion.div variants={fadeInUp} className="mb-6">
               <label className="block text-lg font-medium text-gray-700 mb-2">
                 Select Your Category
@@ -472,7 +466,6 @@ export default function UploadDemo() {
               </select>
             </motion.div>
 
-            {/* Country Selection */}
             <motion.div variants={fadeInUp} className="mb-6">
               <label className="block text-lg font-medium text-gray-700 mb-2">
                 Select Your Country
@@ -491,7 +484,6 @@ export default function UploadDemo() {
               </select>
             </motion.div>
 
-            {/* File Upload Section */}
             <motion.div
               variants={scaleUp}
               className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-purple-500 transition-colors duration-300 mb-6"
@@ -525,7 +517,6 @@ export default function UploadDemo() {
               )}
             </motion.div>
 
-            {/* Error Message */}
             {error && (
               <motion.div
                 variants={fadeInUp}
@@ -536,7 +527,6 @@ export default function UploadDemo() {
               </motion.div>
             )}
 
-            {/* Progress Bar */}
             {isUploading && (
               <motion.div
                 variants={fadeInUp}
@@ -552,7 +542,6 @@ export default function UploadDemo() {
               </motion.div>
             )}
 
-            {/* Paystack Payment Button */}
             {!isPaymentComplete && videoFile && !error && category && country && (
               <motion.div variants={fadeInUp} className="mt-8 text-center">
                 <button
@@ -577,7 +566,6 @@ export default function UploadDemo() {
               </motion.div>
             )}
 
-            {/* Upload Button (Visible After Payment) */}
             {isPaymentComplete && !isUploading && !isUploadComplete && (
               <motion.div variants={fadeInUp} className="mt-8 text-center">
                 <button
@@ -589,7 +577,6 @@ export default function UploadDemo() {
               </motion.div>
             )}
 
-            {/* Uploading Spinner */}
             {isUploading && (
               <motion.div
                 variants={fadeInUp}
@@ -603,7 +590,6 @@ export default function UploadDemo() {
               </motion.div>
             )}
 
-            {/* Success Message */}
             {isUploadComplete && (
               <motion.div variants={fadeInUp} className="mt-8 text-center">
                 <div className="p-6 bg-green-50 rounded-lg">
