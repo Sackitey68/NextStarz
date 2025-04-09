@@ -114,27 +114,27 @@ export default function Prizes() {
     {
       title: "🥉 2nd Runner-Up",
       subtitle: "Rising Star",
-      icon: <FaMedal className="text-amber-600 text-4xl" />,
+      icon: <FaMedal className="text-gray-300 text-4xl" />,
       items: [
         {
-          icon: <FaRecordVinyl className="text-amber-300" />,
+          icon: <FaRecordVinyl className="text-gray-300" />,
           text: "Single production deal with Suede Entertainment",
         },
         {
-          icon: <FaGlobe className="text-amber-300" />,
+          icon: <FaGlobe className="text-gray-300" />,
           text: "Worldwide single distribution via Lynx Distribution",
         },
         {
-          icon: <FaCashRegister className="text-amber-300" />,
+          icon: <FaCashRegister className="text-gray-300" />,
           text: "Cash Prize of GHS 4,000.00",
         },
         {
-          icon: <FaMicrophone className="text-amber-300" />,
+          icon: <FaMicrophone className="text-gray-300" />,
           text: "Media coverage to enhance public recognition",
         },
       ],
-      bg: "bg-gradient-to-br from-amber-900/10 to-amber-800/10",
-      border: "border-amber-500/30",
+      bg: "bg-gradient-to-br from-gray-800/10 to-gray-900/10",
+      border: "border-gray-500/30",
     },
   ];
 
@@ -173,7 +173,7 @@ export default function Prizes() {
       {/* Hero Section */}
       <motion.div className="text-center mb-16 max-w-4xl mx-auto">
         <motion.h1
-          className="text-3xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-amber-400"
+          className="text-3xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400"
           variants={fadeIn}
         >
           Awards & Recognition – NextStarz Season 1
@@ -222,7 +222,7 @@ export default function Prizes() {
           className="text-3xl font-bold mb-8 text-center flex items-center justify-center gap-3"
           variants={fadeIn}
         >
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-amber-400">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
             Grand Prizes & Rewards
           </span>
         </motion.h2>

@@ -183,7 +183,6 @@ export default function ContactPage() {
           className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-gray-700 hover:border-purple-500/50 transition-all duration-300"
         >
           <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-            <FaPaperPlane className="text-blue-400" />
             <span>Send Us a Message</span>
           </h2>
 
@@ -285,7 +284,6 @@ export default function ContactPage() {
             className="bg-gradient-to-br from-blue-900/20 to-indigo-900/20 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-blue-700/30 hover:border-blue-500/50 transition-all duration-300"
           >
             <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-              <FaMapMarkerAlt className="text-blue-400" />
               <span>Contact Information</span>
             </h2>
 

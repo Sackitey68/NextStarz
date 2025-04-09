@@ -719,7 +719,7 @@ export default function Login() {
                   </span>
                 </div>
                 <p className="text-center font-medium">
-                  Welcome back! Click here ⬇️ to upload demo
+                  Welcome! Click here ⬇️ to upload demo
                 </p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}

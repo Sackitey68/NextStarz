@@ -19,49 +19,49 @@ const Auditions = () => {
         title: "Singer / Rapper",
         icon: "🎤",
         description: "Showcase your vocal talent across any genre",
-        color: "from-purple-700 to-pink-700",
+        color: "from-purple-900/30 to-blue-900/30",
       },
       {
         id: 2,
         title: "Songwriter",
         icon: "🎼",
         description: "Present your original compositions and lyrics",
-        color: "from-blue-700 to-cyan-700",
+        color: "from-purple-900/30 to-blue-900/30",
       },
       {
         id: 3,
         title: "Dancer",
         icon: "💃",
         description: "Display your movement artistry and choreography",
-        color: "from-red-700 to-orange-700",
+        color: "from-purple-900/30 to-blue-900/30",
       },
       {
         id: 4,
         title: "Comedian",
         icon: "😂",
         description: "Make us laugh with your original comedy routine",
-        color: "from-yellow-700 to-amber-700",
+        color: "from-purple-900/30 to-blue-900/30",
       },
       {
         id: 5,
         title: "Instrumentalist",
         icon: "🎸",
         description: "Demonstrate mastery of any musical instrument",
-        color: "from-green-700 to-teal-700",
+        color: "from-purple-900/30 to-blue-900/30",
       },
       {
         id: 6,
         title: "Beat-maker",
         icon: "🥁",
         description: "Show your production and beat creation skills",
-        color: "from-indigo-700 to-violet-700",
+        color: "from-purple-900/30 to-blue-900/30",
       },
       {
         id: 7,
         title: "DJ",
         icon: "🎧",
         description: "Showcase your mixing and turntable skills",
-        color: "from-gray-700 to-blue-700",
+        color: "from-purple-900/30 to-blue-900/30",
       },
     ],
     requirements: [
@@ -259,7 +259,7 @@ const Auditions = () => {
           className="text-3xl md:text-4xl font-bold mb-12 text-center"
           variants={fadeIn}
         >
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-cyan-400">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">
             Audition Requirements
           </span>{" "}
           📝
@@ -278,7 +278,7 @@ const Auditions = () => {
                 className="flex items-start bg-gray-700/30 p-4 rounded-lg hover:bg-gray-700/50 transition-colors"
                 whileHover={{ x: 5 }}
               >
-                <FaCheckCircle className="text-green-400 mt-1 mr-3 flex-shrink-0" />
+                <FaCheckCircle className="text-hover-color mt-1 mr-3 flex-shrink-0" />
                 <span className="text-gray-100">{req}</span>
               </motion.li>
             ))}
@@ -308,7 +308,7 @@ const Auditions = () => {
           className="text-3xl md:text-4xl font-bold mb-12 text-center"
           variants={fadeIn}
         >
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-pink-400">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">
             Audition Options
           </span>{" "}
           📅
@@ -322,8 +322,8 @@ const Auditions = () => {
               whileHover="hover"
               className={`bg-gradient-to-br ${
                 location.type === "Online"
-                  ? "from-blue-900/50 to-indigo-900/50"
-                  : "from-purple-900/50 to-pink-900/50"
+                  ? "from-blue-900/50 to-purple-900/50"
+                  : "from-purple-900/50 to-hover-color/35"
               } p-8 rounded-2xl border ${
                 location.type === "Online"
                   ? "border-blue-700/30"
