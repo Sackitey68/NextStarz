@@ -1,10 +1,17 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { FaMicrophoneAlt, FaStar, FaAward, FaUserTie } from "react-icons/fa";
+import {
+  FaMicrophoneAlt,
+  FaStar,
+  FaUserTie,
+  FaGripfire,
+  FaMusic,
+} from "react-icons/fa";
 import Ishmael from "../assets/Team/ishmael.jpg";
-import Nicolas from "../assets/Team/Nicolas.jpg";
-import Anggie from "../assets/Team/Anggie.jpg";
+import Sherifa from "../assets/Team/Sherifa.jpg";
+import Kalsoume from "../assets/Team/Kalsoume.jpg";
 import Dorcas from "../assets/Team/Dorcas.jpg";
+import Nicolas from "../assets/Team/Nicolas.jpg";
 
 const Judges = () => {
   const navigate = useNavigate();
@@ -24,262 +31,241 @@ const Judges = () => {
       icon: <FaUserTie className="text-purple-400" />,
     },
     {
-      id: 4,
-      name: "Dorcas Agyeiwaa",
-      role: "Professional Musician",
-      image: Dorcas,
-      bio: "Known as AJ Truth, is a multi-octave vocalist, songwriter, entrepreneur, and media personality. With years of experience performing alongside top musicians in Ghana's music industry, she has graced prestigious stages and worked with multi-genre bands. As a panelist on NextStarz, she brings her industry expertise to mentor rising talents. Her background as a TV host and reality show panelist further cements her influence in the entertainment world. Passionate and dynamic, AJ Truth is redefining artistry and excellence.",
-      expertise: ["Vocal Performance", "Songwriting", "Media Presentation"],
-      icon: <FaMicrophoneAlt className="text-blue-400" />,
-    },
-    {
       id: 2,
-      name: "Nicholas Amoako",
-      role: "Professional Musician",
-      image: Nicolas,
-      bio: "Widely known in the showbiz industry as Phewcha. A multi-talented musician, songwriter, actor, and social media influencer. With a deep passion for creativity and entertainment, he captivates audiences with his artistry, versatility, and engaging presence. His ability to blend music, storytelling, and digital influence has earned him a loyal following, making him a standout figure in the industry. Through his dedication and innovation, Phewcha continues to inspire, entertain, and shape the future of entertainment.",
-      expertise: ["Performance Art", "Digital Influence", "Entertainment"],
+      name: "Sherifa Gunu",
+      role: "Afro-Soul Diva",
+      image: Sherifa,
+      bio: "Sherifa Gunu is a renowned Afro-soul musician and cultural advocate celebrated for blending traditional African rhythms with modern sounds. Her commanding stage presence and unique vocals have led her to perform with top Ghanaian artists like Sarkodie, Efya, and Kojo Antwi. Through albums such as Dagbon, African Woman, and Kuuku, she promotes unity, empowerment, and pride. Beyond music, Sherifa is a dedicated philanthropist and entrepreneur who uses her influence to champion women's rights and drive community development within Ghana's creative industry.",
+      expertise: ["Vocal Performance", "Afro-Soul Music", "Cultural Advocacy"],
       icon: <FaStar className="text-yellow-400" />,
     },
     {
       id: 3,
-      name: "Anggie Wood",
-      role: "Professional Musician",
-      image: Anggie,
-      bio: "A versatile and vibrant Ghanaian musician, songwriter, and influencer, currently making waves on social media with her exceptional craft. Known for her keen eye for talent, she has captivated audiences with her unique sound, engaging performances, and dynamic presence. Her passion for music and entertainment shines through her work, inspiring a new generation of artists. With a growing fan base and an undeniable stage presence, Anggie Wood continues to redefine the music scene in Ghana and beyond.",
-      expertise: ["Artist Development", "Stage Presence", "Music Innovation"],
-      icon: <FaAward className="text-pink-400" />,
+      name: "Kalsoume Sinare",
+      role: "Ghana's Screen Queen",
+      image: Kalsoume,
+      bio: "Kalsoume Sinare is a veteran Ghanaian actress and former model with over 30 years in film and television. Known for her powerful roles in productions like Babina, Trinity, and Sala, she earned accolades including a Golden Actress award. Starting as a model, she represented Ghana internationally and appeared in major commercials before transitioning to acting in the early 1990s. Her versatility and emotional range made her a household name. Outside acting, Kalsoume is a successful entrepreneur and humanitarian, influencing Ghana's entertainment and beauty industries.",
+      expertise: ["Acting", "Modeling", "Film Production"],
+      icon: <FaGripfire className="text-blue-400" />,
+    },
+    {
+      id: 4,
+      name: "Dorcas Agyeiwaa",
+      role: "The Vocal Powerhouse",
+      image: Dorcas,
+      bio: "Known as AJ Truth, is a multi-octave vocalist, songwriter, entrepreneur, and media personality. With years of experience performing alongside top musicians in Ghana's music industry, she has graced prestigious stages and worked with multi-genre bands. As a panelist on NextStarz, she brings her industry expertise to mentor rising talents. Her background as a TV host and reality show panelist further cements her influence in the entertainment world. Passionate and dynamic, AJ Truth is redefining artistry and excellence.",
+      expertise: ["Vocal Performance", "Songwriting", "Media Presentation"],
+      icon: <FaMicrophoneAlt className="text-green-400" />,
+    },
+    {
+      id: 5,
+      name: "Nicholas Amoako",
+      role: "The Entertainer",
+      image: Nicolas,
+      bio: "Widely known in the showbiz industry as Phewcha. A multi-talented musician, songwriter, actor, and social media influencer. With a deep passion for creativity and entertainment, he captivates audiences with his artistry, versatility, and engaging presence. His ability to blend music, storytelling, and digital influence has earned him a loyal following, making him a standout figure in the industry. Through his dedication and innovation, Phewcha continues to inspire, entertain, and shape the future of entertainment.",
+      expertise: ["Performance Art", "Digital Influence", "Entertainment"],
+      icon: <FaMusic className="text-pink-400" />,
     },
   ];
 
-  // Enhanced animations with WAAPI-compatible easing
+  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.15,
         when: "beforeChildren",
       },
     },
   };
 
   const judgeVariants = {
-    hidden: { y: 50, opacity: 0, rotate: -3 },
+    hidden: { y: 30, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
-      rotate: 0,
       transition: {
         type: "spring",
-        stiffness: 80,
-        damping: 12,
-        duration: 0.8,
+        stiffness: 100,
+        damping: 15,
+        duration: 0.6,
       },
     },
     hover: {
       y: -10,
       scale: 1.03,
-      boxShadow: "0 25px 50px -12px rgba(192, 132, 252, 0.25)",
-      transition: {
-        duration: 0.4,
-        ease: "easeOut",
-      },
+      boxShadow: "0 20px 25px -5px rgba(192, 132, 252, 0.3)",
+      transition: { duration: 0.3 },
     },
   };
 
   const imageVariants = {
-    hidden: { scale: 0.9, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 120,
-      },
-    },
     hover: {
       scale: 1.05,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const titleVariants = {
-    hidden: { opacity: 0, y: -40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const fadeIn = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
+      transition: { duration: 0.3 },
     },
   };
 
   return (
-    <div className="min-h-screen  text-white py-12 px-4 sm:px-6 lg:px-8 w-full">
-      <title>Meet Our Judges | NextStarz</title>
+    <div className="min-h-screen text-white py-12 px-4 sm:px-6 lg:px-8 ">
+      <title>🌟 Meet Our Judges | NextStarz 🌟</title>
       <meta
         name="description"
-        content="Meet the industry experts judging the NextStarz competition"
+        content="Meet the superstar judges who will discover Ghana's next big talent!"
       />
 
-      {/* Hero Section */}
-      <motion.div
-        className="text-center mb-16 w-full"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-      >
-        <motion.div variants={titleVariants}>
-          <motion.h1
-            className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400"
-            whileHover={{ scale: 1.01 }}
-          >
-            Meet The NextStarz Judges
-          </motion.h1>
-        </motion.div>
-
-        <motion.p
-          className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed"
-          variants={fadeIn}
-        >
-          These entertainment legends will be guiding, critiquing, and
-          discovering the next big star!
-        </motion.p>
-      </motion.div>
-
-      {/* Full-width Judges Grid */}
-      <div className="w-full">
+      {/* Sparkly Header Section */}
+      <div className="max-w-7xl mx-auto text-center mb-16 relative">
         <motion.div
+          className="absolute -top-8 -left-8 w-16 h-16 bg-yellow-400 rounded-full filter blur-xl opacity-20"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute -bottom-4 -right-4 w-20 h-20 bg-purple-400 rounded-full filter blur-xl opacity-20"
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
+
+        <motion.h1
+          className="text-4xl md:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          Meet The Dream Team ✨
+        </motion.h1>
+        <motion.p
+          className="text-xl text-gray-200 max-w-3xl mx-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+        >
+          These entertainment powerhouses are ready to discover Ghana's next
+          superstar! Get to know the experts who will guide, mentor, and judge
+          your journey to stardom.
+        </motion.p>
+      </div>
+
+      {/* Judges Grid */}
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full px-0"
         >
           {judges.map((judge) => (
             <motion.div
               key={judge.id}
               variants={judgeVariants}
               whileHover="hover"
-              className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl overflow-hidden shadow-xl border border-gray-700 hover:border-purple-500/50 transition-all duration-300 h-full flex flex-col mx-2"
+              className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl overflow-hidden border border-gray-700 flex flex-col h-full shadow-lg hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300"
             >
-              <div className="p-8 flex-1 flex flex-col">
-                {/* Judge Image */}
+              {/* Judge Image */}
+              <div className="relative pt-10 px-8">
                 <motion.div
-                  className="relative group mb-6"
+                  className="relative w-40 h-40 mx-auto rounded-full border-4 border-purple-500 shadow-lg"
+                  whileHover="hover"
                   variants={imageVariants}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 blur-md transition-all duration-500"></div>
-                  <motion.img
+                  <img
                     src={judge.image}
                     alt={judge.name}
-                    className="relative w-40 h-40 mx-auto rounded-full object-cover border-4 border-gray-700 group-hover:border-purple-500 z-10 transition-all duration-300"
-                    whileHover="hover"
+                    className="w-full h-full rounded-full object-cover"
                   />
+                  <div className="absolute -inset-2 rounded-full border-2 border-purple-300 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
                 </motion.div>
+              </div>
 
-                {/* Judge Info */}
-                <div className="text-center mb-6">
-                  <div className="flex justify-center mb-3">
-                    <div className="text-2xl">{judge.icon}</div>
+              {/* Judge Info */}
+              <div className="p-6 flex-1 flex flex-col">
+                <div className="text-center mb-4">
+                  <div className="flex justify-center mb-2">
+                    <div className="text-3xl">{judge.icon}</div>
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-1">
+                  <h3 className="text-2xl font-bold text-white bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
                     {judge.name}
                   </h3>
-                  <p className="text-gray-300 font-medium mb-4">{judge.role}</p>
-
-                  {/* Expertise Tags */}
-                  <div className="flex flex-wrap justify-center gap-2 mb-4">
-                    {judge.expertise.map((item, index) => (
-                      <span
-                        key={index}
-                        className="text-xs bg-gray-700 text-gray-200 px-3 py-1 rounded-full"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
+                  <p className="text-purple-300 font-medium mt-1">
+                    {judge.role}
+                  </p>
+                </div>
+                {/* Expertise Tags */}
+                <div className="flex flex-wrap justify-center gap-2 mb-4">
+                  {judge.expertise.map((item, index) => (
+                    <span
+                      key={index}
+                      className="text-xs bg-gray-700/50 text-gray-200 px-3 py-1 rounded-full border border-gray-600"
+                    >
+                      {item}
+                    </span>
+                  ))}
                 </div>
 
                 {/* Bio */}
-                <motion.div
-                  className="flex-1"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <p className="text-gray-300 text-center">{judge.bio}</p>
-                </motion.div>
+                <p className="text-gray-300 text-sm flex-1 mb-4">{judge.bio}</p>
               </div>
             </motion.div>
           ))}
         </motion.div>
       </div>
 
-      {/* CTA Section */}
+      {/* Sparkly CTA Section */}
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        className="max-w-4xl mx-auto text-center mt-20 relative"
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
-        className="mt-24 text-center w-full max-w-6xl mx-auto"
+        transition={{ delay: 0.5, duration: 0.8 }}
       >
-        <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-10 rounded-2xl border border-gray-700 shadow-2xl">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-blue-300"
-            whileHover={{ scale: 1.01 }}
-          >
-            Ready to Impress Our Judges?
-          </motion.h2>
+        <div className="absolute -top-10 left-1/4 w-12 h-12 bg-pink-400 rounded-full filter blur-xl opacity-20 animate-pulse"></div>
+        <div className="absolute -bottom-5 right-1/4 w-16 h-16 bg-yellow-400 rounded-full filter blur-xl opacity-20 animate-pulse delay-1000"></div>
 
-          <motion.p
-            className="text-xl text-gray-300 mb-8 leading-relaxed"
-            variants={fadeIn}
-          >
-            Our panel is looking for raw talent, unique artistry, and that
-            special "it" factor. Bring your A-game and you might just become the
-            next star they discover!
-          </motion.p>
+        <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-400">
+          Ready to Shine Like a Star? 🌟
+        </h2>
+        <p className="text-xl text-gray-200 mb-8">
+          Our judges are waiting to discover{" "}
+          <span className="text-yellow-300 font-semibold">YOU</span>! Register
+          now for your shot at stardom and the chance to impress these
+          entertainment legends.
+        </p>
+        <motion.button
+          onClick={() => navigate("/register")}
+          className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-bold rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-pink-500/30 flex items-center gap-2 mx-auto"
+          whileHover={{
+            scale: 1.05,
+            boxShadow: "0 10px 25px -5px rgba(236, 72, 153, 0.4)",
+          }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <FaMicrophoneAlt className="animate-pulse" />
+          Apply Now - Auditions Open!
+          <FaStar
+            className="animate-spin"
+            style={{ animationDuration: "3000ms" }}
+          />
+        </motion.button>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <motion.button
-              onClick={() => navigate("/register")}
-              className="px-10 py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold rounded-full text-lg transition-all duration-300 shadow-xl hover:shadow-blue-500/30"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 10px 25px -5px rgba(99, 102, 241, 0.5)",
-              }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Register Now
-            </motion.button>
-
-            <motion.button
-              onClick={() => navigate("/auditions")}
-              className="px-10 py-4 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-full text-lg transition-all duration-300"
-              whileHover={{
-                scale: 1.05,
-              }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Learn About Auditions
-            </motion.button>
-          </div>
-        </div>
+        <p className="text-gray-400 mt-6 text-sm">
+          Don't let this golden opportunity slip away! ⏳
+        </p>
       </motion.div>
     </div>
   );

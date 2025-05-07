@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import Suede from "../assets/Suede.jpg";
 import Ishmael from "../assets/Team/ishmael.jpg";
 import Nicolas from "../assets/Team/Nicolas.jpg";
-import Anggie from "../assets/Team/Anggie.jpg";
 import Dorcas from "../assets/Team/Dorcas.jpg";
 import { useNavigate } from "react-router-dom"; 
 
@@ -68,13 +67,7 @@ const About = () => {
       image: Nicolas,
       bio: "Multi-talented artist and influencer shaping the future of entertainment.",
     },
-    {
-      id: 4,
-      name: "Anggie Wood",
-      role: "Musician",
-      image: Anggie,
-      bio: "Versatile musician and influencer making waves on social media with her exceptional craft.",
-    },
+   
   ];
 
   return (

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { FaUpload} from "react-icons/fa";
+import { FaUpload } from "react-icons/fa";
 import Logo from "../assets/Logo.png";
 
 export default function Header() {
@@ -62,7 +62,7 @@ export default function Header() {
         }`}
       >
         <p className="font-bold animate-pulse">
-          Registration Is Open Until June 5.{" "}
+          Registration Is Open Until July 12.{" "}
           <span
             className="underline cursor-pointer"
             onClick={() => navigate("/register")}
@@ -113,9 +113,10 @@ export default function Header() {
 
             {/* Desktop Buttons */}
             <div className="hidden md:flex items-center gap-4">
-            
               <button
-                onClick={() => navigate(isSignedUp ? "/uploaddemo" : "/register")}
+                onClick={() =>
+                  navigate(isSignedUp ? "/uploaddemo" : "/register")
+                }
                 className="relative overflow-hidden group transition-all duration-300"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full opacity-100 group-hover:opacity-0 transition-opacity duration-300"></div>
@@ -169,9 +170,7 @@ export default function Header() {
         {/* Mobile Menu - Slides from Right */}
         <div
           className={`md:hidden fixed inset-0 z-20 transition-all duration-500 ease-in-out ${
-            isMenuOpen
-              ? "opacity-100 visible"
-              : "opacity-0 invisible delay-300"
+            isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible delay-300"
           }`}
         >
           {/* Overlay */}
@@ -261,17 +260,23 @@ export default function Header() {
 
               <div className="mt-6">
                 <button
-                  onClick={isSignedUp ? handleUploadClick : () => {
-                    navigate("/register");
-                    toggleMenu();
-                  }}
+                  onClick={
+                    isSignedUp
+                      ? handleUploadClick
+                      : () => {
+                          navigate("/register");
+                          toggleMenu();
+                        }
+                  }
                   className={`w-full px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 rounded-md text-white font-medium flex items-center justify-center hover:scale-[1.02] transition-transform ${
                     isMenuOpen
                       ? "translate-x-0 opacity-100"
                       : "translate-x-10 opacity-0"
                   }`}
                   style={{
-                    transitionDelay: isMenuOpen ? `${navItems.length * 50}ms` : "0ms",
+                    transitionDelay: isMenuOpen
+                      ? `${navItems.length * 50}ms`
+                      : "0ms",
                   }}
                 >
                   {isSignedUp ? (

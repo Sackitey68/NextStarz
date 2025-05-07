@@ -76,7 +76,7 @@ const Auditions = () => {
       {
         type: "Offline",
         city: "Lapaz - Accra",
-        date: "Thursday, June 5 - Saturday, June 7 2025",
+        date: "Thursday, July 12 2025",
         venue: "CeeJay Multimedia Studios",
         emoji: "🏛️",
         time: "10:00 to 16:00 GMT",
@@ -86,7 +86,7 @@ const Auditions = () => {
       {
         type: "Online",
         city: "Virtual",
-        date: "Thursday, May 29 – Tuesday, June 3, 2025",
+        date: "Saturday, July 5 2025",
         emoji: "💻",
         time: "10:00 to 16:00 GMT",
         procedure: "Upload audition video per task given after registration",
