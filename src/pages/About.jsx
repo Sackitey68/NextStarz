@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
 import Suede from "../assets/Suede.jpg";
 import Ishmael from "../assets/Team/ishmael.jpg";
-import Nicolas from "../assets/Team/Nicolas.jpg";
+import Sherifa from "../assets/Team/Sherifa.jpg";
+import Kalsoume from "../assets/Team/Kalsoume.jpg";
 import Dorcas from "../assets/Team/Dorcas.jpg";
+import Nicolas from "../assets/Team/Nicolas.jpg";
+
 import { useNavigate } from "react-router-dom"; 
 
 const About = () => {

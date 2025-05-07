@@ -68,6 +68,10 @@ const Judges = () => {
     },
   ];
 
+  // Split judges into two groups: first 3 and last 2
+  const firstRowJudges = judges.slice(0, 3);
+  const secondRowJudges = judges.slice(3);
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -108,7 +112,7 @@ const Judges = () => {
   };
 
   return (
-    <div className="min-h-screen text-white py-12 px-4 sm:px-6 lg:px-8 ">
+    <div className="min-h-screen text-white py-12 px-4 sm:px-6 lg:px-8">
       <title>🌟 Meet Our Judges | NextStarz 🌟</title>
       <meta
         name="description"
@@ -163,15 +167,15 @@ const Judges = () => {
         </motion.p>
       </div>
 
-      {/* Judges Grid */}
-      <div className="max-w-7xl mx-auto">
+      {/* First Row - 3 Judges */}
+      <div className="max-w-7xl mx-auto mb-12">
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {judges.map((judge) => (
+          {firstRowJudges.map((judge) => (
             <motion.div
               key={judge.id}
               variants={judgeVariants}
@@ -220,7 +224,71 @@ const Judges = () => {
                 </div>
 
                 {/* Bio */}
-                <p className="text-gray-300 text-sm flex-1 mb-4">{judge.bio}</p>
+                <p className="text-gray-300 flex-1 mb-4">{judge.bio}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Second Row - 2 Judges (Centered) */}
+      <div className="max-w-5xl mx-auto mb-12">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {secondRowJudges.map((judge) => (
+            <motion.div
+              key={judge.id}
+              variants={judgeVariants}
+              whileHover="hover"
+              className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl overflow-hidden border border-gray-700 flex flex-col h-full shadow-lg hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300"
+            >
+              {/* Judge Image */}
+              <div className="relative pt-10 px-8">
+                <motion.div
+                  className="relative w-40 h-40 mx-auto rounded-full border-4 border-purple-500 shadow-lg"
+                  whileHover="hover"
+                  variants={imageVariants}
+                >
+                  <img
+                    src={judge.image}
+                    alt={judge.name}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                  <div className="absolute -inset-2 rounded-full border-2 border-purple-300 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                </motion.div>
+              </div>
+
+              {/* Judge Info */}
+              <div className="p-6 flex-1 flex flex-col">
+                <div className="text-center mb-4">
+                  <div className="flex justify-center mb-2">
+                    <div className="text-3xl">{judge.icon}</div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
+                    {judge.name}
+                  </h3>
+                  <p className="text-purple-300 font-medium mt-1">
+                    {judge.role}
+                  </p>
+                </div>
+                {/* Expertise Tags */}
+                <div className="flex flex-wrap justify-center gap-2 mb-4">
+                  {judge.expertise.map((item, index) => (
+                    <span
+                      key={index}
+                      className="text-xs bg-gray-700/50 text-gray-200 px-3 py-1 rounded-full border border-gray-600"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Bio */}
+                <p className="text-gray-300 flex-1 mb-4">{judge.bio}</p>
               </div>
             </motion.div>
           ))}
