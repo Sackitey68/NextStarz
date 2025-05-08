@@ -153,7 +153,7 @@ const Judges = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          Meet The Dream Team ✨
+          Meet Our Judges ✨
         </motion.h1>
         <motion.p
           className="text-xl text-gray-200 max-w-3xl mx-auto"
