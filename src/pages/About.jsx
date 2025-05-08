@@ -58,19 +58,32 @@ const About = () => {
     },
     {
       id: 2,
+      name: "Sherifa Gunu",
+      role: "Afro-Soul Diva",
+      image: Sherifa,
+      bio: "Renowned musician blending traditional African rhythms with modern sounds.",
+    },
+    {
+      id: 3,
+      name: "Kalsoume Sinare",
+      role: "Ghana's Screen Queen",
+      image: Kalsoume,
+      bio: "Veteran actress with over 30 years in film and television.",
+    },
+    {
+      id: 4,
       name: "Dorcas Agyeiwaa",
       role: "Musician",
       image: Dorcas,
       bio: "Multi-talented vocalist, songwriter, and media personality redefining artistic excellence.",
     },
     {
-      id: 3,
+      id: 5,
       name: "Nicholas Amoako",
       role: "Musician",
       image: Nicolas,
       bio: "Multi-talented artist and influencer shaping the future of entertainment.",
     },
-   
   ];
 
   return (
@@ -133,7 +146,7 @@ const About = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-8 py-3 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white font-bold rounded-lg text-lg transition-all duration-300 shadow-lg"
-                onClick={() => navigate('/contact')} // Changed to useNavigate
+                onClick={() => navigate('/contact')}
               >
                 Connect With Us
               </motion.button>
@@ -266,8 +279,8 @@ const About = () => {
         </div>
       </section>
 
-   
-      <section className="py-20 px-4 sm:px-6 lg:px-8 ">
+      {/* CTA Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -285,7 +298,7 @@ const About = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white font-bold rounded-lg text-lg transition-all duration-300 shadow-lg"
-              onClick={() => navigate('/contact')} 
+              onClick={() => navigate('/contact')}
             >
               Get In Touch
             </motion.button>

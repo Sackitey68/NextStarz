@@ -324,7 +324,7 @@ const Judges = () => {
           whileTap={{ scale: 0.95 }}
         >
           <FaMicrophoneAlt className="animate-pulse" />
-          Apply Now - Auditions Open!
+          Apply Now
           <FaStar
             className="animate-spin"
             style={{ animationDuration: "3000ms" }}
