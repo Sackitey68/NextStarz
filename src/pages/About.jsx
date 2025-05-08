@@ -5,7 +5,6 @@ import Sherifa from "../assets/Team/Sherifa.jpg";
 import Kalsoume from "../assets/Team/Kalsoume.jpg";
 import Dorcas from "../assets/Team/Dorcas.jpg";
 import Nicolas from "../assets/Team/Nicolas.jpg";
-
 import { useNavigate } from "react-router-dom"; 
 
 const About = () => {
@@ -48,7 +47,8 @@ const About = () => {
     visible: { opacity: 1, transition: { duration: 0.8 } },
   };
 
-  const panelists = [
+  // Split judges into two groups: first 3 and last 2
+  const firstRowJudges = [
     {
       id: 1,
       name: "Ishmael Opoku-Acheampong",
@@ -69,21 +69,24 @@ const About = () => {
       role: "Ghana's Screen Queen",
       image: Kalsoume,
       bio: "Veteran actress with over 30 years in film and television.",
-    },
+    }
+  ];
+
+  const secondRowJudges = [
     {
       id: 4,
       name: "Dorcas Agyeiwaa",
-      role: "Musician",
+      role: "The Vocal Powerhouse",
       image: Dorcas,
       bio: "Multi-talented vocalist, songwriter, and media personality redefining artistic excellence.",
     },
     {
       id: 5,
       name: "Nicholas Amoako",
-      role: "Musician",
+      role: "The Entertainer",
       image: Nicolas,
       bio: "Multi-talented artist and influencer shaping the future of entertainment.",
-    },
+    }
   ];
 
   return (
@@ -229,7 +232,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Panelists Section */}
+      {/* Judges Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.h2
@@ -240,15 +243,17 @@ const About = () => {
           >
             Meet Our Judges
           </motion.h2>
+
+          {/* First Row - 3 Judges */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-12"
           >
-            {panelists.map((panelist) => (
+            {firstRowJudges.map((judge) => (
               <motion.div
-                key={panelist.id}
+                key={judge.id}
                 variants={itemVariants}
                 whileHover="hover"
                 className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 overflow-hidden transition-all duration-300 hover:border-purple-500/30"
@@ -256,8 +261,8 @@ const About = () => {
                 <div className="p-6">
                   <div className="relative w-32 h-32 mx-auto mb-6">
                     <motion.img
-                      src={panelist.image}
-                      alt={panelist.name}
+                      src={judge.image}
+                      alt={judge.name}
                       className="w-full h-full rounded-full object-cover border-2 border-cyan-500/50"
                       whileHover={{ scale: 1.05 }}
                     />
@@ -265,12 +270,50 @@ const About = () => {
                   </div>
                   <div className="text-center">
                     <h3 className="text-xl font-bold text-gray-200">
-                      {panelist.name}
+                      {judge.name}
                     </h3>
                     <p className="text-cyan-400 font-medium mb-4">
-                      {panelist.role}
+                      {judge.role}
                     </p>
-                    <p className="text-gray-300">{panelist.bio}</p>
+                    <p className="text-gray-300">{judge.bio}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Second Row - 2 Judges (Centered) */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto"
+          >
+            {secondRowJudges.map((judge) => (
+              <motion.div
+                key={judge.id}
+                variants={itemVariants}
+                whileHover="hover"
+                className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 overflow-hidden transition-all duration-300 hover:border-purple-500/30"
+              >
+                <div className="p-6">
+                  <div className="relative w-32 h-32 mx-auto mb-6">
+                    <motion.img
+                      src={judge.image}
+                      alt={judge.name}
+                      className="w-full h-full rounded-full object-cover border-2 border-cyan-500/50"
+                      whileHover={{ scale: 1.05 }}
+                    />
+                    <div className="absolute inset-0 rounded-full border-2 border-transparent hover:border-purple-500/50 transition-all duration-300"></div>
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-xl font-bold text-gray-200">
+                      {judge.name}
+                    </h3>
+                    <p className="text-cyan-400 font-medium mb-4">
+                      {judge.role}
+                    </p>
+                    <p className="text-gray-300">{judge.bio}</p>
                   </div>
                 </div>
               </motion.div>
