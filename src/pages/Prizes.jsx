@@ -9,6 +9,8 @@ import {
   FaMedal,
   FaPlane,
   FaRecordVinyl,
+  FaTv,
+  FaBroadcastTower, // Alternative to FaRadio
 } from "react-icons/fa";
 
 export default function Prizes() {
@@ -57,30 +59,35 @@ export default function Prizes() {
       title: "🥇 Grand Prize Winner",
       subtitle: "The Next Big Star",
       icon: <FaTrophy className="text-yellow-400 text-4xl" />,
+      totalValue: "Total Value: GHC 300,000",
       items: [
         {
-          icon: <FaRecordVinyl className="text-yellow-300" />,
-          text: "Exclusive management deal with Suede Entertainment",
+          icon: <FaCashRegister className="text-yellow-300" />,
+          text: "Cash Prize",
+        },
+        {
+          icon: <FaBroadcastTower className="text-yellow-300" />,
+          text: "Radio Airplay",
+        },
+        {
+          icon: <FaTv className="text-yellow-300" />,
+          text: "TV Airplay",
         },
         {
           icon: <FaRecordVinyl className="text-yellow-300" />,
-          text: "Full recording and production of a debut album",
+          text: "3 Music Video Productions",
         },
         {
           icon: <FaGlobe className="text-yellow-300" />,
-          text: "Worldwide album distribution via Lynx Distribution",
+          text: "Brand Consultancy",
         },
         {
-          icon: <FaCashRegister className="text-yellow-300" />,
-          text: "Cash Prize of GHS 10,000.00",
+          icon: <FaRecordVinyl className="text-yellow-300" />,
+          text: "Record Deal by Suede Entertainment",
         },
         {
           icon: <FaMicrophone className="text-yellow-300" />,
-          text: "Extensive media exposure",
-        },
-        {
-          icon: <FaPlane className="text-yellow-300" />,
-          text: "Fully sponsored trip to Dubai",
+          text: "Artist Development and Management by Suede Entertainment",
         },
       ],
       bg: "bg-gradient-to-br from-yellow-900/10 to-amber-900/10",
@@ -90,22 +97,31 @@ export default function Prizes() {
       title: "🥈 1st Runner-Up",
       subtitle: "Exceptional Talent",
       icon: <FaMedal className="text-gray-300 text-4xl" />,
+      totalValue: "Total Value: GHC 180,000",
       items: [
         {
+          icon: <FaCashRegister className="text-gray-300" />,
+          text: "Cash Prize",
+        },
+        {
+          icon: <FaBroadcastTower className="text-gray-300" />,
+          text: "Radio Airplay",
+        },
+        {
+          icon: <FaTv className="text-gray-300" />,
+          text: "TV Feature",
+        },
+        {
           icon: <FaRecordVinyl className="text-gray-300" />,
-          text: "Single production deal with Suede Entertainment",
+          text: "2 Music Video Productions",
         },
         {
           icon: <FaGlobe className="text-gray-300" />,
-          text: "Worldwide single distribution via Lynx Distribution",
-        },
-        {
-          icon: <FaCashRegister className="text-gray-300" />,
-          text: "Cash Prize of GHS 6,000.00",
+          text: "Image & Branding",
         },
         {
           icon: <FaMicrophone className="text-gray-300" />,
-          text: "Media coverage to increase exposure",
+          text: "Artist Development and Management by Suede Entertainment",
         },
       ],
       bg: "bg-gradient-to-br from-gray-800/10 to-gray-900/10",
@@ -115,22 +131,31 @@ export default function Prizes() {
       title: "🥉 2nd Runner-Up",
       subtitle: "Rising Star",
       icon: <FaMedal className="text-gray-300 text-4xl" />,
+      totalValue: "Total Value: GHC 120,000",
       items: [
         {
-          icon: <FaRecordVinyl className="text-gray-300" />,
-          text: "Single production deal with Suede Entertainment",
-        },
-        {
-          icon: <FaGlobe className="text-gray-300" />,
-          text: "Worldwide single distribution via Lynx Distribution",
-        },
-        {
           icon: <FaCashRegister className="text-gray-300" />,
-          text: "Cash Prize of GHS 4,000.00",
+          text: "Cash Prize",
+        },
+        {
+          icon: <FaBroadcastTower className="text-gray-300" />,
+          text: "Radio Exposure",
+        },
+        {
+          icon: <FaTv className="text-gray-300" />,
+          text: "Guest appearance on a popular entertainment show",
+        },
+        {
+          icon: <FaRecordVinyl className="text-gray-300" />,
+          text: "Single Production by Suede Entertainment",
+        },
+        {
+          icon: <FaRecordVinyl className="text-gray-300" />,
+          text: "1 Music Video Production",
         },
         {
           icon: <FaMicrophone className="text-gray-300" />,
-          text: "Media coverage to enhance public recognition",
+          text: "Artist Development and Management by Suede Entertainment",
         },
       ],
       bg: "bg-gradient-to-br from-gray-800/10 to-gray-900/10",
@@ -164,10 +189,10 @@ export default function Prizes() {
       variants={containerVariants}
       className="min-h-screen text-white py-12 px-4 sm:px-6 lg:px-8"
     >
-      <title>Prizes | Win Recording Deals & GHS 10,000 Cash</title>
+      <title>Prizes | NextStarz Season 1 Prize Packages</title>
       <meta
         name="description"
-        content="Discover amazing prizes for NextStarz Talent Hunt 2025 winners - recording contracts with Suede Entertainment, GHS 10,000 cash prize, music equipment, and global exposure for singers, dancers & comedians in Ghana."
+        content="Discover amazing prizes for NextStarz Season 1 winners - cash prizes, music video productions, record deals, and artist development by Suede Entertainment."
       />
 
       {/* Hero Section */}
@@ -176,11 +201,11 @@ export default function Prizes() {
           className="text-3xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400"
           variants={fadeIn}
         >
-          Awards & Recognition – NextStarz Season 1
+          Prize Packages – NextStarz Season 1
         </motion.h1>
         <motion.p className="text-xl text-gray-300" variants={fadeIn}>
           Celebrating talent, rewarding excellence, and providing life-changing
-          opportunities.
+          opportunities in the music industry.
         </motion.p>
       </motion.div>
 
@@ -223,7 +248,7 @@ export default function Prizes() {
           variants={fadeIn}
         >
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
-            Grand Prizes & Rewards
+            Season 1 Prize Packages
           </span>
         </motion.h2>
 
@@ -240,6 +265,7 @@ export default function Prizes() {
                 <div className="ml-4">
                   <h3 className="text-2xl font-bold">{prize.title}</h3>
                   <p className="text-gray-300">{prize.subtitle}</p>
+                  <p className="text-sm text-gray-400 mt-1">{prize.totalValue}</p>
                 </div>
               </div>
 
@@ -264,7 +290,7 @@ export default function Prizes() {
         >
           <FaMicrophone className="text-purple-400" />
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
-            Special Opportunity
+            Evictees' Recognition Package
           </span>
         </motion.h2>
 
@@ -272,24 +298,14 @@ export default function Prizes() {
           variants={itemVariants}
           className="bg-gradient-to-br from-purple-900/10 to-pink-900/10 p-8 rounded-xl border border-purple-500/30 shadow-lg hover:shadow-xl transition-all"
         >
-          <h3 className="text-2xl font-bold mb-4 text-purple-300">
-            For Evictees With Potential
-          </h3>
           <p className="text-gray-300 mb-6">
-            Contestants who do not make it to the final round but display
-            remarkable potential will receive:
+            All contestants who are evicted during the competition receive:
           </p>
           <ul className="space-y-3">
             <li className="flex items-start">
               <FaRecordVinyl className="text-purple-400 mr-3 mt-1" />
               <span className="text-gray-300">
-                Single recording and production by Suede Entertainment
-              </span>
-            </li>
-            <li className="flex items-start">
-              <FaGlobe className="text-purple-400 mr-3 mt-1" />
-              <span className="text-gray-300">
-                Worldwide single distribution via Lynx Distribution
+                Single recording and production by Suede Entertainment for international distribution
               </span>
             </li>
           </ul>
@@ -310,8 +326,7 @@ export default function Prizes() {
             className="text-xl text-gray-300 mb-8 text-center"
             variants={fadeIn}
           >
-            NextStarz is not just a talent hunt—it's a force, a movement, and
-            the future of music discovery.
+            NextStarz is not just a talent hunt—it's a platform to launch your music career.
           </motion.p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

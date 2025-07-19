@@ -13,17 +13,17 @@ export default function FAQPage() {
         {
           question: "What is NextStarz?",
           answer:
-            "NextStarz is an international music talent hunt designed to discover, nurture, and launch the next big star in the music industry. Organized by Suede Entertainment, the event offers winners and select participants exclusive management, recording, and distribution deals.",
+            "NextStarz is an international music talent hunt designed to discover, nurture, and launch the next big star in the music industry. Organized by Suede Entertainment and Class Media Group, the event offers winners an exclusive management, recording, and distribution deals.",
         },
         {
           question: "Who can participate in NextStarz?",
           answer:
-            "NextStarz is open to individuals worldwide who are musically gifted. Whether you're a vocalist, songwriter, or performer, we encourage you to participate.",
+            "NextStarz is open to individuals who are musically gifted between 18 to 45 years.",
         },
         {
           question: "Is the event limited to specific talents or music genres?",
           answer:
-            "No, NextStarz celebrates diversity across talents and music genres. The event is open to all music styles, including Pop, R&B, Hip-hop, Highlife, Afrobeat, Reggae, Soul, and more. Beyond music, NextStarz also embraces other creative talents, such as comedy, dancing, beat-making, instrumental performance, and music production. There's no age limit. Participants must have a sound mind whether abled or disabled.",
+            "For now, NextStarz celebrates diverse talents across Singing, Rapping and Reggae-dancehall genres.",
         },
         {
           question: "Do I need to be a professional musician to participate?",
@@ -39,22 +39,21 @@ export default function FAQPage() {
         {
           question: "How can I register for NextStarz?",
           answer:
-            "Simply sign up or log in using your social media accounts. Click on Register to sign up or Login to access your account. Then, fill out the online form, upload your audition file (if required), and follow the steps to complete your registration.",
+            "Simply sign up or log in using your social media accounts. Click on Register to sign up or Login to access your account. Then, fill out the online form and follow the steps to complete your registration.",
         },
         {
           question: "Is there a registration fee?",
           answer:
-            "Yes, a small registration fee may apply to cover administrative costs. The fee will be clearly indicated on the registration portal.",
+            "Yes, a small (100ghc) registration fee may apply to cover administrative costs.",
         },
         {
           question: "Can I register as a group or band?",
-          answer:
-            "Yes, group and band registrations are welcome. Please ensure all group members are included in the registration form.",
+          answer: "For now, It is strictly for individual vocalists.",
         },
         {
           question: "What documents or files do I need to submit?",
           answer:
-            "You'll need to provide basic identification details and an audition video demo.",
+            "You'll need to provide basic identification details and a full picture.",
         },
       ],
     },
@@ -65,7 +64,7 @@ export default function FAQPage() {
         {
           question: "How will auditions be conducted?",
           answer:
-            "Auditions will be conducted in two phases:\n1. Online: Participants submit audition files through the registration portal.\n2. Live: Selected participants will be invited for live auditions at a venue.",
+            "Auditions will be conducted at Class Media Group Headquarters, Labone-Accra.",
         },
         {
           question: "What are the judging criteria?",
@@ -75,7 +74,7 @@ export default function FAQPage() {
         {
           question: "Who are the judges?",
           answer:
-            "Our panel consists of music industry experts, including award-winning artists, producers, and talent managers. Details of the panel will be announced closer to the event.",
+            "Our panel will feature esteemed music industry professionals, including award-winning artists, renowned producers, and experienced talent managers. Full details of the panelists will be announced as the event approaches.",
         },
       ],
     },
@@ -86,12 +85,12 @@ export default function FAQPage() {
         {
           question: "When does NextStarz start?",
           answer:
-            "Registration opens on Saturday, April 5, 2025, and auditions commence on Thursday, June 5, 2025. The grand finale is scheduled for Saturday, June 14, 2025.",
+            "Registration opens on Friday, July 25, 2025, and auditions commence on Friday, August 8, 2025. The grand finale is scheduled for Saturday, December 6, 2025.",
         },
         {
           question: "Where will the live events take place?",
           answer:
-            "Live events will be held and streamed online. The exact locations will be announced after the registration phase.",
+            "Live events will be held at Abbeam City, Abom-Kosoa and showned on CTV every sundays at 8pm and on our social media platform.",
         },
       ],
     },
@@ -141,11 +140,7 @@ export default function FAQPage() {
           answer:
             "Please contact our support team at info.nextstarz@gmail.com or +233534886377 for assistance.",
         },
-        {
-          question: "What format should my audition file be in?",
-          answer:
-            "Recommended Audition File Size Limits:\n● MP4 (Video): Up to 20 MB (1 – 2 minutes at 720p resolution).",
-        },
+       
         {
           question: "Is the event accessible for persons with disabilities?",
           answer:
@@ -160,13 +155,13 @@ export default function FAQPage() {
         {
           question: "How can I stay updated on NextStarz?",
           answer:
-            "Follow us on social media @nextstarzglobal and subscribe to our newsletter for updates.",
+            "Join our whatsapp community (link is on the Contact page) platform for updates.",
         },
         {
           question:
             "I am interested in sponsoring the event. Who do I contact?",
           answer:
-            "For sponsorship inquiries, email us at info.nextstarz@gmail.com.",
+            "For sponsorship inquiries, email us at info.nextstarz@gmail.com or call us on +233 534 886 377",
         },
       ],
     },
@@ -177,7 +172,7 @@ export default function FAQPage() {
         {
           question: "Will I get feedback on my audition?",
           answer:
-            "Due to the high volume of submissions, personalized feedback may not be provided to all participants.",
+            "Yes, feedback would be given during audition.",
         },
         {
           question: "What is the dress code for live auditions and the finale?",

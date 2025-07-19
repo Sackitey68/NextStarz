@@ -62,7 +62,7 @@ export default function Header() {
         }`}
       >
         <p className="font-bold animate-pulse">
-          Registration Is Open Until July 12.{" "}
+          Registration Is Open Until August 8.{" "}
           <span
             className="underline cursor-pointer"
             onClick={() => navigate("/register")}
