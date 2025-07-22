@@ -16,81 +16,43 @@ const Auditions = () => {
     categories: [
       {
         id: 1,
-        title: "Singer / Rapper",
+        title: "Singing",
         icon: "🎤",
         description: "Showcase your vocal talent across any genre",
         color: "from-purple-900/30 to-blue-900/30",
       },
       {
         id: 2,
-        title: "Songwriter",
-        icon: "🎼",
-        description: "Present your original compositions and lyrics",
+        title: "Rapping",
+        icon: "🎙️",
+        description: "Demonstrate your lyrical flow and rap skills",
         color: "from-purple-900/30 to-blue-900/30",
       },
       {
         id: 3,
-        title: "Dancer",
-        icon: "💃",
-        description: "Display your movement artistry and choreography",
-        color: "from-purple-900/30 to-blue-900/30",
-      },
-      {
-        id: 4,
-        title: "Comedian",
-        icon: "😂",
-        description: "Make us laugh with your original comedy routine",
-        color: "from-purple-900/30 to-blue-900/30",
-      },
-      {
-        id: 5,
-        title: "Instrumentalist",
-        icon: "🎸",
-        description: "Demonstrate mastery of any musical instrument",
-        color: "from-purple-900/30 to-blue-900/30",
-      },
-      {
-        id: 6,
-        title: "Beat-maker",
-        icon: "🥁",
-        description: "Show your production and beat creation skills",
-        color: "from-purple-900/30 to-blue-900/30",
-      },
-      {
-        id: 7,
-        title: "DJ",
-        icon: "🎧",
-        description: "Showcase your mixing and turntable skills",
+        title: "Reggae-Dancehall",
+        icon: "🎵",
+        description: "Bring the Caribbean vibes with your performance",
         color: "from-purple-900/30 to-blue-900/30",
       },
     ],
     requirements: [
-      "Unlimited age eligibility",
-      "2-minute maximum video upload",
-      "Original content only (no covers for songwriters)",
-      "Bring your own instruments if required",
-      "Professional attitude and positive energy",
-      "Ghanaian residents must attend in-person if selected",
+      "You must be between 18 and 45 years old",
+      "Attach a clear full picture to your audition form",
+      "Come with a good attitude and positive energy",
+      "Dress artistically to show your style",
+      "All auditions will take place at the designated venue",
     ],
     dates: [
       {
-        type: "Offline",
-        city: "Lapaz - Accra",
-        date: "Thursday, July 12 2025",
-        venue: "CeeJay Multimedia Studios",
+        type: "In-Person",
+        city: "Labone - Accra",
+        date: "Friday, August 8 - Sunday, August 17 2025",
+        venue: "Class Media Group Headquarters",
         emoji: "🏛️",
-        time: "10:00 to 16:00 GMT",
+        time: "7:00 AM daily",
         procedure: "In-person auditions at the venue",
         highlight: "Meet our panel of judges in person",
-      },
-      {
-        type: "Online",
-        city: "Virtual",
-        date: "Saturday, July 5 2025",
-        emoji: "💻",
-        time: "10:00 to 16:00 GMT",
-        procedure: "Upload audition video per task given after registration",
-        highlight: "Available for international participants",
       },
     ],
   };
@@ -194,8 +156,7 @@ const Auditions = () => {
           className="text-xl md:text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed"
           variants={fadeIn}
         >
-          Your journey to stardom begins here! Showcase your talent to our panel
-          judges through online auditions or in-person auditions in Accra.
+          Showcase your talent to our panel of judges through in-person auditions at the Class Media Group Headquarters in Labone, Accra.
         </motion.p>
 
         <motion.div className="mt-10" variants={fadeIn}>
@@ -227,7 +188,7 @@ const Auditions = () => {
         </motion.h2>
 
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           variants={staggerItems}
         >
           {auditionInfo.categories.map((category) => (
@@ -262,7 +223,7 @@ const Auditions = () => {
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">
             Audition Requirements
           </span>{" "}
-          📝
+
         </motion.h2>
 
         <motion.div
@@ -293,9 +254,7 @@ const Auditions = () => {
             <div className="flex items-start">
               <FaInfoCircle className="text-blue-300 mr-3 mt-1" />
               <p className="text-blue-100">
-                <strong>Note:</strong> All participants must agree to our terms
-                and conditions. Original content only - plagiarism will result
-                in immediate disqualification.
+                <strong>Note:</strong> All auditions will take place at the Class Media Group Headquarters in Labone, Accra from August 8-17, 2025 starting at 7:00 AM daily.
               </p>
             </div>
           </motion.div>
@@ -309,26 +268,18 @@ const Auditions = () => {
           variants={fadeIn}
         >
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">
-            Audition Options
+            Audition Details
           </span>{" "}
           📅
         </motion.h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {auditionInfo.dates.map((location, index) => (
             <motion.div
               key={index}
               variants={cardVariants}
               whileHover="hover"
-              className={`bg-gradient-to-br ${
-                location.type === "Online"
-                  ? "from-blue-900/50 to-purple-900/50"
-                  : "from-purple-900/50 to-hover-color/35"
-              } p-8 rounded-2xl border ${
-                location.type === "Online"
-                  ? "border-blue-700/30"
-                  : "border-purple-700/30"
-              } shadow-xl`}
+              className="bg-gradient-to-br from-purple-900/50 to-blue-900/50 p-8 rounded-2xl border border-purple-700/30 shadow-xl"
             >
               <div className="flex items-center mb-6">
                 <span className="text-4xl mr-4">{location.emoji}</span>
@@ -390,9 +341,7 @@ const Auditions = () => {
           <div className="flex items-center">
             <span className="text-2xl mr-4">ℹ️</span>
             <p className="text-gray-200">
-              <strong>Important Note:</strong> If you missed the registration
-              period, don't worry—there will be a chance to register at the
-              audition venue (for in-person auditions only).
+              <strong>Important Note:</strong> There are no online auditions this year. All auditions must be done in person at the Class Media Group Headquarters in Labone, Accra.
             </p>
           </div>
         </motion.div>
@@ -414,8 +363,7 @@ const Auditions = () => {
             className="text-xl text-gray-200 mb-10 max-w-2xl mx-auto leading-relaxed"
             whileHover={{ scale: 1.005 }}
           >
-            Join hundreds of talented individuals competing for the chance to
-            become the next big star!
+            Join talented individuals competing for the chance to become the next big star at our in-person auditions!
           </motion.p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -447,7 +395,7 @@ const Auditions = () => {
             className="mt-8 text-gray-400 text-sm"
             whileHover={{ scale: 1.005 }}
           >
-            Online auditions available for participants worldwide! 🌍✨
+            Auditions run from August 8-17, 2025 at Class Media Group Headquarters in Labone, Accra
           </motion.p>
         </div>
       </motion.section>

@@ -59,7 +59,7 @@ export default function Banner() {
         <div className="flex flex-col items-center justify-center h-full px-4 md:px-8">
           {/* Top Text */}
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center my-4 sm:my-6 md:my-8 text-white">
-            OPEN TO ALL WORLDWIDE!
+            OPEN TO WORLDWIDE!
           </h2>
 
           {/* Middle Text */}
@@ -68,14 +68,12 @@ export default function Banner() {
               ENTER FOR A CHANCE TO WIN A
             </p>
             <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-yellow-400">
-              GHS 10,000.00
+              GHS 300,000.00
             </p>
           </div>
-
           {/* Bottom Text */}
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-center mt-8 sm:mt-12 md:mt-16 lg:mt-24 text-white">
-            MUSIC RECORDING DEAL | MANAGEMENT DEAL | INTERNATIONAL DISTRIBUTION | 
-            MEDIA EXPOSURE | FULLY SPONSORED TRIP TO DUBAI, ETC…
+           CASH PRIZE | RADIO AIRPLAY | TV AIRPLAY | 3 MUSIC VIDEO PRODUCTIONS | BRAND CONSULTANCY | RECORD DEAL BY SUEDE ENTERTAINMENT | ARTIST DEVELOPMENT AND MANAGEMENT BY SUEDE ENTERTAINMENT
           </p>
         </div>
       ),

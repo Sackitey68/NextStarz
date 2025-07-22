@@ -305,7 +305,7 @@ export default function Prizes() {
             <li className="flex items-start">
               <FaRecordVinyl className="text-purple-400 mr-3 mt-1" />
               <span className="text-gray-300">
-                Single recording and production by Suede Entertainment for international distribution
+                Single recording and production by Suede Entertainment for international distribution.
               </span>
             </li>
           </ul>
@@ -340,10 +340,10 @@ export default function Prizes() {
               </h3>
               <div className="space-y-2 text-gray-300">
                 <p>
-                  <span className="font-bold">Opens:</span> April 5, 2025
+                  <span className="font-bold">Opens:</span> July 25, 2025
                 </p>
                 <p>
-                  <span className="font-bold">Closes:</span> June 5, 2025
+                  <span className="font-bold">Closes:</span> August 8, 2025
                 </p>
                 <p>
                   <span className="font-bold">Fee:</span> GHS 100 (via Paystack)
@@ -360,15 +360,11 @@ export default function Prizes() {
                 Audition Schedule
               </h3>
               <div className="space-y-2 text-gray-300">
+               
                 <p>
-                  <span className="font-bold">🌐 Online:</span> May 29 – June 3,
-                  2025
+                  <span className="font-bold">📍 Venue:</span> Class Media Group Headquarters Labone - Accra
                 </p>
-                <p>
-                  <span className="font-bold">📍 Offline:</span> CeeJay
-                  Multimedia, Lapaz, Accra
-                </p>
-                <p>June 5 – 7, 2025</p>
+                <p>August 8 – August 17, 2025</p>
               </div>
             </motion.div>
           </div>

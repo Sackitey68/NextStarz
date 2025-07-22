@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { FaUpload } from "react-icons/fa";
-import Logo from "../assets/Logo.png";
+import Logo from "../assets/Logo.jpg";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -82,7 +82,7 @@ export default function Header() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center group">
-              <img src={Logo} className="h-10 w-10" alt="NextStarz Logo" />
+              <img src={Logo} className="h-10 w-10 rounded-xl" alt="NextStarz Logo" />
             </Link>
 
             {/* Desktop Navigation */}
@@ -190,7 +190,7 @@ export default function Header() {
             {/* Small Logo in Mobile Menu */}
             <div className="absolute top-5 left-5">
               <Link to="/" onClick={toggleMenu}>
-                <img src={Logo} className="h-8 w-8" alt="NextStarz Logo" />
+                <img src={Logo} className="h-8 w-8 rounded-xl" alt="NextStarz Logo" />
               </Link>
             </div>
 
