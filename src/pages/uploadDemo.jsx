@@ -1,6 +1,17 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { collection, addDoc, doc, getDoc, updateDoc, setDoc, query, where, getDocs, runTransaction } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  updateDoc,
+  setDoc,
+  query,
+  where,
+  getDocs,
+  runTransaction,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from "../firebase/firebase.js";
 import { FaCheckCircle, FaSpinner, FaTimesCircle } from "react-icons/fa";
@@ -51,7 +62,7 @@ export default function UploadDemo() {
         const submissionsRef = collection(db, "submissions");
         const q = query(submissionsRef, where("userId", "==", user.uid));
         const querySnapshot = await getDocs(q);
-        
+
         if (!querySnapshot.empty) {
           setHasExistingSubmission(true);
           const submissionData = querySnapshot.docs[0].data();
@@ -61,7 +72,10 @@ export default function UploadDemo() {
         const transactionRef = doc(db, "transactions", user.uid);
         const transactionDoc = await getDoc(transactionRef);
 
-        if (transactionDoc.exists() && transactionDoc.data().status === "success") {
+        if (
+          transactionDoc.exists() &&
+          transactionDoc.data().status === "success"
+        ) {
           setIsPaymentComplete(true);
         }
       } catch (error) {
@@ -75,39 +89,37 @@ export default function UploadDemo() {
     return () => unsubscribe();
   }, [auth, navigate]);
 
-  const generateUniqueId = async () => {
-    try {
-      const counterRef = doc(db, "counters", "submissions");
-      
-      const newCount = await runTransaction(db, async (transaction) => {
-        const counterDoc = await transaction.get(counterRef);
-        
-        let count;
-        if (counterDoc.exists()) {
-          count = counterDoc.data().count;
-        } else {
-          count = 1;
-          transaction.set(counterRef, { count });
-        }
-        
-        const newCount = count + 1;
-        transaction.update(counterRef, { count: newCount });
-        return newCount;
-      });
-      
-      const paddedCount = String(newCount).padStart(5, "0");
-      return `NXTS/25-${paddedCount}`;
-    } catch (error) {
-      console.error("Error generating unique ID:", error);
-      throw new Error("Failed to generate submission ID. Please try again.");
-    }
-  };
+ const generateUniqueId = async () => {
+  try {
+    const counterRef = doc(db, "counters", "submissions");
+
+    const newCount = await runTransaction(db, async (transaction) => {
+      const counterDoc = await transaction.get(counterRef);
+
+      let count;
+      if (counterDoc.exists()) {
+        count = counterDoc.data().count + 1; 
+      } else {
+        count = 1; // Start at 1 for first registration
+      }
+
+      transaction.set(counterRef, { count }); // Set the new count
+      return count;
+    });
+
+    const paddedCount = String(newCount).padStart(5, "0");
+    return `NXTS/25-${paddedCount}`;
+  } catch (error) {
+    console.error("Error generating unique ID:", error);
+    throw new Error("Failed to generate submission ID. Please try again.");
+  }
+};
 
   const getPaystackConfig = (user) => {
     if (!user) {
       throw new Error("User not authenticated");
     }
-    
+
     return {
       reference: `NXSTARZ_${new Date().getTime()}`,
       email: user.email,
@@ -117,7 +129,7 @@ export default function UploadDemo() {
       metadata: {
         userId: user.uid,
         category: category,
-      }
+      },
     };
   };
 
@@ -148,55 +160,71 @@ export default function UploadDemo() {
       setError("Payment took too long. Please try again.");
     }, 300000);
 
-    initializePayment(
-      {
-        onSuccess: async (response) => {
-          clearTimeout(paymentTimeout);
-          try {
-            await saveTransactionToFirebase(response.reference, user);
-            const verificationSuccess = await verifyPayment(response.reference);
-            
-            if (verificationSuccess) {
-              await createSubmissionRecord(user);
-              setIsPaymentComplete(true);
-              setError("");
-            } else {
-              setError("Payment verification failed. Please contact support.");
-            }
-          } catch (error) {
-            setError(error.message);
-          } finally {
-            setIsProcessingPayment(false);
+    initializePayment({
+      onSuccess: async (response) => {
+        clearTimeout(paymentTimeout);
+        try {
+          await saveTransactionToFirebase(response.reference, user);
+          const verificationSuccess = await verifyPayment(response.reference);
+
+          if (verificationSuccess) {
+            await createSubmissionRecord(user);
+            setIsPaymentComplete(true);
+            setError("");
+          } else {
+            setError("Payment verification failed. Please contact support.");
           }
-        },
-        onClose: () => {
-          clearTimeout(paymentTimeout);
+        } catch (error) {
+          setError(error.message);
+        } finally {
           setIsProcessingPayment(false);
-          setError("Payment was not completed. Please try again.");
         }
-      }
-    );
+      },
+      onClose: () => {
+        clearTimeout(paymentTimeout);
+        setIsProcessingPayment(false);
+        setError("Payment was not completed. Please try again.");
+      },
+    });
   };
 
   const createSubmissionRecord = async (user) => {
     try {
-      const uniqueId = await generateUniqueId();
-      setGeneratedId(uniqueId);
+      console.log("Starting submission creation..."); // Debug log
+      console.log("User data:", { uid: user?.uid, email: user?.email }); // Debug log
+      console.log("Selected category:", category); // Debug log
 
-      await addDoc(collection(db, "submissions"), {
+      const uniqueId = await generateUniqueId();
+      console.log("Generated ID:", uniqueId); // Debug log
+
+      const submissionData = {
         id: uniqueId,
         category: category,
-        userEmail: user.email,
+        userEmail: user.email || "no-email-provided",
         username: user.displayName || "Anonymous",
         timestamp: new Date(),
         userId: user.uid,
-        status: "registered"
-      });
+        status: "registered",
+      };
 
+      console.log("Submission data to be saved:", submissionData); // Debug log
+
+      const docRef = await addDoc(
+        collection(db, "submissions"),
+        submissionData
+      );
+      console.log("Document written with ID: ", docRef.id); // Debug log
+
+      setGeneratedId(uniqueId);
       setHasExistingSubmission(true);
+      return uniqueId;
     } catch (error) {
-      console.error("Error creating submission record:", error);
-      throw new Error("Failed to create submission record.");
+      console.error("Full error details:", {
+        message: error.message,
+        stack: error.stack,
+        name: error.name,
+      });
+      throw new Error("Failed to create submission record. Please try again.");
     }
   };
 
@@ -205,16 +233,20 @@ export default function UploadDemo() {
 
     const config = getPaystackConfig(user);
     const transactionRef = doc(db, "transactions", user.uid);
-    
-    await setDoc(transactionRef, {
-      reference,
-      email: config.email,
-      amount: config.amount,
-      status: "pending",
-      createdAt: new Date(),
-      userId: user.uid,
-      category
-    }, { merge: true });
+
+    await setDoc(
+      transactionRef,
+      {
+        reference,
+        email: config.email,
+        amount: config.amount,
+        status: "pending",
+        createdAt: new Date(),
+        userId: user.uid,
+        category,
+      },
+      { merge: true }
+    );
   };
 
   const verifyPayment = async (reference) => {
@@ -241,7 +273,7 @@ export default function UploadDemo() {
       await updateDoc(transactionRef, {
         status: "success",
         verifiedAt: new Date(),
-        paymentData: data.data
+        paymentData: data.data,
       });
 
       return true;
@@ -252,7 +284,7 @@ export default function UploadDemo() {
         const transactionRef = doc(db, "transactions", user.uid);
         await updateDoc(transactionRef, {
           status: "failed",
-          error: error.message
+          error: error.message,
         });
       }
       throw error;
@@ -283,7 +315,7 @@ export default function UploadDemo() {
         className="max-w-3xl mx-auto bg-white rounded-lg shadow-2xl p-8"
       >
         <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
-          🎤 Register for NextStarz Auditions 🌟
+          Register for NextStarz Auditions 🌟
         </h1>
         <p className="text-lg text-gray-600 text-center mb-8">
           Select your talent category and pay GHS 100 to get your Submission ID
@@ -297,10 +329,12 @@ export default function UploadDemo() {
                 You've successfully registered!
               </p>
               <p className="text-lg font-semibold mb-4">
-                Your Submission ID: <span className="text-purple-600">{generatedId}</span>
+                Your Submission ID:{" "}
+                <span className="text-purple-600">{generatedId}</span>
               </p>
               <p className="text-gray-600 mb-4">
-                Please present this ID during auditions at Class Media Group Headquarters, Labone from August 8-17, 2025.
+                Please present this ID during auditions at Class Media Group
+                Headquarters, Labone from August 8-17, 2025.
               </p>
               <button
                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors duration-300"
