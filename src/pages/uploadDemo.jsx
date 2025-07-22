@@ -1,15 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, doc, getDoc, updateDoc, setDoc, query, where, getDocs, runTransaction } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { storage, db } from "../firebase/firebase.js";
-import {
-  FaUpload,
-  FaCheckCircle,
-  FaSpinner,
-  FaTimesCircle,
-} from "react-icons/fa";
+import { db } from "../firebase/firebase.js";
+import { FaCheckCircle, FaSpinner, FaTimesCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { usePaystackPayment } from "react-paystack";
 
@@ -34,44 +28,27 @@ const scaleUp = {
 };
 
 export default function UploadDemo() {
-  const [videoFile, setVideoFile] = useState(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [isUploading, setIsUploading] = useState(false);
   const [isPaymentComplete, setIsPaymentComplete] = useState(false);
-  const [downloadURL, setDownloadURL] = useState("");
   const [error, setError] = useState("");
   const [category, setCategory] = useState("");
-  const [country, setCountry] = useState("");
-  const [isUploadComplete, setIsUploadComplete] = useState(false);
   const [generatedId, setGeneratedId] = useState("");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
-  const [isFirebaseReady, setIsFirebaseReady] = useState(false);
   const [hasExistingSubmission, setHasExistingSubmission] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   const auth = getAuth();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (!user) {
         navigate("/login");
-      } else {
-        setIsFirebaseReady(true);
+        return;
       }
-    });
-
-    return () => unsubscribe();
-  }, [auth, navigate]);
-
-  useEffect(() => {
-    const checkUserStatus = async () => {
-      if (!isFirebaseReady) return;
-      
-      const user = auth.currentUser;
-      if (!user) return;
 
       try {
-        const submissionsRef = collection(db, "demos");
+        setIsLoading(true);
+        const submissionsRef = collection(db, "submissions");
         const q = query(submissionsRef, where("userId", "==", user.uid));
         const querySnapshot = await getDocs(q);
         
@@ -79,7 +56,6 @@ export default function UploadDemo() {
           setHasExistingSubmission(true);
           const submissionData = querySnapshot.docs[0].data();
           setGeneratedId(submissionData.id);
-          return;
         }
 
         const transactionRef = doc(db, "transactions", user.uid);
@@ -89,17 +65,19 @@ export default function UploadDemo() {
           setIsPaymentComplete(true);
         }
       } catch (error) {
-        console.error("Error checking user status:", error);
-        setError("Failed to check your submission status. Please refresh the page.");
+        console.error("Error checking submission status:", error);
+        // Don't show error to user - just continue with the flow
+      } finally {
+        setIsLoading(false);
       }
-    };
+    });
 
-    checkUserStatus();
-  }, [auth.currentUser, isFirebaseReady]);
+    return () => unsubscribe();
+  }, [auth, navigate]);
 
   const generateUniqueId = async () => {
     try {
-      const counterRef = doc(db, "counters", "demoUploads");
+      const counterRef = doc(db, "counters", "submissions");
       
       const newCount = await runTransaction(db, async (transaction) => {
         const counterDoc = await transaction.get(counterRef);
@@ -133,31 +111,30 @@ export default function UploadDemo() {
     return {
       reference: `NXSTARZ_${new Date().getTime()}`,
       email: user.email,
-      amount: 10000,
+      amount: 10000, // 100 GHS in kobo
       publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
       currency: "GHS",
       metadata: {
         userId: user.uid,
         category: category,
-        country: country
       }
     };
   };
 
   const handlePaystackPayment = () => {
     if (hasExistingSubmission) {
-      setError("You've already submitted a video. Only one submission is allowed.");
+      setError("You've already registered. Only one submission is allowed.");
       return;
     }
 
-    if (!category || !country) {
-      setError("🚫 Please select both category and country before payment");
+    if (!category) {
+      setError("Please select a talent category before payment");
       return;
     }
 
     const user = auth.currentUser;
     if (!user) {
-      setError("🚫 Please sign in to make a payment");
+      setError("Please sign in to make a payment");
       return;
     }
 
@@ -168,7 +145,7 @@ export default function UploadDemo() {
 
     const paymentTimeout = setTimeout(() => {
       setIsProcessingPayment(false);
-      setError("🚫 Payment took too long. Please try again.");
+      setError("Payment took too long. Please try again.");
     }, 300000);
 
     initializePayment(
@@ -180,13 +157,14 @@ export default function UploadDemo() {
             const verificationSuccess = await verifyPayment(response.reference);
             
             if (verificationSuccess) {
+              await createSubmissionRecord(user);
               setIsPaymentComplete(true);
               setError("");
             } else {
-              setError("🚫 Payment verification failed. Please contact support.");
+              setError("Payment verification failed. Please contact support.");
             }
           } catch (error) {
-            setError(`🚫 ${error.message}`);
+            setError(error.message);
           } finally {
             setIsProcessingPayment(false);
           }
@@ -194,10 +172,32 @@ export default function UploadDemo() {
         onClose: () => {
           clearTimeout(paymentTimeout);
           setIsProcessingPayment(false);
-          setError("🚫 Payment was not completed. Please try again.");
+          setError("Payment was not completed. Please try again.");
         }
       }
     );
+  };
+
+  const createSubmissionRecord = async (user) => {
+    try {
+      const uniqueId = await generateUniqueId();
+      setGeneratedId(uniqueId);
+
+      await addDoc(collection(db, "submissions"), {
+        id: uniqueId,
+        category: category,
+        userEmail: user.email,
+        username: user.displayName || "Anonymous",
+        timestamp: new Date(),
+        userId: user.uid,
+        status: "registered"
+      });
+
+      setHasExistingSubmission(true);
+    } catch (error) {
+      console.error("Error creating submission record:", error);
+      throw new Error("Failed to create submission record.");
+    }
   };
 
   const saveTransactionToFirebase = async (reference, user) => {
@@ -213,8 +213,7 @@ export default function UploadDemo() {
       status: "pending",
       createdAt: new Date(),
       userId: user.uid,
-      category,
-      country
+      category
     }, { merge: true });
   };
 
@@ -260,146 +259,17 @@ export default function UploadDemo() {
     }
   };
 
-  const handleFileChange = (e) => {
-    if (hasExistingSubmission) {
-      setError("You've already submitted a video. Only one submission is allowed.");
-      return;
-    }
-
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith("video/")) {
-        setError("🚫 Oops! Please upload a valid video file.");
-        setVideoFile(null);
-        return;
-      }
-
-      const fileSizeInMB = file.size / (1024 * 1024);
-      if (fileSizeInMB > 20) {
-        setError("🚫 File size must not exceed 20MB.");
-        setVideoFile(null);
-        return;
-      }
-
-      setVideoFile(file);
-      setError("");
-    }
-  };
-
-  const handleUpload = async () => {
-    if (hasExistingSubmission) {
-      setError("You've submitted the video. Only one submission is allowed.");
-      return;
-    }
-
-    if (!isFirebaseReady) {
-      setError("🚫 Firebase not ready. Please refresh the page.");
-      return;
-    }
-
-    if (!isPaymentComplete) {
-      setError("🚫 Please complete the payment to proceed with the upload.");
-      return;
-    }
-
-    if (!videoFile) {
-      setError("🚫 Please select a video file first.");
-      return;
-    }
-
-    if (!category) {
-      setError("🚫 Please select a category for your video.");
-      return;
-    }
-
-    if (!country) {
-      setError("🚫 Please select your country.");
-      return;
-    }
-
-    setIsUploading(true);
-    setError("");
-
-    try {
-      const user = auth.currentUser;
-
-      if (!user) {
-        throw new Error("You must be logged in to upload a demo.");
-      }
-
-      const email = user.email;
-      const username = user.displayName || "Anonymous";
-
-      let uniqueId;
-      try {
-        uniqueId = await generateUniqueId();
-        setGeneratedId(uniqueId);
-      } catch (error) {
-        throw new Error(`Failed to generate ID: ${error.message}`);
-      }
-
-      const safeFileName = videoFile.name.replace(/[^\w.-]/g, '_');
-      const storagePath = `demos/${category}/${user.uid}/${uniqueId}_${safeFileName}`;
-      const storageRef = ref(storage, storagePath);
-      
-      const uploadTask = uploadBytesResumable(storageRef, videoFile);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setUploadProgress(progress);
-        },
-        (error) => {
-          console.error("Upload failed:", error);
-          let errorMessage = "Upload failed. Please try again.";
-          if (error.code === 'storage/unauthorized') {
-            errorMessage = "You don't have permission to upload. Please contact support.";
-          } else if (error.code === 'storage/retry-limit-exceeded') {
-            errorMessage = "Network issues. Please check your connection.";
-          }
-          throw new Error(errorMessage);
-        },
-        async () => {
-          try {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-            await addDoc(collection(db, "demos"), {
-              id: uniqueId,
-              fileName: safeFileName,
-              originalFileName: videoFile.name,
-              category: category,
-              country: country,
-              downloadURL: downloadURL,
-              storagePath: storagePath,
-              userEmail: email,
-              username: username,
-              timestamp: new Date(),
-              userId: user.uid,
-              status: "pending_review"
-            });
-
-            setDownloadURL(downloadURL);
-            setIsUploadComplete(true);
-            setHasExistingSubmission(true);
-          } catch (error) {
-            console.error("Error saving metadata:", error);
-            throw new Error("Failed to save submission details.");
-          } finally {
-            setIsUploading(false);
-          }
-        }
-      );
-    } catch (error) {
-      console.error("Error during upload:", error);
-      setError(`🚫 ${error.message}`);
-      setIsUploading(false);
-    }
-  };
-
   const goToHomePage = () => {
     navigate("/");
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <FaSpinner className="animate-spin text-4xl text-purple-500" />
+      </div>
+    );
+  }
 
   return (
     <motion.div
@@ -413,11 +283,10 @@ export default function UploadDemo() {
         className="max-w-3xl mx-auto bg-white rounded-lg shadow-2xl p-8"
       >
         <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
-          🎤 Show Us Your Talent! 🌟
+          🎤 Register for NextStarz Auditions 🌟
         </h1>
         <p className="text-lg text-gray-600 text-center mb-8">
-          Upload a 2-minute demo video (Max: 20MB) and pay GHS 100 to submit
-          your performance.
+          Select your talent category and pay GHS 100 to get your Submission ID
         </p>
 
         {hasExistingSubmission ? (
@@ -425,13 +294,13 @@ export default function UploadDemo() {
             <div className="p-6 bg-blue-50 rounded-lg">
               <FaCheckCircle className="w-16 h-16 text-blue-500 mx-auto mb-4" />
               <p className="text-lg text-blue-600 mb-2">
-                You've submitted your demo!
+                You've successfully registered!
               </p>
               <p className="text-lg font-semibold mb-4">
-                Your submission ID: <span className="text-purple-600">{generatedId}</span>
+                Your Submission ID: <span className="text-purple-600">{generatedId}</span>
               </p>
               <p className="text-gray-600 mb-4">
-                We're reviewing your submission. Kindly present your submission ID during auditions.
+                Please present this ID during auditions at Class Media Group Headquarters, Labone from August 8-17, 2025.
               </p>
               <button
                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors duration-300"
@@ -445,76 +314,21 @@ export default function UploadDemo() {
           <>
             <motion.div variants={fadeInUp} className="mb-6">
               <label className="block text-lg font-medium text-gray-700 mb-2">
-                Select Your Category
+                Select Your Talent Category
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 required
               >
                 <option value="" disabled>
-                  ✅ Choose a category
+                  Select a category
                 </option>
-                <option value="singer">🎤 Singer / Rapper</option>
-                <option value="songwriter">🎵 Songwriter</option>
-                <option value="dancer">💃 Dancer</option>
-                <option value="comedian">🎭 Comedian</option>
-                <option value="instrumentPlayer">🎸 Instrument Player</option>
-                <option value="beatMaker">🎧 Beat-Maker</option>
-                <option value="DJ">🎧 DJ</option>
+                <option value="singing">🎤 Singing</option>
+                <option value="rapping">🎙️ Rapping</option>
+                <option value="reggae-dancehall">🎵 Reggae-Dancehall</option>
               </select>
-            </motion.div>
-
-            <motion.div variants={fadeInUp} className="mb-6">
-              <label className="block text-lg font-medium text-gray-700 mb-2">
-                Select Your Country
-              </label>
-              <select
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                className="w-full px-4 py-3 bg-white/5 focus:outline-none focus:ring-primary-color focus:border-yellow-300 placeholder-gray-400 border-gray-300 rounded-lg focus:ring-2 transition-all duration-300"
-                required
-              >
-                <option value="" disabled>
-                  ✅ Choose your Country
-                </option>
-                <option value="Ghana">🇬🇭 Ghana</option>
-                <option value="Other">🌍 Other</option>
-              </select>
-            </motion.div>
-
-            <motion.div
-              variants={scaleUp}
-              className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-purple-500 transition-colors duration-300 mb-6"
-              onClick={() => document.getElementById("video-upload").click()}
-            >
-              <input
-                id="video-upload"
-                type="file"
-                accept="video/*"
-                className="hidden"
-                onChange={handleFileChange}
-              />
-              {videoFile ? (
-                <div className="flex flex-col items-center">
-                  <FaCheckCircle className="w-12 h-12 text-green-500 mb-4" />
-                  <p className="text-lg text-gray-700">{videoFile.name}</p>
-                  <p className="text-sm text-gray-500 mt-2">
-                    {(videoFile.size / (1024 * 1024)).toFixed(2)} MB
-                  </p>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center">
-                  <FaUpload className="w-12 h-12 text-purple-500 mb-4" />
-                  <p className="text-lg text-gray-700">
-                    📤 Click here to upload your video
-                  </p>
-                  <p className="text-sm text-gray-500 mt-2">
-                    (Max 20MB, video files only)
-                  </p>
-                </div>
-              )}
             </motion.div>
 
             {error && (
@@ -527,91 +341,27 @@ export default function UploadDemo() {
               </motion.div>
             )}
 
-            {isUploading && (
-              <motion.div
-                variants={fadeInUp}
-                className="mt-6 bg-gray-200 rounded-full h-4 overflow-hidden"
+            <motion.div variants={fadeInUp} className="mt-8 text-center">
+              <button
+                className={`px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300 ${
+                  isProcessingPayment ? "opacity-75 cursor-not-allowed" : ""
+                }`}
+                onClick={handlePaystackPayment}
+                disabled={isProcessingPayment || !category}
               >
-                <div
-                  className="bg-purple-500 h-full rounded-full transition-width duration-500"
-                  style={{ width: `${uploadProgress}%` }}
-                ></div>
-                <p className="text-center text-sm mt-2 text-gray-600">
-                  Uploading: {Math.round(uploadProgress)}% complete
-                </p>
-              </motion.div>
-            )}
-
-            {!isPaymentComplete && videoFile && !error && category && country && (
-              <motion.div variants={fadeInUp} className="mt-8 text-center">
-                <button
-                  className={`px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300 ${
-                    isProcessingPayment ? "opacity-75 cursor-not-allowed" : ""
-                  }`}
-                  onClick={handlePaystackPayment}
-                  disabled={isProcessingPayment}
-                >
-                  {isProcessingPayment ? (
-                    <>
-                      <FaSpinner className="inline-block animate-spin mr-2" />
-                      Processing Payment...
-                    </>
-                  ) : (
-                    "💳 Pay GHC 100 to Submit"
-                  )}
-                </button>
-                <p className="text-sm text-gray-500 mt-2">
-                  Secure payment powered by Paystack
-                </p>
-              </motion.div>
-            )}
-
-            {isPaymentComplete && !isUploading && !isUploadComplete && (
-              <motion.div variants={fadeInUp} className="mt-8 text-center">
-                <button
-                  className="px-8 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-blue-700 transition-colors duration-300"
-                  onClick={handleUpload}
-                >
-                  📤 Upload Your Video
-                </button>
-              </motion.div>
-            )}
-
-            {isUploading && (
-              <motion.div
-                variants={fadeInUp}
-                className="mt-8 flex flex-col items-center"
-              >
-                <FaSpinner className="w-8 h-8 text-purple-500 animate-spin mb-2" />
-                <p className="text-lg text-gray-700">📤 Uploading your video...</p>
-                <p className="text-sm text-gray-500">
-                  Please don't close this window
-                </p>
-              </motion.div>
-            )}
-
-            {isUploadComplete && (
-              <motion.div variants={fadeInUp} className="mt-8 text-center">
-                <div className="p-6 bg-green-50 rounded-lg">
-                  <FaCheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                  <p className="text-lg text-green-600 mb-2">
-                    🎉 Your demo has been successfully submitted!
-                  </p>
-                  <p className="text-lg font-semibold mb-4">
-                    Your submission ID: <span className="text-purple-600">{generatedId}</span>
-                  </p>
-                  <p className="text-gray-600 mb-4">
-                    We'll review your submission and get back to you soon.
-                  </p>
-                  <button
-                    className="px-8 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-blue-700 transition-colors duration-300"
-                    onClick={goToHomePage}
-                  >
-                    🏠 Go to Home
-                  </button>
-                </div>
-              </motion.div>
-            )}
+                {isProcessingPayment ? (
+                  <>
+                    <FaSpinner className="inline-block animate-spin mr-2" />
+                    Processing Payment...
+                  </>
+                ) : (
+                  "💳 Pay GHC 100 to Register"
+                )}
+              </button>
+              <p className="text-sm text-gray-500 mt-2">
+                Secure payment powered by Paystack
+              </p>
+            </motion.div>
           </>
         )}
       </motion.div>

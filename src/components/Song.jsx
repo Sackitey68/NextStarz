@@ -1,8 +1,8 @@
-import { FaSpotify, FaHeadphonesAlt, FaMusic } from "react-icons/fa";
+import { FaSpotify, FaHeadphonesAlt, FaMusic, FaExternalLinkAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
 import AudiomackIcon from "../assets/icons/audiomack.svg";
 import BoomplayIcon from "../assets/icons/boomplay.svg";
-import DiojoImage from "../assets/Diojo.jpg"; // Make sure this path is correct
+import DiojoImage from "../assets/Diojo.jpg";
 
 export default function Song() {
   // Animation variants
@@ -11,7 +11,7 @@ export default function Song() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.15,
         when: "beforeChildren",
       },
     },
@@ -24,15 +24,17 @@ export default function Song() {
       opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 100,
-        damping: 10,
+        stiffness: 120,
+        damping: 12,
       },
     },
     hover: {
-      y: -5,
-      scale: 1.05,
-      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.3)",
-      transition: { duration: 0.3 },
+      y: -8,
+      scale: 1.03,
+      transition: { 
+        duration: 0.3,
+        ease: [0.16, 0.77, 0.47, 0.97]
+      },
     },
   };
 
@@ -40,124 +42,101 @@ export default function Song() {
   const streamingLinks = [
     {
       platform: "Spotify",
-      icon: <FaSpotify className="text-2xl text-green-500" />,
-      link: "https://open.spotify.com/album/79Q5DIDdBhrlQMgXmGoJvh?si=SPYNVkADRmyqI9XKBZhV_g&nd=1&dlsi=c4809e32b71c4fab",
-      color: "hover:bg-green-500/10",
-      bg: "bg-green-500/5",
+      icon: <FaSpotify className="text-2xl" />,
+      link: "https://open.spotify.com/album/79Q5DIDdBhrlQMgXmGoJvh",
+      color: "from-green-500 to-green-600",
+      textColor: "text-green-400",
     },
     {
       platform: "Audiomack",
       icon: <img src={AudiomackIcon} alt="Audiomack" className="w-6 h-6" />,
-      link: "https://audiomack.com/diojoofsuede/song/shine-like-a-star?share-user-id=19582793",
-      color: "hover:bg-orange-500/10",
-      bg: "bg-orange-500/5",
+      link: "https://audiomack.com/diojoofsuede/song/shine-like-a-star",
+      color: "from-orange-500 to-orange-600",
+      textColor: "text-orange-400",
     },
     {
       platform: "Boomplay",
       icon: <img src={BoomplayIcon} alt="Boomplay" className="w-6 h-6" />,
       link: "https://www.boomplay.com/albums/107800315",
-      color: "hover:bg-blue-500/10",
-      bg: "bg-blue-500/5",
+      color: "from-blue-500 to-blue-600",
+      textColor: "text-blue-400",
     },
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-4 my-24">
-      {/* Header with animated music notes */}
+    <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      {/* Header Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-center mb-12 relative"
+        className="text-center mb-16"
       >
-        <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-full max-w-xs h-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent blur-sm"></div>
-        <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-4">
-          🎵 Soundtrack 
+        <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 mb-6">
+          <FaMusic className="text-cyan-400 mr-2" />
+          <span className="text-lg font-medium text-cyan-100">Official Soundtrack</span>
+        </div>
+        <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300 mb-4">
+          Shine Like a Star
         </h2>
-       
+        <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          The official soundtrack for NextStarz Season 1 by <span className="text-hover-color">Diojo</span>
+        </p>
       </motion.div>
 
-      {/* Main card with layered gradients */}
+      {/* Album Card */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative rounded-2xl overflow-hidden shadow-2xl"
+        className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-800/50"
       >
-        {/* Background gradient layers */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-gray-900 to-cyan-900/30"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-cyan-500/10"></div>
-        
-        {/* Album header section with Diojo image */}
-        <div className="relative h-96 flex items-center justify-center overflow-hidden">
-          {/* Diojo image with gradient overlay */}
-          <div className="absolute inset-0">
-            <img 
-              src={DiojoImage} 
-              alt="Diojo" 
-              className="w-full h-full object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-800 via-gray-800/70 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-800 via-gray-800/70 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-800/30 via-transparent to-cyan-900/30"></div>
-          </div>
+        {/* Album Art with Gradient Overlay */}
+        <div className="relative h-80 sm:h-96 w-full overflow-hidden">
+          <img 
+            src={DiojoImage} 
+            alt="Diojo - Shine Like a Star" 
+            className="w-full h-full object-cover object-center"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=2070&auto=format&fit=crop";
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-900/90 via-gray-900/30 to-transparent" />
           
-          {/* Animated floating music notes */}
-          <div className="absolute inset-0 flex justify-between px-8 py-12 opacity-20">
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={i}
-                animate={{
-                  y: [0, -15, 0],
-                  opacity: [0.3, 0.8, 0.3],
-                }}
-                transition={{
-                  duration: 3 + Math.random() * 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: Math.random() * 2,
-                }}
-                className="text-2xl"
-              >
-                {i % 2 === 0 ? "🎵" : "🎶"}
-              </motion.div>
-            ))}
-          </div>
-          
-          <div className="relative z-10 text-center p-6">
+          {/* Album Info */}
+          <div className="absolute bottom-0 left-0 right-0 p-8 text-center">
             <motion.h3 
-              className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg"
+              className="text-3xl sm:text-4xl font-bold text-white mb-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              Shine Like a Star
             </motion.h3>
             <motion.p 
-              className="text-2xl text-cyan-300 font-medium drop-shadow-lg"
+              className="text-xl text-cyan-300 font-medium"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
             >
-              By Diojo
             </motion.p>
           </div>
         </div>
 
-        {/* Content section */}
-        <div className="relative p-8 backdrop-blur-sm bg-gray-900/30">
+        {/* Streaming Platforms */}
+        <div className="bg-gray-900/70 backdrop-blur-sm p-6 sm:p-8">
           <motion.p 
-            className="text-gray-300 text-center mb-8 max-w-2xl mx-auto text-lg"
+            className="text-center text-gray-300 mb-8 max-w-2xl mx-auto text-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            Listen to the official soundtrack for NextStarz Season 1
+            Available on all major streaming platforms
           </motion.p>
 
-          {/* Streaming platforms */}
           <motion.div 
-            className="flex flex-wrap justify-center gap-6"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4"
             variants={containerVariants}
           >
             {streamingLinks.map((platform, index) => (
@@ -168,28 +147,35 @@ export default function Song() {
                 rel="noopener noreferrer"
                 variants={itemVariants}
                 whileHover="hover"
-                className={`flex items-center gap-4 p-5 rounded-xl ${platform.bg} border border-gray-700/50 ${platform.color} transition-all duration-300 backdrop-blur-sm`}
+                className={`group relative overflow-hidden rounded-xl p-0.5 bg-gradient-to-r ${platform.color}`}
               >
-                <div className="bg-gray-900/80 p-3 rounded-lg backdrop-blur-sm">
-                  {platform.icon}
+                <div className="relative h-full bg-gray-900/90 backdrop-blur-sm p-5 rounded-[11px] flex flex-col items-center">
+                  <div className={`w-14 h-14 rounded-full ${platform.textColor}/10 flex items-center justify-center mb-4`}>
+                    <div className={`${platform.textColor} p-3 rounded-full`}>
+                      {platform.icon}
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    {platform.platform}
+                  </h3>
+                  <div className="flex items-center text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">
+                    <span>Stream now</span>
+                    <FaExternalLinkAlt className="ml-2 text-xs" />
+                  </div>
                 </div>
-                <span className="text-lg font-semibold text-gray-100">
-                  {platform.platform}
-                </span>
               </motion.a>
             ))}
           </motion.div>
 
-
-          <motion.p 
-            className="text-gray-400 text-center mt-8 flex items-center justify-center gap-3"
+          <motion.div 
+            className="mt-8 flex items-center justify-center gap-3 text-gray-400"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
           >
-            <FaHeadphonesAlt className="text-cyan-400 animate-pulse" />
-            <span>Click any platform to start streaming</span>
-          </motion.p>
+            <FaHeadphonesAlt className="text-cyan-400" />
+            <span>Click any platform to start listening</span>
+          </motion.div>
         </div>
       </motion.div>
     </section>

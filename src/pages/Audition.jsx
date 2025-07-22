@@ -50,7 +50,7 @@ const Auditions = () => {
         date: "Friday, August 8 - Sunday, August 17 2025",
         venue: "Class Media Group Headquarters",
         emoji: "🏛️",
-        time: "7:00 AM daily",
+        time: "7:00 AM",
         procedure: "In-person auditions at the venue",
         highlight: "Meet our panel of judges in person",
       },
@@ -254,7 +254,7 @@ const Auditions = () => {
             <div className="flex items-start">
               <FaInfoCircle className="text-blue-300 mr-3 mt-1" />
               <p className="text-blue-100">
-                <strong>Note:</strong> All auditions will take place at the Class Media Group Headquarters in Labone, Accra from August 8-17, 2025 starting at 7:00 AM daily.
+                <strong>Note:</strong> All auditions will take place at the Class Media Group Headquarters in Labone, Accra from August 8-17, 2025 starting at 7:00 AM.
               </p>
             </div>
           </motion.div>
