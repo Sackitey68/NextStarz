@@ -10,7 +10,7 @@ import {
   FaPlane,
   FaRecordVinyl,
   FaTv,
-  FaBroadcastTower, // Alternative to FaRadio
+  FaBroadcastTower,
 } from "react-icons/fa";
 
 export default function Prizes() {
@@ -67,15 +67,11 @@ export default function Prizes() {
         },
         {
           icon: <FaBroadcastTower className="text-yellow-300" />,
-          text: "Radio Airplay",
-        },
-        {
-          icon: <FaTv className="text-yellow-300" />,
-          text: "TV Airplay",
+          text: "Radio & TV Airplay",
         },
         {
           icon: <FaRecordVinyl className="text-yellow-300" />,
-          text: "3 Music Video Productions",
+          text: "Music Videos Productions",
         },
         {
           icon: <FaGlobe className="text-yellow-300" />,
@@ -83,11 +79,11 @@ export default function Prizes() {
         },
         {
           icon: <FaRecordVinyl className="text-yellow-300" />,
-          text: "Record Deal by Suede Entertainment",
+          text: "Record Label Deal",
         },
         {
           icon: <FaMicrophone className="text-yellow-300" />,
-          text: "Artist Development and Management by Suede Entertainment",
+          text: "Artist Development and Management",
         },
       ],
       bg: "bg-gradient-to-br from-yellow-900/10 to-amber-900/10",
@@ -113,15 +109,11 @@ export default function Prizes() {
         },
         {
           icon: <FaRecordVinyl className="text-gray-300" />,
-          text: "2 Music Video Productions",
-        },
-        {
-          icon: <FaGlobe className="text-gray-300" />,
-          text: "Image & Branding",
+          text: "Music Video production",
         },
         {
           icon: <FaMicrophone className="text-gray-300" />,
-          text: "Artist Development and Management by Suede Entertainment",
+          text: "Artist Development and Management",
         },
       ],
       bg: "bg-gradient-to-br from-gray-800/10 to-gray-900/10",
@@ -143,19 +135,19 @@ export default function Prizes() {
         },
         {
           icon: <FaTv className="text-gray-300" />,
-          text: "Guest appearance on a popular entertainment show",
+          text: "Guest appearance on a popular entertainment shows",
         },
         {
           icon: <FaRecordVinyl className="text-gray-300" />,
-          text: "Single Production by Suede Entertainment",
+          text: "Single Production",
         },
         {
           icon: <FaRecordVinyl className="text-gray-300" />,
-          text: "1 Music Video Production",
+          text: "Music Video production",
         },
         {
           icon: <FaMicrophone className="text-gray-300" />,
-          text: "Artist Development and Management by Suede Entertainment",
+          text: "Artist Development",
         },
       ],
       bg: "bg-gradient-to-br from-gray-800/10 to-gray-900/10",

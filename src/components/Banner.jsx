@@ -73,7 +73,7 @@ export default function Banner() {
           </div>
           {/* Bottom Text */}
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-center mt-8 sm:mt-12 md:mt-16 lg:mt-24 text-white">
-           CASH PRIZE | RADIO AIRPLAY | TV AIRPLAY | 3 MUSIC VIDEO PRODUCTIONS | BRAND CONSULTANCY | RECORD DEAL BY SUEDE ENTERTAINMENT | ARTIST DEVELOPMENT AND MANAGEMENT BY SUEDE ENTERTAINMENT
+           CASH PRIZE | RADIO AIRPLAY & TV AIRPLAY | MUSIC VIDEO PRODUCTIONS | BRAND CONSULTANCY | RECORD LABEL DEAL | ARTIST DEVELOPMENT AND MANAGEMENT
           </p>
         </div>
       ),

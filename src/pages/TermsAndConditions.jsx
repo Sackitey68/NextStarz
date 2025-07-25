@@ -132,10 +132,18 @@ export default function TermsAndConditions() {
             </h2>
             <div className="space-y-4 text-gray-300">
               <ul className="space-y-3 pl-5 list-disc">
-                <li>The competition is open to individuals aged 18-45 worldwide</li>
-                <li>Participants must be available for in-person auditions in Accra from August 8-17, 2025</li>
+                <li>
+                  The competition is open to individuals aged 18-45 worldwide
+                </li>
+                <li>
+                  Participants must be available for in-person auditions in
+                  Accra from August 8-17, 2025
+                </li>
                 <li>Must provide valid government-issued ID</li>
-                <li>Employees of Class Media Group and their families are ineligible</li>
+                <li>
+                  Employees of Class Media Group and their families are
+                  ineligible
+                </li>
               </ul>
             </div>
           </motion.div>
@@ -153,11 +161,24 @@ export default function TermsAndConditions() {
             </h2>
             <div className="space-y-4 text-gray-300">
               <ul className="space-y-3 pl-5 list-disc">
-                <li><strong>Audition Dates:</strong> August 8-17, 2025</li>
-                <li><strong>Location:</strong> Class Media Group Headquarters, Labone, Accra</li>
-                <li><strong>Time:</strong> 7:00 AM daily</li>
-                <li>Participants must bring their Submission ID received after registration</li>
-                <li>Judges will evaluate based on talent, originality, and stage presence</li>
+                <li>
+                  <strong>Audition Dates:</strong> August 8-17, 2025
+                </li>
+                <li>
+                  <strong>Location:</strong> Class Media Group Headquarters,
+                  Labone, Accra
+                </li>
+                <li>
+                  <strong>Time:</strong> 7:00 AM daily
+                </li>
+                <li>
+                  Participants must bring their Submission ID received after
+                  registration
+                </li>
+                <li>
+                  Judges will evaluate based on talent, originality, and stage
+                  presence
+                </li>
               </ul>
             </div>
           </motion.div>
@@ -175,50 +196,68 @@ export default function TermsAndConditions() {
             </h2>
             <div className="space-y-6 text-gray-300">
               <div className="p-6 bg-gradient-to-br from-purple-900/30 to-blue-900/30 rounded-lg border border-purple-700/30">
-                <h3 className="text-2xl font-bold text-white mb-4">🥇 Grand Prize Winner – "The Next Big Star"</h3>
-                <p className="text-lg font-semibold text-purple-200 mb-3">Total Value: GHC 300,000 including:</p>
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  🥇 Grand Prize Winner – "The Next Big Star"
+                </h3>
+                <p className="text-lg font-semibold text-purple-200 mb-3">
+                  Total Value: GHC 300,000 including:
+                </p>
                 <ul className="space-y-2 pl-5 list-disc">
                   <li>Cash Prize</li>
-                  <li>Radio Airplay</li>
-                  <li>TV Airplay</li>
-                  <li>3 Music Video Productions</li>
+                  <li>Radio & TV Airplay</li>
+                  <li>Music Videos Productions</li>
                   <li>Brand Consultancy</li>
-                  <li>Record Deal by Suede Entertainment</li>
-                  <li>Artist Development and Management by Suede Entertainment</li>
+                  <li>Record Label Deal</li>
+                  <li>Artist Development and Management</li>
                 </ul>
               </div>
 
               <div className="p-6 bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-lg border border-blue-700/30">
-                <h3 className="text-2xl font-bold text-white mb-4">🥈 1st Runner-Up</h3>
-                <p className="text-lg font-semibold text-blue-200 mb-3">Total Value: GHC 180,000 including:</p>
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  🥈 1st Runner-Up
+                </h3>
+                <p className="text-lg font-semibold text-blue-200 mb-3">
+                  Total Value: GHC 180,000 including:
+                </p>
                 <ul className="space-y-2 pl-5 list-disc">
                   <li>Cash Prize</li>
                   <li>Radio Airplay</li>
                   <li>TV Feature</li>
-                  <li>2 Music Video production</li>
-                  <li>Image & Branding</li>
-                  <li>Artist Development and Management by Suede Entertainment</li>
+                  <li>Music Video production</li>
+                  <li>Artist Development and Management</li>
                 </ul>
               </div>
 
               <div className="p-6 bg-gradient-to-br from-gray-900/30 to-blue-900/30 rounded-lg border border-gray-700/30">
-                <h3 className="text-2xl font-bold text-white mb-4">🥉 2nd Runner-Up</h3>
-                <p className="text-lg font-semibold text-gray-200 mb-3">Total Value: GHC 120,000 including:</p>
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  🥉 2nd Runner-Up
+                </h3>
+                <p className="text-lg font-semibold text-gray-200 mb-3">
+                  Total Value: GHC 120,000 including:
+                </p>
                 <ul className="space-y-2 pl-5 list-disc">
                   <li>Cash Prize</li>
                   <li>Radio Exposure</li>
                   <li>Guest appearance on a popular entertainment shows</li>
-                  <li>Single Production by Suede Entertainment</li>
-                  <li>1 Music Video production</li>
-                  <li>Artist Development and Management by Suede Entertainment</li>
+                  <li>Single Production</li>
+                  <li>Music Video production</li>
+                  <li>Artist Development</li>
                 </ul>
               </div>
 
               <div className="p-6 bg-gradient-to-br from-gray-800/30 to-gray-900/30 rounded-lg border border-gray-700/30">
-                <h3 className="text-xl font-bold text-white mb-3">🎵 Evictees' Recognition Package</h3>
-                <p className="mb-2">All contestants who are evicted during the competition receive:</p>
+                <h3 className="text-xl font-bold text-white mb-3">
+                  🎵 Evictees' Recognition Package
+                </h3>
+                <p className="mb-2">
+                  All contestants who are evicted during the competition
+                  receive:
+                </p>
                 <ul className="space-y-1 pl-5 list-disc">
-                  <li>Single recording and production by Suede Entertainment for international distribution</li>
+                  <li>
+                    Single recording and production by Suede Entertainment for
+                    international distribution
+                  </li>
                 </ul>
               </div>
             </div>
@@ -238,8 +277,12 @@ export default function TermsAndConditions() {
             <div className="space-y-4 text-gray-300">
               <ul className="space-y-3 pl-5 list-disc">
                 <li>All decisions by judges are final and binding</li>
-                <li>Participants must maintain professional conduct throughout</li>
-                <li>NextStarz reserves the right to modify prizes of equal value</li>
+                <li>
+                  Participants must maintain professional conduct throughout
+                </li>
+                <li>
+                  NextStarz reserves the right to modify prizes of equal value
+                </li>
                 <li>Winners are responsible for all applicable taxes</li>
               </ul>
             </div>
@@ -261,13 +304,21 @@ export default function TermsAndConditions() {
               <div className="mt-4 space-y-2">
                 <p className="flex items-center">
                   <span className="text-yellow-400 mr-2">✉️</span>
-                  <a href="mailto:info.nextstarz@gmail.com" className="text-blue-300 hover:underline">
+                  <a
+                    href="mailto:info.nextstarz@gmail.com"
+                    className="text-blue-300 hover:underline"
+                  >
                     info.nextstarz@gmail.com
                   </a>
                 </p>
                 <p className="flex items-center">
                   <span className="mr-2">📞</span>
-                  <a href="https://api.whatsapp.com/send?phone=233534886377" className="text-blue-300 hover:underline" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://api.whatsapp.com/send?phone=233534886377"
+                    className="text-blue-300 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     +233 534 886 377
                   </a>
                 </p>
