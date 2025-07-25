@@ -280,7 +280,7 @@ const About = () => {
               date: "September 7",
               title: "First Episode Airs",
               description:
-                "8 PM on CTV, running weekly every Sunday until the Grand Finale.",
+                "8pm on CTV, running weekly every Sunday until the Grand Finale.",
               icon: <FaStar className="text-2xl" />,
             },
             {
@@ -330,7 +330,7 @@ const About = () => {
         <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-400">
           Ready to Become the Next Star? 🌟
         </h2>
-        <div className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto bg-gray-900/50 backdrop-blur-sm p-6 rounded-xl border border-gray-700 space-y-4">
+        <div className="text-lg text-gray-200 mb-8 max-w-2xl mx-auto bg-gray-900/50 backdrop-blur-sm p-6 rounded-xl border border-gray-700 space-y-4">
           <p>NextStarz is open to all Ghanaians between 18 and 45 years old.</p>
           <p>
             Registration involves a GHS 100 non-refundable fee (online via
