@@ -83,6 +83,7 @@ export default function Footer() {
                   { name: "About", path: "/about" },
                   { name: "Register", path: "/register" },
                   { name: "Judges", path: "/judges" },
+                  { name: "Auditions", path: "/auditions" },
                 ].map((item) => (
                   <li key={item.name}>
                     <button
@@ -100,6 +101,7 @@ export default function Footer() {
                   { name: "FAQ", path: "/faq" },
                   { name: "Contact", path: "/contact" },
                   { name: "Terms", path: "/terms" },
+                  { name: "Privacy", path: "/privacy" },
                 ].map((item) => (
                   <li key={item.name}>
                     <button
