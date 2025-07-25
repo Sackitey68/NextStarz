@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { FaUpload } from "react-icons/fa";
+import { FaMoneyBillWave } from "react-icons/fa";
 import Logo from "../assets/Logo.jpg";
 
 export default function Header() {
@@ -124,9 +124,9 @@ export default function Header() {
                 <div className="relative px-6 py-2 rounded-full flex items-center text-white transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-lg">
                   {isSignedUp ? (
                     <>
-                      <FaUpload className="mr-2 transition-transform duration-300 group-hover:scale-110" />
+                      <FaMoneyBillWave className="mr-2 transition-transform duration-300 group-hover:scale-110" />
                       <span className="transition-all duration-300 group-hover:tracking-wider">
-                        Upload
+                        Pay
                       </span>
                     </>
                   ) : (
@@ -281,8 +281,8 @@ export default function Header() {
                 >
                   {isSignedUp ? (
                     <>
-                      <FaUpload className="mr-2" />
-                      <span>Upload Demo</span>
+                      <FaMoneyBillWave className="mr-2" />
+                      <span>Make Payment</span>
                     </>
                   ) : (
                     <span>Sign In</span>
