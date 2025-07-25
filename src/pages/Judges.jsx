@@ -8,10 +8,9 @@ import {
   FaMusic,
 } from "react-icons/fa";
 import Ishmael from "../assets/Team/ishmael.jpg";
-import Sherifa from "../assets/Team/Sherifa.jpg";
-import Kalsoume from "../assets/Team/Kalsoume.jpg";
 import Dorcas from "../assets/Team/Dorcas.jpg";
-import Nicolas from "../assets/Team/Nicolas.jpg";
+import Freeman from "../assets/Team/Coach-Freeman.jpg";
+import Ernest from "../assets/Team/Coach-Ernest.jpg";
 
 const Judges = () => {
   const navigate = useNavigate();
@@ -32,45 +31,32 @@ const Judges = () => {
     },
     {
       id: 2,
-      name: "Sherifa Gunu",
-      role: "Afro-Soul Diva",
-      image: Sherifa,
-      bio: "Sherifa Gunu is a renowned Afro-soul musician and cultural advocate celebrated for blending traditional African rhythms with modern sounds. Her commanding stage presence and unique vocals have led her to perform with top Ghanaian artists like Sarkodie, Efya, and Kojo Antwi. Through albums such as Dagbon, African Woman, and Kuuku, she promotes unity, empowerment, and pride. Beyond music, Sherifa is a dedicated philanthropist and entrepreneur who uses her influence to champion women's rights and drive community development within Ghana's creative industry.",
-      expertise: ["Vocal Performance", "Afro-Soul Music", "Cultural Advocacy"],
-      icon: <FaStar className="text-yellow-400" />,
-    },
-    {
-      id: 3,
-      name: "Kalsoume Sinare",
-      role: "Ghana's Screen Queen",
-      image: Kalsoume,
-      bio: "Kalsoume Sinare is a veteran Ghanaian actress and former model with over 30 years in film and television. Known for her powerful roles in productions like Babina, Trinity, and Sala, she earned accolades including a Golden Actress award. Starting as a model, she represented Ghana internationally and appeared in major commercials before transitioning to acting in the early 1990s. Her versatility and emotional range made her a household name. Outside acting, Kalsoume is a successful entrepreneur and humanitarian, influencing Ghana's entertainment and beauty industries.",
-      expertise: ["Acting", "Modeling", "Film Production"],
-      icon: <FaGripfire className="text-blue-400" />,
-    },
-    {
-      id: 4,
       name: "Dorcas Agyeiwaa",
       role: "The Vocal Powerhouse",
       image: Dorcas,
       bio: "Known as AJ Truth, is a multi-octave vocalist, songwriter, entrepreneur, and media personality. With years of experience performing alongside top musicians in Ghana's music industry, she has graced prestigious stages and worked with multi-genre bands. As a panelist on NextStarz, she brings her industry expertise to mentor rising talents. Her background as a TV host and reality show panelist further cements her influence in the entertainment world. Passionate and dynamic, AJ Truth is redefining artistry and excellence.",
       expertise: ["Vocal Performance", "Songwriting", "Media Presentation"],
-      icon: <FaMicrophoneAlt className="text-green-400" />,
+      icon: <FaStar className="text-yellow-400" />,
     },
     {
-      id: 5,
-      name: "Nicholas Amoako",
-      role: "The Entertainer",
-      image: Nicolas,
-      bio: "Widely known in the showbiz industry as Phewcha. A multi-talented musician, songwriter, actor, and social media influencer. With a deep passion for creativity and entertainment, he captivates audiences with his artistry, versatility, and engaging presence. His ability to blend music, storytelling, and digital influence has earned him a loyal following, making him a standout figure in the industry. Through his dedication and innovation, Phewcha continues to inspire, entertain, and shape the future of entertainment.",
-      expertise: ["Performance Art", "Digital Influence", "Entertainment"],
-      icon: <FaMusic className="text-pink-400" />,
+      id: 3,
+      name: "Freeman Daniel Ame",
+      role: "Renowned Voice Coach",
+      image: Freeman,
+      bio: "Known as Coach Freeman, is a celebrated vocal coach, musician, educator, and talent strategist. With decades of experience training top performers across Africa and beyond, he has led voice coaching on every major music reality show in Ghana. He directs Jukebox Studios and lectures at UniMAC, guiding artists and professionals alike. Through corporate voice training and artistic mentorship, Freeman continues to shape voices, elevate talent, and set new standards in vocal excellence.",
+      expertise: ["Vocal Coaching", "Talent Development", "Stage Performance"],
+      icon: <FaGripfire className="text-blue-400" />,
+    },
+    {
+      id: 4,
+      name: "Prince Ernest",
+      role: "Renowned Voice Coach",
+      image: Ernest,
+      bio: "Known as Coach Ernest, is a dynamic vocalist, music director, and performer known for his powerful stage presence and leadership in gospel music. He was the only male Ghanaian representative on Idols West Africa, showcasing his vocal excellence on a continental stage. As music director for Ghana's first Stand in Worship concert featuring Donnie McClurkin, he played a key role in shaping the event's success. Coach Ernest continues to impact lives through music and ministry.",
+      expertise: ["Vocal Performance", "Stage Leadership", "Music Direction"],
+      icon: <FaMicrophoneAlt className="text-green-400" />,
     },
   ];
-
-  // Split judges into two groups: first 3 and last 2
-  const firstRowJudges = judges.slice(0, 3);
-  const secondRowJudges = judges.slice(3);
 
   // Animation variants
   const containerVariants = {
@@ -167,128 +153,67 @@ const Judges = () => {
         </motion.p>
       </div>
 
-      {/* First Row - 3 Judges */}
+      {/* Judges Grid - 4 in a 2x2 layout */}
       <div className="max-w-7xl mx-auto mb-12">
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {firstRowJudges.map((judge) => (
-            <motion.div
-              key={judge.id}
-              variants={judgeVariants}
-              whileHover="hover"
-              className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl overflow-hidden border border-gray-700 flex flex-col h-full shadow-lg hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300"
-            >
-              {/* Judge Image */}
-              <div className="relative pt-10 px-8">
-                <motion.div
-                  className="relative w-40 h-40 mx-auto rounded-full border-4 border-purple-500 shadow-lg"
-                  whileHover="hover"
-                  variants={imageVariants}
-                >
-                  <img
-                    src={judge.image}
-                    alt={judge.name}
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                  <div className="absolute -inset-2 rounded-full border-2 border-purple-300 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-                </motion.div>
-              </div>
-
-              {/* Judge Info */}
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="text-center mb-4">
-                  <div className="flex justify-center mb-2">
-                    <div className="text-3xl">{judge.icon}</div>
-                  </div>
-                  <h3 className="text-2xl font-bold text-white bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
-                    {judge.name}
-                  </h3>
-                  <p className="text-purple-300 font-medium mt-1">
-                    {judge.role}
-                  </p>
-                </div>
-                {/* Expertise Tags */}
-                <div className="flex flex-wrap justify-center gap-2 mb-4">
-                  {judge.expertise.map((item, index) => (
-                    <span
-                      key={index}
-                      className="text-xs bg-gray-700/50 text-gray-200 px-3 py-1 rounded-full border border-gray-600"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Bio */}
-                <p className="text-gray-300 flex-1 mb-4">{judge.bio}</p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Second Row - 2 Judges (Centered) */}
-      <div className="max-w-5xl mx-auto mb-12">
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {secondRowJudges.map((judge) => (
+          {judges.map((judge) => (
             <motion.div
               key={judge.id}
               variants={judgeVariants}
               whileHover="hover"
               className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl overflow-hidden border border-gray-700 flex flex-col h-full shadow-lg hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300"
             >
-              {/* Judge Image */}
-              <div className="relative pt-10 px-8">
-                <motion.div
-                  className="relative w-40 h-40 mx-auto rounded-full border-4 border-purple-500 shadow-lg"
-                  whileHover="hover"
-                  variants={imageVariants}
-                >
-                  <img
-                    src={judge.image}
-                    alt={judge.name}
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                  <div className="absolute -inset-2 rounded-full border-2 border-purple-300 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-                </motion.div>
-              </div>
+              <div className="flex flex-col md:flex-row h-full">
+                {/* Judge Image */}
+                <div className="relative w-full md:w-1/3 p-6 flex items-center justify-center">
+                  <motion.div
+                    className="relative w-40 h-40 rounded-full border-4 border-purple-500 shadow-lg"
+                    whileHover="hover"
+                    variants={imageVariants}
+                  >
+                    <img
+                      src={judge.image}
+                      alt={judge.name}
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                    <div className="absolute -inset-2 rounded-full border-2 border-purple-300 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                  </motion.div>
+                </div>
 
-              {/* Judge Info */}
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="text-center mb-4">
-                  <div className="flex justify-center mb-2">
-                    <div className="text-3xl">{judge.icon}</div>
+                {/* Judge Info */}
+                <div className="w-full md:w-2/3 p-6 flex flex-col">
+                  <div className="text-center mb-4">
+                    <div className="flex justify-center mb-2">
+                      <div className="text-3xl">{judge.icon}</div>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
+                      {judge.name}
+                    </h3>
+                    <p className="text-purple-300 font-medium mt-1">
+                      {judge.role}
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-bold text-white bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
-                    {judge.name}
-                  </h3>
-                  <p className="text-purple-300 font-medium mt-1">
-                    {judge.role}
-                  </p>
-                </div>
-                {/* Expertise Tags */}
-                <div className="flex flex-wrap justify-center gap-2 mb-4">
-                  {judge.expertise.map((item, index) => (
-                    <span
-                      key={index}
-                      className="text-xs bg-gray-700/50 text-gray-200 px-3 py-1 rounded-full border border-gray-600"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
+                  
+                  {/* Expertise Tags */}
+                  <div className="flex flex-wrap justify-center gap-2 mb-4">
+                    {judge.expertise.map((item, index) => (
+                      <span
+                        key={index}
+                        className="text-xs bg-gray-700/50 text-gray-200 px-3 py-1 rounded-full border border-gray-600"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
 
-                {/* Bio */}
-                <p className="text-gray-300 flex-1 mb-4">{judge.bio}</p>
+                  {/* Bio */}
+                  <p className="text-gray-300 flex-1">{judge.bio}</p>
+                </div>
               </div>
             </motion.div>
           ))}
