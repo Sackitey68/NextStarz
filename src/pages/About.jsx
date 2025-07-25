@@ -252,7 +252,7 @@ const About = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="space-y-6"
+          className="space-y-4"
         >
           {[
             {
@@ -260,56 +260,56 @@ const About = () => {
               title: "Registration Period",
               description:
                 "Online via www.thenextstarz.com/register or offline at any CMG radio station nationwide.",
-              icon: <FaUsers className="text-yellow-400" />,
+              icon: <FaUsers className="text-2xl" />,
             },
             {
               date: "August 8-17",
               title: "Auditions",
               description:
                 "Held at CMG Headquarters in Labone, Accra. Selected contestants proceed to orientation.",
-              icon: <FaMicrophoneAlt className="text-yellow-400" />,
+              icon: <FaMicrophoneAlt className="text-2xl" />,
             },
             {
               date: "August 29",
               title: "Official Launch Show",
               description:
                 "Contestants will be outdoored and full program calendar announced.",
-              icon: <FaCalendarAlt className="text-yellow-400" />,
+              icon: <FaCalendarAlt className="text-2xl" />,
             },
             {
               date: "September 7",
               title: "First Episode Airs",
               description:
                 "8 PM on CTV, running weekly every Sunday until the Grand Finale.",
-              icon: <FaStar className="text-yellow-400" />,
+              icon: <FaStar className="text-2xl" />,
             },
             {
               date: "December 7",
               title: "Grand Finale",
               description:
                 "Ticketed event where one contestant will be crowned 'The Next Big Star'.",
-              icon: <FaTrophy className="text-yellow-400" />,
+              icon: <FaTrophy className="text-2xl" />,
             },
           ].map((item, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
-              className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-gray-700 p-6 hover:shadow-lg hover:shadow-purple-500/10 transition-all"
+              className="bg-gray-800 rounded-xl border border-gray-700 p-5 hover:shadow-md transition-all"
             >
-              <div className="flex flex-col sm:flex-row items-start gap-6">
-                <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg p-3 flex-shrink-0">
+              <div className="flex items-start gap-4">
+                <div className="bg-purple-600/80 p-3 rounded-lg text-white">
                   {item.icon}
                 </div>
-                <div className="w-full">
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
-                    <span className="bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full text-sm font-medium w-fit">
-                      {item.date}
-                    </span>
-                    <h3 className="text-xl font-bold text-white">
+                <div className="flex-1">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                    <h3 className="text-lg font-bold text-white">
                       {item.title}
                     </h3>
+                    <span className="bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full text-sm font-medium">
+                      {item.date}
+                    </span>
                   </div>
-                  <p className="text-gray-300">{item.description}</p>
+                  <p className="text-gray-300 text-sm">{item.description}</p>
                 </div>
               </div>
             </motion.div>
@@ -353,7 +353,6 @@ const About = () => {
             <FaStar className="animate-pulse" />
             Register Online
           </motion.button>
-      
         </div>
         <p className="text-gray-400 mt-6 text-sm">
           Don't miss your chance to shine! Auditions close August 8, 2025 ⏳
