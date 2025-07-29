@@ -6,13 +6,13 @@ import Logo from "../assets/Logo.jpg";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isSignedUp, setIsSignedUp] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const auth = getAuth();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsSignedUp(!!user);
+      setIsLoggedIn(!!user);
     });
     return () => unsubscribe();
   }, [auth]);
@@ -42,7 +42,7 @@ export default function Header() {
     { path: "/", name: "Home" },
     { path: "/about", name: "About" },
     { path: "/contact", name: "Contact" },
-    { path: "/register", name: "Register" },
+    { path: isLoggedIn ? "/uploaddemo" : "/register", name: isLoggedIn ? "Pay" : "Register" },
     { path: "/prizes", name: "Prizes" },
     { path: "/faq", name: "Faq" },
   ];
@@ -109,14 +109,14 @@ export default function Header() {
             <div className="hidden md:flex items-center gap-4">
               <button
                 onClick={() =>
-                  isSignedUp ? handleLogout() : navigate("/login")
+                  isLoggedIn ? handleLogout() : navigate("/login")
                 }
                 className="relative overflow-hidden group transition-all duration-300"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full opacity-100 group-hover:opacity-0 transition-opacity duration-300"></div>
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative px-6 py-2 rounded-full flex items-center text-white transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-lg">
-                  {isSignedUp ? (
+                  {isLoggedIn ? (
                     <span className="transition-all duration-300 group-hover:tracking-wider">
                       Logout
                     </span>
@@ -250,7 +250,7 @@ export default function Header() {
               <div className="mt-6">
                 <button
                   onClick={
-                    isSignedUp
+                    isLoggedIn
                       ? handleLogout
                       : () => {
                           navigate("/login");
@@ -268,7 +268,7 @@ export default function Header() {
                       : "0ms",
                   }}
                 >
-                  {isSignedUp ? (
+                  {isLoggedIn ? (
                     <span>Logout</span>
                   ) : (
                     <span>Sign In</span>
