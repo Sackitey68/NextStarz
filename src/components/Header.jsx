@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { FaMoneyBillWave } from "react-icons/fa";
 import Logo from "../assets/Logo.jpg";
 
 export default function Header() {
@@ -28,11 +27,6 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleUploadClick = () => {
-    navigate("/uploaddemo");
-    toggleMenu();
-  };
 
   const handleLogout = async () => {
     try {
@@ -115,7 +109,7 @@ export default function Header() {
             <div className="hidden md:flex items-center gap-4">
               <button
                 onClick={() =>
-                  navigate(isSignedUp ? "/uploaddemo" : "/register")
+                  isSignedUp ? handleLogout() : navigate("/login")
                 }
                 className="relative overflow-hidden group transition-all duration-300"
               >
@@ -123,18 +117,13 @@ export default function Header() {
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative px-6 py-2 rounded-full flex items-center text-white transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-lg">
                   {isSignedUp ? (
-                    <>
-                      <FaMoneyBillWave className="mr-2 transition-transform duration-300 group-hover:scale-110" />
-                      <span className="transition-all duration-300 group-hover:tracking-wider">
-                        Pay
-                      </span>
-                    </>
+                    <span className="transition-all duration-300 group-hover:tracking-wider">
+                      Logout
+                    </span>
                   ) : (
-                    <>
-                      <span className="transition-all duration-300 group-hover:tracking-wider">
-                        Sign In
-                      </span>
-                    </>
+                    <span className="transition-all duration-300 group-hover:tracking-wider">
+                      Sign In
+                    </span>
                   )}
                 </div>
               </button>
@@ -262,9 +251,9 @@ export default function Header() {
                 <button
                   onClick={
                     isSignedUp
-                      ? handleUploadClick
+                      ? handleLogout
                       : () => {
-                          navigate("/register");
+                          navigate("/login");
                           toggleMenu();
                         }
                   }
@@ -280,10 +269,7 @@ export default function Header() {
                   }}
                 >
                   {isSignedUp ? (
-                    <>
-                      <FaMoneyBillWave className="mr-2" />
-                      <span>Make Payment</span>
-                    </>
+                    <span>Logout</span>
                   ) : (
                     <span>Sign In</span>
                   )}

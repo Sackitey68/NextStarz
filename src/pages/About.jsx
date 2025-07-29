@@ -337,7 +337,7 @@ const About = () => {
             Paystack or offline via cash/MTN MoMo).
           </p>
           <p>
-            Auditions run from August 8-17 at CMG Headquarters in Labone, Accra.
+            Auditions run from August 8, 2025 at CMG Headquarters in Labone, Accra.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -355,7 +355,7 @@ const About = () => {
           </motion.button>
         </div>
         <p className="text-gray-400 mt-6 text-sm">
-          Don't miss your chance to shine! Auditions close August 8, 2025 ⏳
+         Registrations are on going click on the button above ⬆️ to Register now!
         </p>
       </motion.div>
     </div>

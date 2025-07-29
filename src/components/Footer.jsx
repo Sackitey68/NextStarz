@@ -18,6 +18,8 @@ import Ho from "../assets/Media/HOFM.jpg";
 import Taadi from "../assets/Media/TaadiFM.jpg";
 import Dogbon from "../assets/Media/DOGBON.png";
 import Sunyani from "../assets/Media/SUNYANIFM.png";
+import CMGonline from "../assets/Media/CMG-online.png";
+import Suede from "../assets/Media/Suede.jpg";
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -55,6 +57,8 @@ export default function Footer() {
     { name: "Taadi FM", logo: Taadi },
     { name: "Dogbon FM", logo: Dogbon },
     { name: "Sunyani FM", logo: Sunyani },
+    { name: "CMG-Online", logo: CMGonline },
+    { name: "Suede Entertainment", logo: Suede },
   ];
 
   return (

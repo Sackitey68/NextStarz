@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/effect-fade";
-import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import { useNavigate, Link } from "react-router-dom";
 import {
   GoogleAuthProvider,
@@ -13,7 +8,6 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signOut,
   onAuthStateChanged,
   sendEmailVerification,
   sendPasswordResetEmail,
@@ -32,12 +26,7 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 import { RiShieldUserFill } from "react-icons/ri";
-
-// Import your images for the slider
-import Image1 from "../assets/slider1.jpg";
-import Image2 from "../assets/slider2.jpg";
-import Image3 from "../assets/slider3.jpg";
-import Image4 from "../assets/slider4.jpg";
+import Logo from "../assets/Logo.jpg";
 
 // Animation variants
 const fadeInUp = {
@@ -74,55 +63,46 @@ export default function Login() {
   const [user, setUser] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [activeSlide, setActiveSlide] = useState(0);
   const [emailSent, setEmailSent] = useState(false);
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
   const [resetSent, setResetSent] = useState(false);
+  const [redirectTimer, setRedirectTimer] = useState(null);
   const navigate = useNavigate();
 
-  // Slide content with motivational messages
-  const slides = [
-    {
-      image: Image1,
-      title: "Unlock Your Potential",
-      text: "Join thousands of creatives showcasing their talent",
-    },
-    {
-      image: Image2,
-      title: "Showcase Your Work",
-      text: "Get discovered by industry professionals worldwide",
-    },
-    {
-      image: Image3,
-      title: "Connect & Collaborate",
-      text: "Build your network with like-minded creatives",
-    },
-    {
-      image: Image4,
-      title: "Your Journey Starts Here",
-      text: "Take the first step towards your creative future",
-    },
-  ];
+  // Clear timer on component unmount
+  useEffect(() => {
+    return () => {
+      if (redirectTimer) clearTimeout(redirectTimer);
+    };
+  }, [redirectTimer]);
 
   // Track authentication state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        // Check if email is verified when user state changes
-        if (user.emailVerified) {
+        if (user.emailVerified && !isSubmitted) {
           setIsSubmitted(true);
+          const timer = setTimeout(() => {
+            navigate("/uploaddemo");
+          }, 1500); // 1.5 seconds delay
+          setRedirectTimer(timer);
         }
       } else {
         setUser(null);
+        setIsSubmitted(false);
+        if (redirectTimer) {
+          clearTimeout(redirectTimer);
+          setRedirectTimer(null);
+        }
       }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [navigate, redirectTimer, isSubmitted]);
 
-  // Handle form submission with email verification
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -133,35 +113,45 @@ export default function Login() {
 
     try {
       if (isLogin) {
-        // For login, check if email is verified
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
         const user = userCredential.user;
-        
+
         if (!user.emailVerified) {
           await sendEmailVerification(user);
           setIsError(true);
-          setErrorMessage("Your email is not verified. We've sent you a new verification email. Please check your inbox.");
+          setErrorMessage(
+            "Your email is not verified. We've sent you a new verification email. Please check your inbox."
+          );
           setEmailSent(true);
           return;
         }
-        
-        // If email is verified, proceed with login
+
         setIsSubmitted(true);
+        const timer = setTimeout(() => {
+          navigate("/uploaddemo");
+        }, 1000);
+        setRedirectTimer(timer);
       } else {
-        // For sign up, create user and send verification email
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
         const user = userCredential.user;
-        
-        // Send verification email
+
         await sendEmailVerification(user);
         setEmailSent(true);
-        setErrorMessage("Verification email sent! Please check your inbox to verify your account.");
-        setIsError(true); // We use error state to show this message
-        return;
+        setErrorMessage(
+          "Verification email sent! Please check your inbox to verify your account."
+        );
+        setIsError(true);
       }
     } catch (error) {
       setIsError(true);
-      // User-friendly error messages
       switch (error.code) {
         case "auth/user-not-found":
           setErrorMessage("No account found with this email");
@@ -180,7 +170,9 @@ export default function Login() {
           setErrorMessage("Please enter a valid email address");
           break;
         case "auth/too-many-requests":
-          setErrorMessage("Too many attempts. Please try again later or reset your password");
+          setErrorMessage(
+            "Too many attempts. Please try again later or reset your password"
+          );
           break;
         default:
           setErrorMessage("Something went wrong. Please try again");
@@ -195,12 +187,12 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
     setIsError(false);
-    
+
     try {
       await sendPasswordResetEmail(auth, resetEmail);
       setResetSent(true);
       setErrorMessage("Password reset email sent! Please check your inbox.");
-      setIsError(true); // We use error state to show this message
+      setIsError(true);
     } catch (error) {
       setIsError(true);
       switch (error.code) {
@@ -221,7 +213,7 @@ export default function Login() {
   // Handle resending verification email
   const handleResendVerification = async () => {
     if (!auth.currentUser) return;
-    
+
     try {
       setIsLoading(true);
       await sendEmailVerification(auth.currentUser);
@@ -241,6 +233,10 @@ export default function Login() {
       await providerFn();
       setIsSubmitted(true);
       setIsError(false);
+      const timer = setTimeout(() => {
+        navigate("/uploaddemo");
+      }, 1000);
+      setRedirectTimer(timer);
     } catch (error) {
       setIsError(true);
       setErrorMessage(error.message);
@@ -262,38 +258,6 @@ export default function Login() {
   const handleTwitterLogin = async () => {
     const provider = new TwitterAuthProvider();
     await handleSocialLogin(() => signInWithPopup(auth, provider));
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate("/login");
-    } catch (error) {
-      console.error("Error signing out: ", error);
-    }
-  };
-
-  // Swiper settings
-  const swiperSettings = {
-    modules: [Autoplay, Pagination, EffectFade],
-    effect: "fade",
-    fadeEffect: {
-      crossFade: true,
-    },
-    spaceBetween: 0,
-    centeredSlides: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-    },
-    pagination: {
-      clickable: true,
-      el: ".swiper-pagination",
-      renderBullet: (index, className) => {
-        return `<span class="${className} bg-white opacity-50 hover:opacity-100 transition-opacity duration-300"></span>`;
-      },
-    },
-    onSlideChange: (swiper) => setActiveSlide(swiper.activeIndex),
   };
 
   return (
@@ -369,13 +333,13 @@ export default function Login() {
               variants={fadeInUp}
               className="text-2xl sm:text-3xl font-bold text-center mb-6 text-white"
             >
-              {showResetPassword 
-                ? "Reset Your Password" 
+              {showResetPassword
+                ? "Reset Your Password"
                 : showEmailForm
-                  ? isLogin
-                    ? "Welcome Back!"
-                    : "Join Our Community"
-                  : "Sign In to Your Account"}
+                ? isLogin
+                  ? "Welcome Back!"
+                  : "Join Our Community"
+                : "Sign In to Your Account"}
             </motion.h2>
 
             {/* Password Reset Form */}
@@ -390,9 +354,10 @@ export default function Login() {
               >
                 <motion.div variants={fadeInUp} className="space-y-4">
                   <p className="text-gray-300 text-sm">
-                    Enter your email address and we'll send you a link to reset your password.
+                    Enter your email address and we'll send you a link to reset
+                    your password.
                   </p>
-                  
+
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-300">
                       Email Address
@@ -455,7 +420,7 @@ export default function Login() {
                   </motion.div>
 
                   {resetSent && (
-                    <motion.div 
+                    <motion.div
                       variants={fadeInUp}
                       className="text-center text-sm text-gray-300"
                     >
@@ -719,16 +684,8 @@ export default function Login() {
                   </span>
                 </div>
                 <p className="text-center font-medium">
-                  Welcome! Click here ⬇️ to upload demo
+                  Welcome! Redirecting to make payment...
                 </p>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => navigate("/uploaddemo")}
-                  className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium rounded-lg transition-all duration-300"
-                >
-                  Upload Demo
-                </motion.button>
               </motion.div>
             )}
 
@@ -748,10 +705,12 @@ export default function Login() {
                   )}
                   <span className="text-sm">{errorMessage}</span>
                 </div>
-                
+
                 {emailSent && !resetSent && (
                   <div className="flex flex-col items-center space-y-2">
-                    <p className="text-xs text-gray-300">Didn't receive the email?</p>
+                    <p className="text-xs text-gray-300">
+                      Didn't receive the email?
+                    </p>
                     <button
                       onClick={handleResendVerification}
                       disabled={isLoading}
@@ -812,62 +771,36 @@ export default function Login() {
           </div>
         </motion.div>
 
-        {/* Image Slider */}
+        {/* Logo and Prize Information */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          variants={fadeInUp}
-          className="hidden lg:block relative rounded-xl lg:rounded-l-none overflow-hidden"
+          variants={fadeIn}
+          className="hidden lg:flex flex-col items-center justify-center bg-black/50 p-8 rounded-xl lg:rounded-l-none"
         >
-          <Swiper {...swiperSettings} className="h-full">
-            {slides.map((slide, index) => (
-              <SwiperSlide key={index}>
-                <div className="relative h-full w-full">
-                  <img
-                    src={slide.image}
-                    alt={`Slide ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/30 flex items-end p-8">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{
-                        opacity: activeSlide === index ? 1 : 0.7,
-                        y: activeSlide === index ? 0 : 20,
-                      }}
-                      transition={{ duration: 0.5 }}
-                      className="text-white"
-                    >
-                      <h3 className="text-2xl font-bold mb-2">{slide.title}</h3>
-                      <p className="text-gray-300">{slide.text}</p>
-                    </motion.div>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          {/* Custom Pagination */}
-          <div className="swiper-pagination absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10"></div>
+          <motion.div variants={fadeInUp} className="mb-8">
+            <img
+              src={Logo}
+              alt="NextStarz Logo"
+              className="w-64 h-64 object-contain"
+            />
+          </motion.div>
+          <motion.h2
+            variants={fadeInUp}
+            className="text-3xl font-bold text-center text-white mb-4"
+          >
+            Grand Prize of 300,000 GHC
+          </motion.h2>
+          <motion.p
+            variants={fadeInUp}
+            className="text-lg text-center text-gray-300 max-w-md"
+          >
+            Includes record deal, music video production, media airplay, and
+            high-level industry exposure
+          </motion.p>
         </motion.div>
       </div>
-
-      {/* Logout Button */}
-      {user && (
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeInUp}
-          className="fixed bottom-5 right-6 z-20"
-        >
-          <button
-            onClick={handleLogout}
-            className="px-4 py-2 bg-red-600/90 hover:bg-red-700 text-white rounded-lg transition-colors duration-300 flex items-center space-x-2 shadow-lg"
-          >
-            <span className="text-sm font-medium">Logout</span>
-          </button>
-        </motion.div>
-      )}
     </section>
   );
 }
