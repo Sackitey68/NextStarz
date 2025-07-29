@@ -788,9 +788,9 @@ export default function Login() {
           </motion.div>
           <motion.h2
             variants={fadeInUp}
-            className="text-3xl font-bold text-center text-white mb-4"
+            className="text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-4"
           >
-            Grand Prize of 300,000 GHC
+            Grand Prize of GHC 300,000 
           </motion.h2>
           <motion.p
             variants={fadeInUp}
