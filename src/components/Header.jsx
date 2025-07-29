@@ -42,7 +42,7 @@ export default function Header() {
     { path: "/", name: "Home" },
     { path: "/about", name: "About" },
     { path: "/contact", name: "Contact" },
-    { path: isLoggedIn ? "/uploaddemo" : "/register", name: isLoggedIn ? "Pay" : "Register" },
+    { path: isLoggedIn ? "/uploaddemo" : "/register", name: isLoggedIn ? "Get ID" : "Register" },
     { path: "/prizes", name: "Prizes" },
     { path: "/faq", name: "Faq" },
   ];

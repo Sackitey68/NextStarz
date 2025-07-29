@@ -47,6 +47,7 @@ export default function Footer() {
   }, []);
 
   const mediaPartners = [
+    { name: "Suede Entertainment", logo: Suede },
     { name: "CTV", logo: CTV },
     { name: "Class FM", logo: Class },
     { name: "Accra FM", logo: Accra },
@@ -55,10 +56,9 @@ export default function Footer() {
     { name: "No.1 FM", logo: No1 },
     { name: "Ho FM", logo: Ho },
     { name: "Taadi FM", logo: Taadi },
+    { name: "CMG-Online", logo: CMGonline },
     { name: "Dogbon FM", logo: Dogbon },
     { name: "Sunyani FM", logo: Sunyani },
-    { name: "CMG-Online", logo: CMGonline },
-    { name: "Suede Entertainment", logo: Suede },
   ];
 
   return (
